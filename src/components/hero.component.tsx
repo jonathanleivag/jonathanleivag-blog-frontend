@@ -30,7 +30,7 @@ const HeroComponent: FC = () => {
 
     return (
         <motion.section
-            className="relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 pt-24 overflow-hidden"
+            className="relative min-h-screen pt-24 overflow-hidden"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
