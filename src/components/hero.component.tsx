@@ -35,7 +35,6 @@ const HeroComponent: FC = () => {
             initial="hidden"
             animate="visible"
         >
-            {/* Elementos decorativos de fondo */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
                 <div
                     className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent-400/20 rounded-full filter blur-[100px] animate-pulse"></div>
@@ -44,9 +43,7 @@ const HeroComponent: FC = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                {/* Grid principal */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    {/* Contenido izquierdo - Ocupa 7 columnas en desktop */}
                     <div className="lg:col-span-7 space-y-8 z-10">
                         <motion.div
                             className="flex items-center gap-2 mb-6"
@@ -114,14 +111,11 @@ const HeroComponent: FC = () => {
                             </div>
                         </motion.div>
                     </div>
-
-                    {/* Contenido derecho - Ocupa 5 columnas en desktop */}
                     <motion.div
                         className="lg:col-span-5 relative h-[600px] hidden lg:block"
                         variants={itemVariants}
                     >
                         <div className="relative h-full w-full">
-                            {/* Marco principal */}
                             <div className="absolute inset-0 rounded-2xl overflow-hidden">
                                 <Image
                                     src="/hero-image.webp"
@@ -130,12 +124,9 @@ const HeroComponent: FC = () => {
                                     className="object-cover object-center"
                                     priority
                                 />
-                                {/* Overlay con gradiente */}
                                 <div
                                     className="absolute inset-0 bg-gradient-to-t from-gray-900/20 to-transparent"></div>
                             </div>
-
-                            {/* Elementos decorativos flotantes */}
                             <div
                                 className="absolute -right-4 top-4 w-24 h-24 bg-accent-400/10 backdrop-blur-xl rounded-2xl border border-accent-400/20 animate-float"></div>
                             <div
@@ -144,8 +135,6 @@ const HeroComponent: FC = () => {
                     </motion.div>
                 </div>
             </div>
-
-            {/* Patrón de fondo */}
             <div
                 className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] -z-10 opacity-10"></div>
         </motion.section>
