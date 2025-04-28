@@ -24,7 +24,7 @@ const HeaderComponent = () => {
 
     return (
         <motion.header
-            className="bg-gray-800 text-gray-50 fixed w-full top-0 z-50"
+            className=" bg-gray-900  text-gray-50 fixed w-full top-0 z-50"
             variants={headerVariants}
             initial="hidden"
             animate="visible"
