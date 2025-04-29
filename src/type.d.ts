@@ -50,5 +50,20 @@ export interface  CardBlogComponentProps {
 }
 
 
+export  interface Project {
+    id: number
+    title: string;
+    description: string;
+    image: string;
+    technologies: string[];
+    category: string;
+    link: string;
+}
+
+export interface  CardProjectComponentProps {
+    project: Project;
+}
+
+
 
 
