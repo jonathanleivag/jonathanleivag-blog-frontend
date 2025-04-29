@@ -72,7 +72,7 @@ const ProjectComponent: FC = () => {
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true }}
+                    viewport={{ once: false }}
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 my-16"
                 >
                     {projects.map((project) => (
