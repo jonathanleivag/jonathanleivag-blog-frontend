@@ -22,9 +22,48 @@ export interface NewsItem {
     category: string;
 }
 
-export interface CardComponentProps {
+export interface CardNewsComponentProps {
     news: NewsItem;
     index: number;
 }
+
+export interface  Author {
+    name: string;
+    avatar: string;
+}
+
+export interface BlogPost {
+    id: number;
+    title: string;
+    excerpt: string;
+    category: string;
+    readTime: string;
+    date: string;
+    author: Author;
+    image: string;
+    tags: string[];
+}
+
+export interface  CardBlogComponentProps {
+    post: BlogPost;
+    index: number;
+}
+
+
+export  interface Project {
+    id: number
+    title: string;
+    description: string;
+    image: string;
+    technologies: string[];
+    category: string;
+    link: string;
+}
+
+export interface  CardProjectComponentProps {
+    project: Project;
+}
+
+
 
 
