@@ -7,7 +7,7 @@ const TitleComponent:FC = () => {
             <motion.h2
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 className="text-5xl font-bold flex flex-col md:flex-row items-center gap-3"
             >
                 <motion.div

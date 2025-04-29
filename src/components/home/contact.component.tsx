@@ -8,7 +8,7 @@ const ContactComponent: FC = () => {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: false }}
         transition={{ duration: 1 }}
         className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-sky-50 to-emerald-50"
       ></motion.div>
@@ -17,7 +17,7 @@ const ContactComponent: FC = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.8, x: 100 }}
           whileInView={{ opacity: 0.2, scale: 1, x: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full
                    bg-gradient-to-br from-blue-200/20 to-cyan-200/20 blur-3xl"
@@ -26,7 +26,7 @@ const ContactComponent: FC = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.8, x: -100 }}
           whileInView={{ opacity: 0.2, scale: 1, x: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
           className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full
                    bg-gradient-to-tr from-emerald-200/20 to-sky-200/20 blur-3xl"
@@ -35,7 +35,7 @@ const ContactComponent: FC = () => {
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 0.1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 1, delay: 0.5 }}
           className="absolute inset-0"
           style={{
@@ -49,7 +49,7 @@ const ContactComponent: FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 1 }}
           className="text-center mb-16"
         >
@@ -65,7 +65,7 @@ const ContactComponent: FC = () => {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 1 }}
             className="bg-white rounded-3xl shadow-lg p-8 border border-gray-100"
           >
@@ -107,7 +107,7 @@ const ContactComponent: FC = () => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 1 }}
             className="space-y-6"
           >
@@ -132,7 +132,7 @@ const ContactComponent: FC = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.8, delay: index * 0.2 }}
                 className="flex items-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
               >

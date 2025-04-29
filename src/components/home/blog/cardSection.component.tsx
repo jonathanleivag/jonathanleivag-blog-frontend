@@ -63,7 +63,7 @@ const CardSectionComponent:FC = () => {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
+        viewport={{ once: false, amount: 0.2 }}
         className="md:w-full grid grid-cols-1 md:grid-cols-2 gap-6"
     >
         {dummyPosts.map((post, index) => (
