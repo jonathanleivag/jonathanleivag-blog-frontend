@@ -1,6 +1,7 @@
 import {ReactNode} from "react";
 import "./globals.css";
 import HeaderComponent from "@/components/shared/header/header.component";
+import FooterComponent from "@/components/shared/footer.component";
 
 export default function RootLayout({children,}: Readonly<{
     children: ReactNode;
@@ -10,6 +11,7 @@ export default function RootLayout({children,}: Readonly<{
         <body className='min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'>
         <HeaderComponent/>
         <main className='pt-16'>{children}</main>
+        <FooterComponent />
         </body>
         </html>
     );
