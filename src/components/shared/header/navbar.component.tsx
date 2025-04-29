@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {AnimatePresence, motion, Variants} from "framer-motion";
 import Link from "next/link";
-import {SocialComponentMobil} from "@/components/header/social.component";
+import {SocialComponentMobil} from "@/components/shared/header/social.component";
 import {NavbarMobilComponentProps} from "@/type";
 
 const mobileMenuVariants = {

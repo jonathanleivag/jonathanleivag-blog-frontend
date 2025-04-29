@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
 import "./globals.css";
-import HeaderComponent from "@/components/header/header.component";
+import HeaderComponent from "@/components/shared/header/header.component";
 
 export default function RootLayout({children,}: Readonly<{
     children: ReactNode;

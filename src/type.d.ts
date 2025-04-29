@@ -13,4 +13,18 @@ export interface NavbarMobilComponentProps extends MenuButtonComponentProps {
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>
 }
 
+export interface NewsItem {
+    id: number
+    title: string;
+    date: string;
+    summary: string;
+    imageUrl: string;
+    category: string;
+}
+
+export interface CardComponentProps {
+    news: NewsItem;
+    index: number;
+}
+
 

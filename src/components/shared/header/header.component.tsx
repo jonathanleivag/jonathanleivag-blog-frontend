@@ -4,9 +4,9 @@ import Link from 'next/link';
 import {useState} from 'react';
 import {motion} from 'framer-motion';
 import {CldImage} from 'next-cloudinary';
-import NavbarComponent, {NavbarMobilComponent} from "@/components/header/navbar.component";
-import SocialComponent from "@/components/header/social.component";
-import MenuButtonComponent from "@/components/header/menuButton.component";
+import NavbarComponent, {NavbarMobilComponent} from "@/components/shared/header/navbar.component";
+import SocialComponent from "@/components/shared/header/social.component";
+import MenuButtonComponent from "@/components/shared/header/menuButton.component";
 
 const HeaderComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +24,7 @@ const HeaderComponent = () => {
 
     return (
         <motion.header
-            className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 md:from-transparent md:via-transparent md:to-transparent text-gray-50 fixed w-full top-0 z-50"
+            className="bg-gradient-to-br from-gray-900  to-gray-800 text-gray-50 fixed w-full top-0 z-50"
             variants={headerVariants}
             initial="hidden"
             animate="visible"
@@ -37,7 +37,7 @@ const HeaderComponent = () => {
                         whileTap={{scale: 0.95}}
                     >
                         <Link
-                            href="/"
+                            href="/public"
                             className="text-2xl font-bold text-accent-400 hover:text-accent-300 transition-colors"
                         >
                             <CldImage
