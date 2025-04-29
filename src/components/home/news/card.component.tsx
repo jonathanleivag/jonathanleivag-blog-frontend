@@ -1,7 +1,7 @@
 import Image from "next/image";
 import {motion} from "framer-motion";
 import {FC} from "react";
-import {CardComponentProps} from "@/type";
+import {CardNewsComponentProps} from "@/type";
 
 const cardVariants = {
     hidden: {
@@ -27,7 +27,7 @@ const cardVariants = {
     }
 };
 
-const CardComponent: FC<CardComponentProps> = ({news, index}) => {
+const CardComponent: FC<CardNewsComponentProps> = ({news, index}) => {
     return <motion.article
         variants={cardVariants}
         whileHover="hover"
