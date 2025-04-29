@@ -7,9 +7,9 @@ export default function RootLayout({children,}: Readonly<{
 }>) {
     return (
         <html lang="es">
-        <body className='bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'>
+        <body className='min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'>
         <HeaderComponent/>
-        <main>{children}</main>
+        <main className='pt-16'>{children}</main>
         </body>
         </html>
     );
