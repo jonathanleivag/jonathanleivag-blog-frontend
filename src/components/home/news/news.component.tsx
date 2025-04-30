@@ -24,6 +24,7 @@ const dummyNews: NewsItem[] = [
     summary: "Descubre las tecnologías más importantes que están definiendo el desarrollo web este año.",
     imageUrl: "/hero-image.webp",
     category: "Desarrollo Web",
+    description: ""
   },
   {
     id: 2,
@@ -32,6 +33,7 @@ const dummyNews: NewsItem[] = [
     summary: "Exploramos cómo la inteligencia artificial está cambiando la forma en que los desarrolladores crean software, desde asistentes de código hasta generación automática de aplicaciones.",
     imageUrl: "/hero-image.webp",
     category: "Tecnología",
+    description: ""
   },
   {
     id: 3,
@@ -40,6 +42,7 @@ const dummyNews: NewsItem[] = [
     summary: "Un recorrido por las nuevas funcionalidades de Next.js 15, incluyendo Server Actions, mejoras en el rendimiento y la integración total con Turbo pack.",
     imageUrl: "/hero-image.webp",
     category: "Frameworks",
+    description: ""
   },
 ];
 
