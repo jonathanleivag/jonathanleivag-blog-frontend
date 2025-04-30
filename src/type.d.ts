@@ -17,6 +17,7 @@ export interface NewsItem {
     id: number
     title: string;
     date: string;
+    description: string
     summary: string;
     imageUrl: string;
     category: string;
@@ -62,6 +63,10 @@ export  interface Project {
 
 export interface  CardProjectComponentProps {
     project: Project;
+}
+
+export interface  CardNewsPageComponentProps {
+    news: NewsItem;
 }
 
 
