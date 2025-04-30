@@ -35,7 +35,7 @@ const CardComponent: FC<CardNewsComponentProps> = ({news, index}) => {
     >
         <div className="relative h-48 overflow-hidden">
             <Image
-                src={news.imageUrl}
+                src={news.social_image}
                 alt={news.title}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -43,13 +43,13 @@ const CardComponent: FC<CardNewsComponentProps> = ({news, index}) => {
                 priority={index === 0}
             />
             <span className="absolute top-4 right-4 bg-primary-500 text-white px-3 py-1 rounded-full text-sm z-10">
-                  {news.category}
+                  {news.readable_publish_date}
                 </span>
         </div>
 
         <div className="p-6">
             <time className="text-gray-500 text-sm">
-                {new Date(news.date).toLocaleDateString('es-ES', {
+                {new Date(news.readable_publish_date).toLocaleDateString('es-ES', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
@@ -61,16 +61,18 @@ const CardComponent: FC<CardNewsComponentProps> = ({news, index}) => {
             </h3>
 
             <p className="text-gray-600 mb-4">
-                {news.summary}
+                {news.description}
             </p>
 
-            <motion.button
+            <motion.a
+                href={news.url}
+                target="_blank"
                 whileHover={{ x: 5 }}
                 whileTap={{ scale: 0.95 }}
                 className="text-primary-500 hover:text-primary-700 font-medium transition-colors duration-300"
             >
                 Leer más →
-            </motion.button>
+            </motion.a>
         </div>
     </motion.article>
 }

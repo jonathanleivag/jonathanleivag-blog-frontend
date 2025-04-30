@@ -1,10 +1,12 @@
 "use client"
 
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import {motion} from "framer-motion";
-import {NewsItem} from "@/type";
+import {Gnews} from "@/type";
 import CardComponent from "@/components/home/news/card.component";
 import TitleComponent from "@/components/home/news/title.component";
+import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
+import {initialDataNews} from "@/lib/redux/features/news/news.slice";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -16,37 +18,28 @@ const containerVariants = {
   }
 };
 
-const dummyNews: NewsItem[] = [
-  {
-    id: 1,
-    title: "Las últimas tendencias en desarrollo web 2024",
-    date: "2024-03-20",
-    summary: "Descubre las tecnologías más importantes que están definiendo el desarrollo web este año.",
-    imageUrl: "/hero-image.webp",
-    category: "Desarrollo Web",
-    description: ""
-  },
-  {
-    id: 2,
-    title: "Inteligencia Artificial en la Programación: ¿Aliada o Amenaza?",
-    date: "2024-04-15",
-    summary: "Exploramos cómo la inteligencia artificial está cambiando la forma en que los desarrolladores crean software, desde asistentes de código hasta generación automática de aplicaciones.",
-    imageUrl: "/hero-image.webp",
-    category: "Tecnología",
-    description: ""
-  },
-  {
-    id: 3,
-    title: "Next.js 15: Todas las novedades que debes conocer",
-    date: "2024-05-05",
-    summary: "Un recorrido por las nuevas funcionalidades de Next.js 15, incluyendo Server Actions, mejoras en el rendimiento y la integración total con Turbo pack.",
-    imageUrl: "/hero-image.webp",
-    category: "Frameworks",
-    description: ""
-  },
-];
-
 const NewsComponent: FC = () => {
+
+  const news = useAppSelector(store => store.news)
+  const appDispatch = useAppDispatch()
+
+  useEffect(() => {
+    const dataFetch = async () => {
+      try {
+        const response = await fetch('/api/news?page=1&per_page=3');
+        const data: Gnews[] = await response.json();
+        console.log(data)
+        appDispatch(initialDataNews(data))
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message)
+        }
+      }
+    }
+
+    void  dataFetch()
+  }, [appDispatch]);
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -58,8 +51,8 @@ const NewsComponent: FC = () => {
           viewport={{ once: false, amount: 0.2 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {dummyNews.map((news, index) => (
-            <CardComponent key={news.id}  news={news} index={index} />
+          {news.news.map((items, index) => (
+            <CardComponent key={items.id}  news={items} index={index} />
           ))}
         </motion.div>
       </div>
