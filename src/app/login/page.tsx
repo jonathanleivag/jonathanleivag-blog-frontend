@@ -14,7 +14,7 @@ const LoginForm:FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <main className="min-h-screen flex items-center justify-center bg-gray-50">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -97,7 +97,7 @@ const LoginForm:FC = () => {
           </a>
         </div>
       </motion.div>
-    </div>
+    </main>
   );
 }
 

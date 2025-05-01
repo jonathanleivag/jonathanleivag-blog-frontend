@@ -9,7 +9,7 @@ export default function RootLayout({children,}: Readonly<{
         <html lang="es">
         <body className='min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'>
         <StoreProvidere>
-            <main>{children}</main>
+            {children}
         </StoreProvidere>
         </body>
         </html>
