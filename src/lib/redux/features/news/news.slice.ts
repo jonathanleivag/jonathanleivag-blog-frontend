@@ -1,20 +1,26 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {Gnews, NewsState} from '@/type'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Gnews} from '@/type';
 
-const initialState: NewsState = {
-    news: []
+interface NewsState {
+  news: Gnews[];
 }
 
-export const newsSlice = createSlice({
-    name: 'news',
-    initialState,
-    reducers: {
-        initialDataNews: (state, action: PayloadAction<Gnews[]>) => {
-            state.news = action.payload;
-        }
+const initialState: NewsState = {
+  news: [],
+};
+
+const newsSlice = createSlice({
+  name: 'news',
+  initialState,
+  reducers: {
+    initialDataNews: (state, action: PayloadAction<Gnews[]>) => {
+      state.news = action.payload;
     },
-})
+    appendNews: (state, action: PayloadAction<Gnews[]>) => {
+      state.news = [...state.news, ...action.payload];
+    },
+  },
+});
 
-export const { initialDataNews } = newsSlice.actions
-
-export default newsSlice.reducer
+export const { initialDataNews, appendNews } = newsSlice.actions;
+export default newsSlice.reducer;

@@ -57,7 +57,7 @@ export interface  CardProjectComponentProps {
 }
 
 export interface  CardNewsPageComponentProps {
-    news: NewsItem;
+    news: Gnews;
 }
 
 export interface NewsState {

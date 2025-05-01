@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'media2.dev.to',
+                hostname: '**',
                 pathname: '/**'
             },
         ],
