@@ -13,18 +13,9 @@ export interface NavbarMobilComponentProps extends MenuButtonComponentProps {
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export interface NewsItem {
-    id: number
-    title: string;
-    date: string;
-    description: string
-    summary: string;
-    imageUrl: string;
-    category: string;
-}
 
 export interface CardNewsComponentProps {
-    news: NewsItem;
+    news: Gnews;
     index: number;
 }
 
@@ -66,8 +57,74 @@ export interface  CardProjectComponentProps {
 }
 
 export interface  CardNewsPageComponentProps {
-    news: NewsItem;
+    news: Gnews;
 }
+
+export interface NewsState {
+    news: Gnews[]
+}
+
+
+export interface Gnews {
+    type_of:                  "article";
+    id:                       number;
+    title:                    string;
+    description:              string;
+    readable_publish_date:    string;
+    slug:                     string;
+    path:                     string;
+    url:                      string;
+    comments_count:           number;
+    public_reactions_count:   number;
+    collection_id:            null;
+    published_timestamp:      Date;
+    language:                 Language | null;
+    subforem_id:              null;
+    positive_reactions_count: number;
+    cover_image:              null | string;
+    social_image:             string;
+    canonical_url:            string;
+    created_at:               Date;
+    edited_at:                Date | null;
+    crossposted_at:           null;
+    published_at:             Date;
+    last_comment_at:          Date;
+    reading_time_minutes:     number;
+    tag_list:                 string[];
+    tags:                     string;
+    user:                     User;
+    organization?:            Organization;
+    flare_tag?:               FlareTag;
+}
+
+export interface FlareTag {
+    name:           string;
+    bg_color_hex:   string;
+    text_color_hex: string;
+}
+
+export type Language = "es" | "en";
+
+export interface Organization {
+    name:             string;
+    username:         string;
+    slug:             string;
+    profile_image:    string;
+    profile_image_90: string;
+}
+
+export interface User {
+    name:             string;
+    username:         string;
+    twitter_username: null | string;
+    github_username:  null | string;
+    user_id:          number;
+    website_url:      null | string;
+    profile_image:    string;
+    profile_image_90: string;
+}
+
+
 
 
 

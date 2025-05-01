@@ -1,42 +1,48 @@
 'use client';
 
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
 import {motion} from "framer-motion";
-import {NewsItem} from "@/type";
 import CardNewsComponent from "@/components/news/cardNews.component";
+import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
+import {Gnews} from "@/type";
+import {appendNews, initialDataNews} from "@/lib/redux/features/news/news.slice";
 
-
-const mockNews: NewsItem[] = [
-  {
-    id: 1,
-    title: "Nueva tecnología revoluciona la industria",
-    description: "Una innovación tecnológica está transformando la manera en que trabajamos...",
-    date: "2024-03-20",
-    category: "Tecnología",
-    imageUrl: "/hero-image.webp",
-    summary: ""
-  },
-  {
-    id: 2,
-    title: "Avances en Inteligencia Artificial",
-    description: "Los últimos desarrollos en IA están cambiando el panorama digital...",
-    date: "2024-03-19",
-    category: "IA",
-    imageUrl: "/hero-image.webp",
-    summary: ""
-  },
-  {
-    id: 3,
-    title: "El futuro del desarrollo web",
-    description: "Nuevas tendencias que definirán el desarrollo web en los próximos años...",
-    date: "2024-03-18",
-    category: "Desarrollo",
-    imageUrl: "/hero-image.webp",
-    summary: ""
-  }
-];
 
 const News: FC = () => {
+  const {news} = useAppSelector(state => state.news)
+  const dispatch = useAppDispatch()
+  const [page, setPage] = useState<number>(1);
+  const [tag, setTag] = useState<string>('')
+
+  useEffect(() => {
+    const dataFetch = async () => {
+      try {
+        const response = await fetch(`/api/news?page=${page}&per_page=${page === 1 ? 5: 4}&tag=${tag}`);
+        const data: Gnews[] = await response.json();
+        if (page === 1) {
+          dispatch(initialDataNews(data));
+        } else {
+          dispatch(appendNews(data));
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
+      }
+    }
+
+    void dataFetch();
+  }, [page, dispatch, tag]);
+
+  const handleSetTag = (tag: string) =>{
+    setTag(tag)
+    setPage(1)
+  }
+  const uniqueTags = Array.from(
+    new Set(
+      news.flatMap((cat) => cat.tags.split(",").map((t) => t.trim()))
+    )
+  );
   return (
     <div className="min-h-screen bg-gray-950 text-primary-50">
       <motion.section
@@ -67,7 +73,7 @@ const News: FC = () => {
             >
               Destacado
             </motion.h2>
-            <CardNewsComponent news={mockNews[0]} />
+            {news.length > 0 && (<CardNewsComponent news={news[0]} />)}
           </section>
 
           <section>
@@ -81,10 +87,28 @@ const News: FC = () => {
               Más Noticias
             </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-              {mockNews.slice(1).map((news) => (
-                <CardNewsComponent key={news.id} news={news} />
+              {news.slice(1).map((news, index) => (
+                <CardNewsComponent key={news.id+index+1} news={news} />
               ))}
             </div>
+            {news.length >0 && (
+                <motion.div
+                    className="flex justify-center mt-8"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                >
+                  <button
+                      onClick={() => setPage(prev => prev + 1)}
+                      className="bg-accent-500 hover:bg-accent-600 text-white px-6 py-2 rounded-full font-medium transition-colors duration-300 flex items-center gap-2 cursor-pointer"
+                  >
+                    Ver más
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </motion.div>
+            )}
           </section>
         </div>
 
@@ -98,8 +122,10 @@ const News: FC = () => {
           <section className="mb-8">
             <h3 className="text-xl font-bold mb-4 text-primary-100">Últimas noticias</h3>
             <ul className="space-y-2 text-sm text-primary-300">
-              {mockNews.map((item) => (
-                <li key={item.id} className="hover:underline">{item.title}</li>
+              {news.map((item) => (
+                <li key={item.id} className="hover:underline">
+                  <a href={item.url} target={'_blank'}>{item.title}</a>
+                </li>
               ))}
             </ul>
           </section>
@@ -107,8 +133,20 @@ const News: FC = () => {
           <section>
             <h3 className="text-xl font-bold mb-4 text-primary-100">Categorías populares</h3>
             <div className="flex flex-wrap gap-2">
-              {['Tecnología', 'IA', 'Desarrollo'].map((cat) => (
-                <span key={cat} className="bg-primary-700 text-white px-3 py-1 rounded-full text-sm hover:bg-primary-600 transition-colors">{cat}</span>
+              <button
+                onClick={() => handleSetTag('')}
+                className={`text-white px-3 py-1 rounded-full text-sm transition-colors cursor-pointer ${tag === '' ? 'bg-accent-700 hover:bg-accent-800' : 'bg-accent-800 hover:bg-accent-900'}`}
+              >
+                chile
+              </button>
+              {uniqueTags.map((item, index) => (
+                <button
+                  onClick={() => handleSetTag(item)}
+                  key={index}
+                  className={`text-white px-3 py-1 rounded-full text-sm transition-colors cursor-pointer ${tag.trim() === item ? 'bg-primary-300 hover:bg-primary-400' : 'bg-primary-700 hover:bg-primary-600'}`}
+                >
+                  {item}
+                </button>
               ))}
             </div>
           </section>
