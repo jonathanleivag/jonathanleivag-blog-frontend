@@ -1,1 +1,0 @@
-GET https://gnews.io/api/v4/search?q=javascript OR react OR "next js" OR vue OR "desarrollo web"&lang=es&token={{token}}

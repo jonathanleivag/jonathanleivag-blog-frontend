@@ -1,3 +1,3 @@
 export enum ENV {
-    GNEWS_TOKEN = 'GNEWS_TOKEN',
+    BACKEND_URL = 'BACKEND_URL',
 }
