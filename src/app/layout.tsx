@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
 import "./globals.css";
-import StoreProvidere from "@/lib/redux/StoreProvider";
+import StoreProvider from "@/lib/redux/StoreProvider";
 
 export default function RootLayout({children,}: Readonly<{
     children: ReactNode;
@@ -8,9 +8,9 @@ export default function RootLayout({children,}: Readonly<{
     return (
         <html lang="es">
         <body className='min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'>
-        <StoreProvidere>
+        <StoreProvider>
             {children}
-        </StoreProvidere>
+        </StoreProvider>
         </body>
         </html>
     );
