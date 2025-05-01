@@ -52,10 +52,10 @@ const News: FC = () => {
         className="border-b bg-transparent bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border-primary-700 py-10"
       >
         <div className="container mx-auto px-4 text-left">
-          <h1 className="text-5xl font-black text-primary-100 tracking-tight font-serif drop-shadow-md">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-primary-100 tracking-tight font-serif drop-shadow-md">
             Tecno<span className="text-accent-500">Noticias</span>
           </h1>
-          <p className="text-gray-400 text-lg mt-2 italic">
+          <p className="text-gray-400 text-base sm:text-lg md:text-xl mt-2 italic">
             Actualidad, innovación y futuro tecnológico
           </p>
         </div>
