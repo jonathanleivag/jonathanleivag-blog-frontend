@@ -134,6 +134,60 @@ export interface LoginFormInitialValue {
     password: string;
 }
 
+export interface StatItem {
+    title: string;
+    value: number | string;
+    icon: React.ReactNode;
+    bgColor: string;
+    textColor: string;
+}
+
+export interface  FormModalComponentProps  {
+    setShowModal:  Dispatch<SetStateAction<boolean>>
+}
+
+
+export interface Category {
+    _id:         string;
+    name:        string;
+    description: string;
+    isActive:    boolean;
+    deletedAt:   null;
+    createdAt:   Date;
+    updatedAt:   Date;
+    blogs:       Blog[];
+}
+
+export interface Blog {
+    _id:         string;
+    title:       string;
+    content:     string;
+    description: string;
+    image:       string;
+    published:   boolean;
+    slug:        string;
+    tags:        string[];
+    views:       number;
+    readingTime: number;
+    popular:     boolean;
+    user:        User;
+    category:    string;
+    createdAt:   Date;
+    updatedAt:   Date;
+}
+
+export interface User {
+    _id:       string;
+    name:      string;
+    email:     string;
+    phone:     string;
+    role:      string;
+    isActive:  boolean;
+    deletedAt: null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 
 
 
