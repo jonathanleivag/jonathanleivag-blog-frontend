@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, SVGProps} from "react";
+import {Dispatch, ReactNode, SetStateAction, SVGProps} from "react";
 import {SVGMotionProps} from "framer-motion";
 
 export type IconProps = SVGProps<SVGSVGElement>;
@@ -124,7 +124,15 @@ export interface User {
     profile_image_90: string;
 }
 
+export interface ChildrenComponentProps {
+    children: ReactNode;
+}
 
+
+export interface LoginFormInitialValue {
+    email: string;
+    password: string;
+}
 
 
 
