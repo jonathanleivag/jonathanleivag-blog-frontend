@@ -1,17 +1,45 @@
 'use client'
-import {FC, useState} from 'react';
+import {FC} from 'react';
 import {motion} from 'framer-motion';
+import {LoginFormInitialValue} from "@/type";
+import {useFormik} from "formik";
+import {SignupSchemaLogin} from "@/validateSchema";
+import {getEnv} from "@/utils/getEnv.util";
+import {ENV} from '@/enum';
+import {useRouter} from "next/navigation";
 
 const LoginForm:FC = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+    const router = useRouter()
+ const initialValues: LoginFormInitialValue = {
+   email: '',
+   password: ''
+ }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Aquí irá la lógica de autenticación
-  };
+ const formik = useFormik({
+     initialValues,
+     validationSchema: SignupSchemaLogin,
+     onSubmit: async (values: LoginFormInitialValue) => {
+        try {
+            const response = await fetch(`${getEnv(ENV.NEXT_PUBLIC_BACKEND_URL)}/auth/login`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(values)
+            })
+
+            const data = await response.json();
+            if (data.error === undefined) {
+                router.replace('/dashboard')
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error(error.message)
+            }
+        }
+     }
+ })
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -27,7 +55,7 @@ const LoginForm:FC = () => {
           </p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6" onSubmit={formik.handleSubmit}>
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="text-sm font-medium text-gray-700">
@@ -37,11 +65,17 @@ const LoginForm:FC = () => {
                 id="email"
                 name="email"
                 type="email"
+                onChange={formik.handleChange}
+                value={formik.values.email}
+                onBlur={formik.handleBlur}
                 required
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                 placeholder="tu@ejemplo.com"
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
               />
+                {formik.touched.email && formik.errors.email && (
+                    <p className="mt-1 text-sm text-red-500">{formik.errors.email}</p>
+                )}
+
             </div>
 
             <div>
@@ -52,34 +86,19 @@ const LoginForm:FC = () => {
                 id="password"
                 name="password"
                 type="password"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                onBlur={formik.handleBlur}
                 required
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                 placeholder="••••••••"
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
               />
+                {formik.touched.password && formik.errors.password && (
+                    <p className="mt-1 text-sm text-red-500">{formik.errors.password}</p>
+                )}
+
             </div>
           </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                Recordarme
-              </label>
-            </div>
-
-            <div className="text-sm">
-              <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
-                ¿Olvidaste tu contraseña?
-              </a>
-            </div>
-          </div>
-
           <motion.button
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
@@ -89,13 +108,6 @@ const LoginForm:FC = () => {
             Iniciar sesión
           </motion.button>
         </form>
-
-        <div className="text-center text-sm">
-          <span className="text-gray-600">¿No tienes una cuenta? </span>
-          <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
-            Regístrate aquí
-          </a>
-        </div>
       </motion.div>
     </main>
   );
