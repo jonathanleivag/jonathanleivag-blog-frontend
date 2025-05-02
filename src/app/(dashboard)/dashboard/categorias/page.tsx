@@ -6,7 +6,7 @@ import ModalComponent from "@/components/shared/modal.component";
 import FormModalComponent from "@/components/dashboard/categories/formModal.component";
 import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
 import {initialDataCategory} from "@/lib/redux/features/category/category.slice";
-import {EyeIcon, FolderIcon, NewspaperIcon} from "@heroicons/react/24/outline";
+import {EyeIcon, FolderIcon, NewspaperIcon, PencilIcon, TrashIcon} from "@heroicons/react/24/outline";
 
 
 const CategoryDashboardPage: FC = () => {
@@ -84,7 +84,7 @@ const CategoryDashboardPage: FC = () => {
                     <h2 className="text-2xl font-semibold text-gray-800">Categorías</h2>
                     <button
                       onClick={() => setShowModal(true)}
-                      className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-colors"
+                      className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer"
                     >
                       Nueva Categoría
                     </button>
@@ -97,6 +97,7 @@ const CategoryDashboardPage: FC = () => {
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Posts</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acción</th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
@@ -105,6 +106,18 @@ const CategoryDashboardPage: FC = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{category.name}</td>
                           <td className="px-6 py-4 text-sm text-gray-500">{category.description}</td>
                           <td className="px-6 py-4 text-sm text-gray-900"> {category.blogs.length} </td>
+                          <td className="px-6 py-4 text-sm text-gray-900">
+                            <div className="flex gap-2">
+                              <button className="flex items-center gap-1 text-sm text-primary-600 hover:text-primary-800 font-medium transition-colors cursor-pointer">
+                                <PencilIcon className="w-4 h-4" />
+                                Editar
+                              </button>
+                              <button className="flex items-center gap-1 text-sm text-red-600 hover:text-red-800 font-medium transition-colors cursor-pointer">
+                                <TrashIcon className="w-4 h-4" />
+                                Eliminar
+                              </button>
+                            </div>
+                          </td>
                         </tr>
                       ))}
                       </tbody>

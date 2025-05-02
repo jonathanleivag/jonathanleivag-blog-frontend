@@ -146,6 +146,11 @@ export interface  FormModalComponentProps  {
     setShowModal:  Dispatch<SetStateAction<boolean>>
 }
 
+export interface  FormModalComponentInitialValue  {
+    name:        string;
+    description: string;
+    isActive:    boolean | string;
+}
 
 export interface Category {
     _id:         string;
