@@ -5,15 +5,14 @@ import StatCard from "@/components/dashboard/categories/card.component";
 import ModalComponent from "@/components/shared/modal.component";
 import FormModalComponent from "@/components/dashboard/categories/formModal.component";
 import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
-import {initialDataCategory} from "@/lib/redux/features/category/category.slice";
-import {EyeIcon, FolderIcon, NewspaperIcon, PencilIcon, TrashIcon} from "@heroicons/react/24/outline";
+import {initialDataCategory, setSelected} from "@/lib/redux/features/category/category.slice";
+import {EyeIcon, FolderIcon, NewspaperIcon, PencilIcon} from "@heroicons/react/24/outline";
 
 
 const CategoryDashboardPage: FC = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const categories = useAppSelector(state => state.category.categories)
     const [stats, setStats] = useState<StatItem[]>([])
-
     const appDispatch = useAppDispatch()
 
     useEffect(() => {
@@ -54,7 +53,6 @@ const CategoryDashboardPage: FC = () => {
                     }
                 })
                 const data: Category[] = await response.json()
-                console.log({data})
                 appDispatch(initialDataCategory(data))
             } catch (error) {
                 if (error instanceof Error) {
@@ -64,6 +62,11 @@ const CategoryDashboardPage: FC = () => {
         }
         void dataFetch()
     }, [appDispatch]);
+
+    const handlerEdit = (category: Category) => {
+        appDispatch(setSelected(category))
+        setShowModal(true)
+    }
 
     return (
         <div className="p-6 space-y-8">
@@ -94,27 +97,27 @@ const CategoryDashboardPage: FC = () => {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Posts</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acción</th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                      {categories.map(category => (
+                      {categories.map((category, index) => (
                         <tr key={category._id}>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{index+1}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{category.name}</td>
                           <td className="px-6 py-4 text-sm text-gray-500">{category.description}</td>
                           <td className="px-6 py-4 text-sm text-gray-900"> {category.blogs.length} </td>
+                          <td className={`px-6 py-4 text-sm ${category.isActive ? 'text-gray-900': 'text-red-500'} `}> {category.isActive ? 'Activo': 'No activo'} </td>
                           <td className="px-6 py-4 text-sm text-gray-900">
                             <div className="flex gap-2">
-                              <button className="flex items-center gap-1 text-sm text-primary-600 hover:text-primary-800 font-medium transition-colors cursor-pointer">
+                              <button onClick={() => handlerEdit(category)} className="flex items-center gap-1 text-sm text-primary-600 hover:text-primary-800 font-medium transition-colors cursor-pointer">
                                 <PencilIcon className="w-4 h-4" />
                                 Editar
-                              </button>
-                              <button className="flex items-center gap-1 text-sm text-red-600 hover:text-red-800 font-medium transition-colors cursor-pointer">
-                                <TrashIcon className="w-4 h-4" />
-                                Eliminar
                               </button>
                             </div>
                           </td>

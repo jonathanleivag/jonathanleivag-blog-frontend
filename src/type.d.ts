@@ -152,7 +152,7 @@ export interface  FormModalComponentInitialValue  {
     isActive:    boolean | string;
 }
 
-export interface Category {
+export interface Category extends ErrorMessageComponentProps{
     _id:         string;
     name:        string;
     description: string;
@@ -193,6 +193,13 @@ export interface User {
     updatedAt: Date;
 }
 
+export interface  ErrorMessageComponentProps {
+    message?: string;
+    status?: number;
+}
 
-
+export interface CategoryState {
+    categories: Category[];
+    selected: Category | null
+}
 

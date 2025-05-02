@@ -1,42 +1,74 @@
-import {FC} from "react";
-import {FormModalComponentInitialValue, FormModalComponentProps} from "@/type";
+import {FC, useEffect, useState} from "react";
+import {Category, FormModalComponentInitialValue, FormModalComponentProps} from "@/type";
 import {XMarkIcon} from "@heroicons/react/24/outline";
 import {useFormik} from "formik";
 import {CategorySchemaRegister} from "@/validateSchema";
-import {useAppDispatch} from "@/lib/redux/hooks";
-import {addCategory} from "@/lib/redux/features/category/category.slice";
+import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
+import {addCategory, setSelected, updateCategory} from "@/lib/redux/features/category/category.slice";
 
 const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
     const appDispatch = useAppDispatch()
+    const selected = useAppSelector(state => state.category.selected)
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const inialValues: FormModalComponentInitialValue = {
+    const initialValues: FormModalComponentInitialValue  = {
         name: '',
         description: '',
         isActive: true
     }
+
     const formik = useFormik({
-        initialValues: inialValues,
+        initialValues,
         validationSchema: CategorySchemaRegister,
         onSubmit: async (values: FormModalComponentInitialValue) => {
-           try {
-               values.isActive = values.isActive === 'true'
-               const response = await fetch('/api/category', {
-                   method: 'POST',
-                   headers: {
-                       'Content-Type': 'application/json',
-                   },
-                   body: JSON.stringify(values)
-               })
-               const data = await response.json()
-               appDispatch(addCategory(data))
-               setShowModal(false)
-           } catch (e) {
-               if (e instanceof Error) {
-                   console.error(e.message)
-               }
-           }
+            try {
+                values.isActive = values.isActive === 'true'
+                const url = selected !== null ? `/api/category/${selected._id}`: '/api/category'
+                const method = selected !== null ? 'PATCH': 'POST'
+
+                const response = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(values)
+                })
+
+                const data: Category = await response.json()
+
+                if (data.message !== undefined) {
+                    setErrorMessage(data.message)
+                    return
+                }
+
+                if (selected !== null) {
+                    appDispatch(updateCategory(data))
+                } else {
+                    appDispatch(addCategory(data))
+                }
+                handleClose()
+            } catch (e) {
+                if (e instanceof Error) {
+                    console.error(e.message)
+                    setErrorMessage('Ocurrió un error al guardar la categoría. Inténtalo nuevamente.');
+                }
+            }
         }
     })
+
+    useEffect(() => {
+        if (selected !== null) {
+            formik.setFieldValue('name', selected.name)
+            formik.setFieldValue('description', selected.description)
+            formik.setFieldValue('isActive', selected.isActive.toString())
+        }
+        // eslint-disable-next-line
+    }, [selected]);
+
+    const handleClose = () => {
+        setShowModal(false)
+        if (selected !== null) appDispatch(setSelected(null))
+    }
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -44,15 +76,21 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
                 <div className="p-6 space-y-6">
                     <div className="flex justify-between items-center pb-3 border-b border-gray-200">
                         <h3 className="text-xl font-semibold text-gray-800">
-                            Crear Nueva Categoría
+                            {selected !== null ? 'Editar Categoría': 'Crear Nueva Categoría'}
                         </h3>
                         <button
-                            onClick={() => setShowModal(false)}
+                            onClick={handleClose}
                             className="text-gray-400 hover:text-gray-600 transition-colors"
                         >
                             <XMarkIcon className="h-6 w-6" />
                         </button>
                     </div>
+
+                    {errorMessage && (
+                      <div className="text-red-600 text-sm font-medium">
+                        {errorMessage}
+                      </div>
+                    )}
 
                     <form className="space-y-6" onSubmit={formik.handleSubmit}>
                         <div className="space-y-2">
@@ -125,7 +163,7 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
                         <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
                             <button
                                 type="button"
-                                onClick={() => setShowModal(false)}
+                                onClick={handleClose}
                                 className="px-4 py-2.5 rounded-lg border border-gray-300
                                 text-gray-700 hover:bg-gray-50 font-medium
                                 transition-all duration-200"
@@ -136,9 +174,9 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
                                 type="submit"
                                 className="px-4 py-2.5 rounded-lg bg-primary-600
                                 text-white hover:bg-primary-700 font-medium
-                                transition-all duration-200 flex items-center gap-2"
+                                transition-all duration-200 flex items-center gap-2 cursor-pointer"
                             >
-                                Crear Categoría
+                                {selected !== null ? 'Editar Categoría': 'Crear Categoría'}
                             </button>
                         </div>
                     </form>
