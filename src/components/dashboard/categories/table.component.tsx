@@ -4,6 +4,7 @@ import {motion} from "framer-motion";
 import {PencilIcon} from "@heroicons/react/24/outline";
 import {useAppDispatch} from "@/lib/redux/hooks";
 import {selectBlog} from "@/lib/redux/features/category/category.slice";
+import {BookOpenIcon} from "@heroicons/react/24/solid";
 
 const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit, setShowModalBlog}) => {
   const appDispatch = useAppDispatch()
@@ -50,10 +51,9 @@ const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit, setSho
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.05 }}
-                className="hover:bg-gray-50 transition-colors duration-200 select-none cursor-pointer"
+                className="hover:bg-gray-50 transition-colors duration-200 select-none"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                onClick={() => handlerSelectBlog(category.blogs)}
             >
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{index+1}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{category.name}</td>
@@ -64,10 +64,18 @@ const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit, setSho
                     <div className="flex gap-2">
                         <button
                             onClick={() => handlerEdit(category)}
-                            className="flex items-center gap-1 text-sm text-primary-600 hover:text-primary-800 font-medium transition-colors cursor-pointer"
+                            className="flex items-center gap-1 text-sm text-yellow-600 hover:text-yellow-700 font-medium transition-colors cursor-pointer"
                         >
                             <PencilIcon className="w-4 h-4" />
                             Editar
+                        </button>
+                        <button
+                            onClick={() => handlerSelectBlog(category.blogs)}
+                            className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors cursor-pointer"
+                            title="Ver blogs de esta categoría"
+                        >
+                            <BookOpenIcon className="w-4 h-4" />
+                            Blogs
                         </button>
                     </div>
                 </td>
