@@ -134,6 +134,147 @@ export interface LoginFormInitialValue {
     password: string;
 }
 
+export interface StatItem {
+    title: string;
+    value: number | string;
+    icon: ReactNode;
+    bgColor: string;
+    textColor: string;
+}
+
+export interface  FormModalComponentProps  {
+    setShowModal:  Dispatch<SetStateAction<boolean>>
+}
+
+export interface  FormModalComponentInitialValue  {
+    name:        string;
+    description: string;
+    isActive:    boolean | string;
+}
+
+export interface Category extends ErrorMessageComponentProps{
+    _id:         string;
+    name:        string;
+    description: string;
+    isActive:    boolean;
+    deletedAt:   null;
+    createdAt:   Date;
+    updatedAt:   Date;
+    blogs:       Blog[];
+}
+
+export interface Blog {
+    _id:         string;
+    title:       string;
+    content:     string;
+    description: string;
+    image:       string;
+    published:   boolean;
+    slug:        string;
+    tags:        string[];
+    views:       number;
+    readingTime: number;
+    popular:     boolean;
+    user:        User;
+    category:    string;
+    createdAt:   Date;
+    updatedAt:   Date;
+}
+
+export interface User {
+    _id:       string;
+    name:      string;
+    email:     string;
+    phone:     string;
+    role:      string;
+    isActive:  boolean;
+    deletedAt: null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface  ErrorMessageComponentProps {
+    message?: string;
+    status?: number;
+}
+
+export interface CategoryState {
+    categories: Pagination<Category>;
+    selected: Category | null
+    selectBlog: Blog[] | undefined
+}
+
+export interface  TableComponentProps {
+    categories: Category[]
+    handlerEdit: (category: Category) => void;
+    setShowModalBlog: Dispatch<SetStateAction<boolean>>
+}
+
+export interface  SearchComponentProps {
+    inputValue: string
+    setInputValue: Dispatch<SetStateAction<string>>
+}
+
+export type ActiveFilter = 'all' | 'active' | 'inactive';
+
+export interface  SelectComponentProps{
+    isActiveFilter: ActiveFilter
+    setIsActiveFilter: Dispatch<SetStateAction<ActiveFilter>>
+    limit: string
+    setLimit: Dispatch<SetStateAction<string>>
+}
+
+export interface PaginateComponentProps {
+    categories: Pagination<Category>
+    currentPage: number
+    setCurrentPage: Dispatch<SetStateAction<number>>
+}
+
+export interface Pagination<T> {
+    docs:          T[];
+    totalDocs:     number;
+    limit:         number;
+    totalPages:    number;
+    page:          number;
+    pagingCounter: number;
+    hasPrevPage:   boolean;
+    hasNextPage:   boolean;
+    prevPage:      null;
+    nextPage:      null;
+}
+
+export interface Blog {
+    _id:         string;
+    title:       string;
+    content:     string;
+    description: string;
+    image:       string;
+    published:   boolean;
+    slug:        string;
+    tags:        string[];
+    views:       number;
+    readingTime: number;
+    popular:     boolean;
+    user:        User;
+    category:    string;
+    createdAt:   Date;
+    updatedAt:   Date;
+}
+
+export interface User {
+    _id:       string;
+    name:      string;
+    email:     string;
+    phone:     string;
+    role:      string;
+    isActive:  boolean;
+    deletedAt: null;
+    createdAt: Date;
+    updatedAt: Date;
+}
 
 
-
+export interface  ModalBlogProps {
+    blogs: Blog[]
+    setShowModalBlog: Dispatch<SetStateAction<boolean>>
+}

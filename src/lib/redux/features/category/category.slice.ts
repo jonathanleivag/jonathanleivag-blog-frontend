@@ -1,0 +1,48 @@
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Blog, Category, CategoryState, Pagination} from '@/type';
+
+
+const initialState: CategoryState = {
+    categories: {
+        docs: [],
+        totalDocs: 0,
+        limit: 10,
+        totalPages: 0,
+        page: 1,
+        pagingCounter: 1,
+        hasPrevPage: false,
+        hasNextPage: false,
+        prevPage: null,
+        nextPage: null
+    },
+    selected: null,
+    selectBlog: undefined
+};
+
+const categorySlice = createSlice({
+    name: 'category',
+    initialState,
+    reducers: {
+        initialDataCategory: (state, action: PayloadAction<Pagination<Category>>) => {
+            state.categories = action.payload;
+        },
+        addCategory: (state, action: PayloadAction<Category>) => {
+            state.categories.docs = [...state.categories.docs, action.payload];
+        },
+        setSelected: (state, action: PayloadAction<Category| null>) => {
+            state.selected = action.payload;
+        },
+        updateCategory: (state, action: PayloadAction<Category>) => {
+            const index = state.categories.docs.findIndex(cat => cat._id === action.payload._id);
+            if (index !== -1) {
+                state.categories.docs[index] = action.payload;
+            }
+        },
+        selectBlog: (state, action: PayloadAction<Blog[]| undefined>) => {
+            state.selectBlog = action.payload;
+        },
+    },
+});
+
+export const { initialDataCategory, addCategory,setSelected ,updateCategory, selectBlog } = categorySlice.actions;
+export default categorySlice.reducer;

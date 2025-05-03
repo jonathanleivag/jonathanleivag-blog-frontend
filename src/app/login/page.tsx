@@ -96,7 +96,6 @@ const LoginForm:FC = () => {
                 {formik.touched.password && formik.errors.password && (
                     <p className="mt-1 text-sm text-red-500">{formik.errors.password}</p>
                 )}
-
             </div>
           </div>
           <motion.button

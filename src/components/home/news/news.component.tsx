@@ -28,7 +28,6 @@ const NewsComponent: FC = () => {
       try {
         const response = await fetch('/api/news?page=1&per_page=3');
         const data: Gnews[] = await response.json();
-        console.log(data)
         appDispatch(initialDataNews(data))
       } catch (error) {
         if (error instanceof Error) {

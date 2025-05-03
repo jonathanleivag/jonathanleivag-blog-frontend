@@ -32,7 +32,6 @@ export function withAuth<P>(WrappedComponent: ComponentType<P>) {
                  .split('; ')
                  .find(row => row.startsWith('token='))
                  ?.split('=')[1];
-               console.log('Cookies:', document.cookie); // 👈 debería mostrar token=...
                if (!token) {
                    await logoutFetch();
                  router.replace('/login');
