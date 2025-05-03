@@ -203,6 +203,10 @@ export interface CategoryState {
     selected: Category | null
 }
 
+export interface  TableComponentProps {
+    categories: Category[]
+    handlerEdit: (category: Category) => void;
+}
 
 export interface Pagination<T> {
     docs:          T[];
