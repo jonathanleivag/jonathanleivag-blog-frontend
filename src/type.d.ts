@@ -213,6 +213,21 @@ export interface  SearchComponentProps {
     setInputValue: Dispatch<SetStateAction<string>>
 }
 
+export type ActiveFilter = 'all' | 'active' | 'inactive';
+
+export interface  SelectComponentProps{
+    isActiveFilter: ActiveFilter
+    setIsActiveFilter: Dispatch<SetStateAction<ActiveFilter>>
+    limit: string
+    setLimit: Dispatch<SetStateAction<string>>
+}
+
+export interface PaginateComponentProps {
+    categories: Pagination<Category>
+    currentPage: number
+    setCurrentPage: Dispatch<SetStateAction<number>>
+}
+
 export interface Pagination<T> {
     docs:          T[];
     totalDocs:     number;

@@ -1,7 +1,7 @@
 'use client'
 import {FC, useEffect, useState} from "react";
 import {motion} from "framer-motion";
-import {Category, Pagination, StatItem} from "@/type";
+import {ActiveFilter, Category, Pagination, StatItem} from "@/type";
 import StatCard from "@/components/dashboard/categories/card.component";
 import ModalComponent from "@/components/shared/modal.component";
 import FormModalComponent from "@/components/dashboard/categories/formModal.component";
@@ -10,6 +10,8 @@ import {initialDataCategory, setSelected} from "@/lib/redux/features/category/ca
 import {EyeIcon, FolderIcon, NewspaperIcon} from "@heroicons/react/24/outline";
 import TableComponent from "@/components/dashboard/categories/table.component";
 import SearchComponent from "@/components/dashboard/categories/search.component";
+import SelectComponent from "@/components/dashboard/categories/select.component";
+import PaginateComponent from "@/components/dashboard/categories/paginate.component";
 
 
 const CategoryDashboardPage: FC = () => {
@@ -17,7 +19,7 @@ const CategoryDashboardPage: FC = () => {
     const [search, setSearch] = useState<string>('');
     const [inputValue, setInputValue] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [isActiveFilter, setIsActiveFilter] = useState<'all' | 'active' | 'inactive'>('all');
+    const [isActiveFilter, setIsActiveFilter] = useState<ActiveFilter>('all');
     const [limit, setLimit] = useState<string>('5');
     const [stats, setStats] = useState<StatItem[]>([])
     const categories = useAppSelector(state => state.category.categories)
@@ -128,25 +130,7 @@ const CategoryDashboardPage: FC = () => {
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <div className="flex gap-4 w-full sm:w-auto">
                       <SearchComponent inputValue={inputValue} setInputValue={setInputValue} />
-                      <select
-                        value={isActiveFilter}
-                        onChange={(e) => setIsActiveFilter(e.target.value as 'all' | 'active' | 'inactive')}
-                        className="w-full sm:w-40 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      >
-                        <option value="all">Todas</option>
-                        <option value="active">Activas</option>
-                        <option value="inactive">Inactivas</option>
-                      </select>
-                      <select
-                        value={limit}
-                        onChange={(e) => setLimit(e.target.value)}
-                        className="w-full sm:w-32 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      >
-                        <option value="5">5 / página</option>
-                        <option value="10">10 / página</option>
-                        <option value="20">20 / página</option>
-                        <option value="50">50 / página</option>
-                      </select>
+                      <SelectComponent isActiveFilter={isActiveFilter} limit={limit} setIsActiveFilter={setIsActiveFilter} setLimit={setLimit} />
                     </div>
                     <button
                       onClick={() => setShowModal(true)}
@@ -158,25 +142,7 @@ const CategoryDashboardPage: FC = () => {
 
                   <div className="overflow-x-auto bg-white rounded-xl shadow-md">
                    <TableComponent categories={categories.docs} handlerEdit={handlerEdit} />
-                    {categories.totalPages > 1 && (
-                      <div className="flex justify-center mt-6">
-                        <nav className="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                          {Array.from({ length: categories.totalPages }, (_, i) => i + 1).map((page) => (
-                            <button
-                              key={page}
-                              onClick={() => setCurrentPage(page)}
-                              className={`px-4 py-2 border text-sm font-medium ${
-                                currentPage === page
-                                  ? 'bg-primary-600 text-white border-primary-600'
-                                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                              }`}
-                            >
-                              {page}
-                            </button>
-                          ))}
-                        </nav>
-                      </div>
-                    )}
+                    <PaginateComponent categories={categories} setCurrentPage={setCurrentPage} currentPage={currentPage} />
                   </div>
                 </div>
             </div>
