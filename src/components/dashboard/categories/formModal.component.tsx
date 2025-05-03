@@ -166,7 +166,7 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
                                 onClick={handleClose}
                                 className="px-4 py-2.5 rounded-lg border border-gray-300
                                 text-gray-700 hover:bg-gray-50 font-medium
-                                transition-all duration-200"
+                                transition-all duration-200 cursor-pointer"
                             >
                                 Cancelar
                             </button>
