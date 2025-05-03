@@ -5,11 +5,12 @@ import {PencilIcon} from "@heroicons/react/24/outline";
 import {useAppDispatch} from "@/lib/redux/hooks";
 import {selectBlog} from "@/lib/redux/features/category/category.slice";
 
-const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit}) => {
+const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit, setShowModalBlog}) => {
   const appDispatch = useAppDispatch()
 
     const handlerSelectBlog = (blogs: Blog[]) => {
       appDispatch(selectBlog(blogs))
+        setShowModalBlog(true)
     }
 
     if (categories.length === 0) {

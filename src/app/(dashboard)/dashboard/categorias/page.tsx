@@ -13,10 +13,12 @@ import TableComponent from "@/components/dashboard/categories/table.component";
 import SearchComponent from "@/components/dashboard/categories/search.component";
 import SelectComponent from "@/components/dashboard/categories/select.component";
 import PaginateComponent from "@/components/dashboard/categories/paginate.component";
+import ModalBlog from "@/components/dashboard/categories/modalBlog.component";
 
 
 const CategoryDashboardPage: FC = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [showModalBlog, setShowModalBlog] = useState<boolean>(false)
     const [search, setSearch] = useState<string>('');
     const [inputValue, setInputValue] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -24,6 +26,7 @@ const CategoryDashboardPage: FC = () => {
     const [limit, setLimit] = useState<string>('5');
     const [stats, setStats] = useState<StatItem[]>([])
     const categories = useAppSelector(state => state.category.categories)
+    const blogs = useAppSelector(state => state.category.selectBlog )
     const appDispatch = useAppDispatch()
 
     useEffect(() => {
@@ -142,7 +145,7 @@ const CategoryDashboardPage: FC = () => {
                   </div>
 
                   <div className="overflow-x-auto bg-white rounded-xl shadow-md">
-                   <TableComponent categories={categories.docs} handlerEdit={handlerEdit} />
+                   <TableComponent categories={categories.docs} handlerEdit={handlerEdit} setShowModalBlog={setShowModalBlog} />
                     <PaginateComponent categories={categories} setCurrentPage={setCurrentPage} currentPage={currentPage} />
                   </div>
                 </div>
@@ -152,6 +155,13 @@ const CategoryDashboardPage: FC = () => {
                     <FormModalComponent setShowModal={setShowModal}/>
                 </ModalComponent>
         )}
+            {
+                showModalBlog && blogs !== undefined && (
+                    <ModalComponent>
+                      <ModalBlog setShowModalBlog={setShowModalBlog} blogs={blogs} />
+                    </ModalComponent>
+                )
+            }
         </motion.div>
     );
 };

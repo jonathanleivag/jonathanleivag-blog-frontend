@@ -207,6 +207,7 @@ export interface CategoryState {
 export interface  TableComponentProps {
     categories: Category[]
     handlerEdit: (category: Category) => void;
+    setShowModalBlog: Dispatch<SetStateAction<boolean>>
 }
 
 export interface  SearchComponentProps {
@@ -272,3 +273,8 @@ export interface User {
     updatedAt: Date;
 }
 
+
+export interface  ModalBlogProps {
+    blogs: Blog[]
+    setShowModalBlog: Dispatch<SetStateAction<boolean>>
+}
