@@ -199,7 +199,51 @@ export interface  ErrorMessageComponentProps {
 }
 
 export interface CategoryState {
-    categories: Category[];
+    categories: Pagination<Category>;
     selected: Category | null
+}
+
+
+export interface Pagination<T> {
+    docs:          T[];
+    totalDocs:     number;
+    limit:         number;
+    totalPages:    number;
+    page:          number;
+    pagingCounter: number;
+    hasPrevPage:   boolean;
+    hasNextPage:   boolean;
+    prevPage:      null;
+    nextPage:      null;
+}
+
+export interface Blog {
+    _id:         string;
+    title:       string;
+    content:     string;
+    description: string;
+    image:       string;
+    published:   boolean;
+    slug:        string;
+    tags:        string[];
+    views:       number;
+    readingTime: number;
+    popular:     boolean;
+    user:        User;
+    category:    string;
+    createdAt:   Date;
+    updatedAt:   Date;
+}
+
+export interface User {
+    _id:       string;
+    name:      string;
+    email:     string;
+    phone:     string;
+    role:      string;
+    isActive:  boolean;
+    deletedAt: null;
+    createdAt: Date;
+    updatedAt: Date;
 }
 

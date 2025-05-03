@@ -14,7 +14,7 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
     const initialValues: FormModalComponentInitialValue  = {
         name: '',
         description: '',
-        isActive: true
+        isActive: 'true'
     }
 
     const formik = useFormik({

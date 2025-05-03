@@ -1,6 +1,6 @@
 'use client'
 import {FC, useEffect, useState} from "react";
-import {Category, StatItem} from "@/type";
+import {Category, Pagination, StatItem} from "@/type";
 import StatCard from "@/components/dashboard/categories/card.component";
 import ModalComponent from "@/components/shared/modal.component";
 import FormModalComponent from "@/components/dashboard/categories/formModal.component";
@@ -19,21 +19,21 @@ const CategoryDashboardPage: FC = () => {
         setStats([
             {
                 title: 'Total Blogs',
-                value: categories.reduce((acc, category) => acc + category.blogs.length, 0),
+                value: categories.docs.reduce((acc, category) => acc + category.blogs.length, 0),
                 icon: <NewspaperIcon className="w-full h-full" />,
                 bgColor: 'bg-primary-50',
                 textColor: 'text-primary-600',
             },
             {
                 title: 'Categorías',
-                value: categories.length,
+                value: categories.docs.length,
                 icon: <FolderIcon className="w-full h-full" />,
                 bgColor: 'bg-accent-50',
                 textColor: 'text-accent-600',
             },
             {
                 title: 'Vistas de Blogs',
-                value: categories.reduce((acc, category) => {
+                value: categories.docs.reduce((acc, category) => {
                     return acc + category.blogs.reduce((sum, blog) => sum + blog.views, 0);
                 }, 0),
                 icon: <EyeIcon className="w-full h-full" />,
@@ -52,7 +52,7 @@ const CategoryDashboardPage: FC = () => {
                         'Content-Type': 'application/json'
                     }
                 })
-                const data: Category[] = await response.json()
+                const data: Pagination<Category> = await response.json()
                 appDispatch(initialDataCategory(data))
             } catch (error) {
                 if (error instanceof Error) {
@@ -106,7 +106,7 @@ const CategoryDashboardPage: FC = () => {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                      {categories.map((category, index) => (
+                      {categories.docs.map((category, index) => (
                         <tr key={category._id}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{index+1}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{category.name}</td>

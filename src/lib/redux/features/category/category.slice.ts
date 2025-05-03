@@ -1,9 +1,20 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Category, CategoryState} from '@/type';
+import {Category, CategoryState, Pagination} from '@/type';
 
 
 const initialState: CategoryState = {
-    categories: [],
+    categories: {
+        docs: [],
+        totalDocs: 0,
+        limit: 10,
+        totalPages: 0,
+        page: 1,
+        pagingCounter: 1,
+        hasPrevPage: false,
+        hasNextPage: false,
+        prevPage: null,
+        nextPage: null
+    },
     selected: null
 };
 
@@ -11,19 +22,19 @@ const categorySlice = createSlice({
     name: 'category',
     initialState,
     reducers: {
-        initialDataCategory: (state, action: PayloadAction<Category[]>) => {
+        initialDataCategory: (state, action: PayloadAction<Pagination<Category>>) => {
             state.categories = action.payload;
         },
         addCategory: (state, action: PayloadAction<Category>) => {
-            state.categories = [...state.categories, action.payload];
+            state.categories.docs = [...state.categories.docs, action.payload];
         },
         setSelected: (state, action: PayloadAction<Category| null>) => {
             state.selected = action.payload;
         },
         updateCategory: (state, action: PayloadAction<Category>) => {
-            const index = state.categories.findIndex(cat => cat._id === action.payload._id);
+            const index = state.categories.docs.findIndex(cat => cat._id === action.payload._id);
             if (index !== -1) {
-                state.categories[index] = action.payload;
+                state.categories.docs[index] = action.payload;
             }
         },
     },
