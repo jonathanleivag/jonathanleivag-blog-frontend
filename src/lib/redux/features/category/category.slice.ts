@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Category, CategoryState, Pagination} from '@/type';
+import {Blog, Category, CategoryState, Pagination} from '@/type';
 
 
 const initialState: CategoryState = {
@@ -15,7 +15,8 @@ const initialState: CategoryState = {
         prevPage: null,
         nextPage: null
     },
-    selected: null
+    selected: null,
+    selectBlog: undefined
 };
 
 const categorySlice = createSlice({
@@ -37,8 +38,11 @@ const categorySlice = createSlice({
                 state.categories.docs[index] = action.payload;
             }
         },
+        selectBlog: (state, action: PayloadAction<Blog[]| undefined>) => {
+            state.selectBlog = action.payload;
+        },
     },
 });
 
-export const { initialDataCategory, addCategory,setSelected ,updateCategory, } = categorySlice.actions;
+export const { initialDataCategory, addCategory,setSelected ,updateCategory, selectBlog } = categorySlice.actions;
 export default categorySlice.reducer;

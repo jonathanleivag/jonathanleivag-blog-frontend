@@ -201,6 +201,7 @@ export interface  ErrorMessageComponentProps {
 export interface CategoryState {
     categories: Pagination<Category>;
     selected: Category | null
+    selectBlog: Blog[] | undefined
 }
 
 export interface  TableComponentProps {

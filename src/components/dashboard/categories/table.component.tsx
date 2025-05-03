@@ -1,9 +1,17 @@
 import {FC} from "react";
-import {TableComponentProps} from "@/type";
+import {Blog, TableComponentProps} from "@/type";
 import {motion} from "framer-motion";
 import {PencilIcon} from "@heroicons/react/24/outline";
+import {useAppDispatch} from "@/lib/redux/hooks";
+import {selectBlog} from "@/lib/redux/features/category/category.slice";
 
 const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit}) => {
+  const appDispatch = useAppDispatch()
+
+    const handlerSelectBlog = (blogs: Blog[]) => {
+      appDispatch(selectBlog(blogs))
+    }
+
     if (categories.length === 0) {
         return (
             <div className="w-full p-8 text-center">
@@ -41,10 +49,10 @@ const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit}) => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.05 }}
-                className="cursor-pointer hover:bg-gray-50 transition-colors duration-200 select-none"
-                onClick={() => handlerEdit(category)}
+                className="hover:bg-gray-50 transition-colors duration-200 select-none cursor-pointer"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
+                onClick={() => handlerSelectBlog(category.blogs)}
             >
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{index+1}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{category.name}</td>
@@ -54,10 +62,7 @@ const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit}) => {
                 <td className="px-6 py-4 text-sm text-gray-900">
                     <div className="flex gap-2">
                         <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handlerEdit(category);
-                            }}
+                            onClick={() => handlerEdit(category)}
                             className="flex items-center gap-1 text-sm text-primary-600 hover:text-primary-800 font-medium transition-colors cursor-pointer"
                         >
                             <PencilIcon className="w-4 h-4" />
