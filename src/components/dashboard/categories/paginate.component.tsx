@@ -4,7 +4,7 @@ import {PaginateComponentProps} from "@/type";
 const PaginateComponent:FC<PaginateComponentProps> = ({categories, setCurrentPage, currentPage}) => {
     return <>
         {categories.totalPages > 1 && (
-            <div className="flex justify-center mt-6">
+            <div className="flex justify-center mt-6  py-3">
                 <nav className="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                     {Array.from({ length: categories.totalPages }, (_, i) => i + 1).map((page) => (
                         <button

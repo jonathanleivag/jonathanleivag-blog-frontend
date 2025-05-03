@@ -4,6 +4,25 @@ import {motion} from "framer-motion";
 import {PencilIcon} from "@heroicons/react/24/outline";
 
 const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit}) => {
+    if (categories.length === 0) {
+        return (
+            <div className="w-full p-8 text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-gray-50 rounded-lg p-6"
+                >
+                    <p className="text-gray-500 text-lg">
+                        No hay categorías disponibles
+                    </p>
+                    <p className="text-gray-400 text-sm mt-2">
+                        Las categorías que agregues aparecerán aquí
+                    </p>
+                </motion.div>
+            </div>
+        );
+    }
+
     return  <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
         <tr>
@@ -22,6 +41,10 @@ const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit}) => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.05 }}
+                className="cursor-pointer hover:bg-gray-50 transition-colors duration-200 select-none"
+                onClick={() => handlerEdit(category)}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
             >
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{index+1}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{category.name}</td>
@@ -30,7 +53,13 @@ const TableComponent:FC<TableComponentProps> = ({categories, handlerEdit}) => {
                 <td className={`px-6 py-4 text-sm ${category.isActive ? 'text-gray-900': 'text-red-500'} `}> {category.isActive ? 'Activo': 'No activo'} </td>
                 <td className="px-6 py-4 text-sm text-gray-900">
                     <div className="flex gap-2">
-                        <button onClick={() => handlerEdit(category)} className="flex items-center gap-1 text-sm text-primary-600 hover:text-primary-800 font-medium transition-colors cursor-pointer">
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handlerEdit(category);
+                            }}
+                            className="flex items-center gap-1 text-sm text-primary-600 hover:text-primary-800 font-medium transition-colors cursor-pointer"
+                        >
                             <PencilIcon className="w-4 h-4" />
                             Editar
                         </button>
