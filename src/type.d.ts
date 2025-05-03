@@ -137,7 +137,7 @@ export interface LoginFormInitialValue {
 export interface StatItem {
     title: string;
     value: number | string;
-    icon: React.ReactNode;
+    icon: ReactNode;
     bgColor: string;
     textColor: string;
 }
@@ -206,6 +206,11 @@ export interface CategoryState {
 export interface  TableComponentProps {
     categories: Category[]
     handlerEdit: (category: Category) => void;
+}
+
+export interface  SearchComponentProps {
+    inputValue: string
+    setInputValue: Dispatch<SetStateAction<string>>
 }
 
 export interface Pagination<T> {

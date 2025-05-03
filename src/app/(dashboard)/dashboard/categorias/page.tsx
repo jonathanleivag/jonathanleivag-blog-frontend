@@ -7,8 +7,9 @@ import ModalComponent from "@/components/shared/modal.component";
 import FormModalComponent from "@/components/dashboard/categories/formModal.component";
 import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
 import {initialDataCategory, setSelected} from "@/lib/redux/features/category/category.slice";
-import {EyeIcon, FolderIcon, MagnifyingGlassIcon, NewspaperIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import {EyeIcon, FolderIcon, NewspaperIcon} from "@heroicons/react/24/outline";
 import TableComponent from "@/components/dashboard/categories/table.component";
+import SearchComponent from "@/components/dashboard/categories/search.component";
 
 
 const CategoryDashboardPage: FC = () => {
@@ -65,7 +66,7 @@ const CategoryDashboardPage: FC = () => {
                 if(isActiveFilter === 'all') query.delete('isActive')
                 if (search === '') query.delete('search')
                 else query.set('search', search)
-                
+
                 query.set('page', currentPage.toString())
                 query.set('limit', limit);
 
@@ -126,28 +127,7 @@ const CategoryDashboardPage: FC = () => {
                 <div className="mt-12 space-y-6">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <div className="flex gap-4 w-full sm:w-auto">
-                      <div className="relative w-full sm:w-64">
-                        <input
-                          type="text"
-                          placeholder="Buscar categorías..."
-                          value={inputValue}
-                          onChange={(e) => setInputValue(e.target.value)}
-                          className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                        />
-                        {inputValue ? (
-                          <button
-                            type="button"
-                            onClick={() => setInputValue('')}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-600 cursor-pointer"
-                          >
-                            <XMarkIcon className="h-5 w-5" />
-                          </button>
-                        ) : (
-                          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
-                            <MagnifyingGlassIcon className="h-5 w-5" />
-                          </span>
-                        )}
-                      </div>
+                      <SearchComponent inputValue={inputValue} setInputValue={setInputValue} />
                       <select
                         value={isActiveFilter}
                         onChange={(e) => setIsActiveFilter(e.target.value as 'all' | 'active' | 'inactive')}
