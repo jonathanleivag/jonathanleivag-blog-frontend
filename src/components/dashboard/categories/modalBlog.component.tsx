@@ -14,13 +14,15 @@ const ModalBlog: FC<ModalBlogProps> = ({blogs, setShowModalBlog}) => {
     }
 
     const ButtonClose:FC = () => {
-        return  <button
-            onClick={handlerOnClose}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
-            aria-label="Cerrar modal"
-        >
-            <XMarkIcon className="w-6 h-6 text-gray-500" />
-        </button>
+        return <div className='w-full flex flex-row justify-end items-center'>
+            <button
+                onClick={handlerOnClose}
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+                aria-label="Cerrar modal"
+            >
+                <XMarkIcon className="w-6 h-6 text-gray-500"/>
+            </button>
+        </div>
     }
 
     if (blogs.length === 0) {
