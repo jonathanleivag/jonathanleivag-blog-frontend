@@ -80,7 +80,7 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
                         </h3>
                         <button
                             onClick={handleClose}
-                            className="text-gray-400 hover:text-gray-600 transition-colors"
+                            className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
                         >
                             <XMarkIcon className="h-6 w-6" />
                         </button>
