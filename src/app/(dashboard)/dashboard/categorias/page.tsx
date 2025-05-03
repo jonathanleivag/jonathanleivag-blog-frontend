@@ -1,4 +1,5 @@
 'use client'
+
 import {FC, useEffect, useState} from "react";
 import {motion} from "framer-motion";
 import {ActiveFilter, Category, Pagination, StatItem} from "@/type";
