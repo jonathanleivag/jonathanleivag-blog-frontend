@@ -5,6 +5,7 @@ import {useFormik} from "formik";
 import {CategorySchemaRegister} from "@/validateSchema";
 import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
 import {addCategory, setSelected, updateCategory} from "@/lib/redux/features/category/category.slice";
+import {toast} from "react-hot-toast";
 
 const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
     const appDispatch = useAppDispatch()
@@ -46,11 +47,14 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
                 } else {
                     appDispatch(addCategory(data))
                 }
+                toast.success(selected !== null ? 'Categoría actualizada correctamente' : 'Categoría creada correctamente');
                 handleClose()
             } catch (e) {
                 if (e instanceof Error) {
                     console.error(e.message)
-                    setErrorMessage('Ocurrió un error al guardar la categoría. Inténtalo nuevamente.');
+                    const message = e.message;
+                    setErrorMessage(message);
+                    toast.error(message);
                 }
             }
         }

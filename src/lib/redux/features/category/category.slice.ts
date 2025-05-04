@@ -27,7 +27,16 @@ const categorySlice = createSlice({
             state.categories = action.payload;
         },
         addCategory: (state, action: PayloadAction<Category>) => {
-            state.categories.docs = [...state.categories.docs, action.payload];
+            const isLastPage = state.categories.page === state.categories.totalPages;
+            const hasSpace = state.categories.docs.length < state.categories.limit;
+
+            if (isLastPage && hasSpace) {
+                state.categories.docs = [...state.categories.docs, action.payload];
+            }
+            state.categories.totalDocs += 1;
+            if (isLastPage && !hasSpace) {
+                state.categories.totalPages += 1;
+            }
         },
         setSelected: (state, action: PayloadAction<Category| null>) => {
             state.selected = action.payload;
