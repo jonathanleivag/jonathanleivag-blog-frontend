@@ -3,7 +3,7 @@
 import {FC, useEffect, useState} from "react";
 import {motion} from "framer-motion";
 import {ActiveFilter, Category, Pagination, StatItem} from "@/type";
-import StatCard from "@/components/dashboard/categories/card.component";
+import StatCard from "@/components/shared/card.component";
 import ModalComponent from "@/components/shared/modal.component";
 import FormModalComponent from "@/components/dashboard/categories/formModal.component";
 import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
