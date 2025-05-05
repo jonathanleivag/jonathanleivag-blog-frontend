@@ -1,4 +1,6 @@
 'use client'
+'use client'
+import {toast} from 'react-hot-toast';
 import {FC} from 'react';
 import {motion} from 'framer-motion';
 import {LoginFormInitialValue} from "@/type";
@@ -30,12 +32,15 @@ const LoginForm:FC = () => {
             })
 
             const data = await response.json();
-            if (data.error === undefined) {
+            if (data.message === undefined) {
                 router.replace('/dashboard')
+            }
+            if (data.message) {
+                toast.error(data.message);
             }
         } catch (error) {
             if (error instanceof Error) {
-                console.error(error.message)
+                toast.error(error.message);
             }
         }
      }

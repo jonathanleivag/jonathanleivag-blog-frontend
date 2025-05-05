@@ -278,3 +278,16 @@ export interface  ModalBlogProps {
     blogs: Blog[]
     setShowModalBlog: Dispatch<SetStateAction<boolean>>
 }
+
+export interface  RevalidateResponse extends ErrorMessageComponentProps{
+    token: string;
+     user: User;
+}
+
+export type SAMESITE = boolean | 'lax' | 'strict' | 'none' | undefined;
+
+export interface NavItem {
+    name: string;
+    href: string;
+    icon: ReactNode;
+}

@@ -8,6 +8,12 @@ export const getEnv = (key: ENV): string => {
        case "NEXT_PUBLIC_BACKEND_URL":
            if (!process.env.NEXT_PUBLIC_BACKEND_URL) throw new Error('NEXT_PUBLIC_BACKEND_URL not found')
            return process.env.NEXT_PUBLIC_BACKEND_URL
+       case "NODE_ENV":
+           if (!process.env.NODE_ENV) throw new Error('NODE_ENV not found')
+           return process.env.NODE_ENV
+       case "SAMESITE":
+           if (!process.env.SAMESITE) throw new Error('SAMESITE not found')
+           return process.env.SAMESITE
        default:
            return ''
    }

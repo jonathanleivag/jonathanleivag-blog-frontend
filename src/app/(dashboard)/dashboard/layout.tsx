@@ -1,7 +1,6 @@
 'use client'
-import {FC, ReactNode, useState} from "react";
-import {ChildrenComponentProps} from "@/type";
-import {withAuth} from "@/hoc/withAuth";
+import {FC, useState} from "react";
+import {ChildrenComponentProps, NavItem} from "@/type";
 import Link from "next/link";
 import {
     ArrowRightEndOnRectangleIcon,
@@ -11,13 +10,7 @@ import {
     UsersIcon
 } from '@heroicons/react/24/outline';
 import {usePathname} from "next/navigation";
-import {Toaster} from "react-hot-toast";
 
-interface NavItem {
-    name: string;
-    href: string;
-    icon: ReactNode;
-}
 
 const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
@@ -56,8 +49,6 @@ const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
 
 
     return (
-        <>
-            <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
             <div className="min-h-screen bg-gray-50">
                 {sidebarOpen && (
                     <div
@@ -75,7 +66,7 @@ const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
                     <div className="p-6 flex justify-between items-center border-b border-primary-800">
                         <h1 className="text-xl font-bold">Mi Blog</h1>
                         <button
-                            className="md:hidden text-gray-50 hover:text-gray-200"
+                            className="md:hidden text-gray-50 hover:text-gray-200 cursor-pointer"
                             onClick={() => setSidebarOpen(false)}
                         >
                             <span className="text-2xl">×</span>
@@ -125,7 +116,7 @@ const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
                         <div className="flex items-center justify-between p-4">
                             <button
                                 onClick={() => setSidebarOpen(true)}
-                                className="p-2 hover:bg-primary-800 rounded-lg"
+                                className="p-2 hover:bg-primary-800 rounded-lg cursor-pointer"
                             >
                                 <svg
                                     className="w-6 h-6"
@@ -151,8 +142,7 @@ const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
                     </section>
                 </main>
             </div>
-        </>
     );
 }
 
-export default withAuth(DashboardLayout);
+export default DashboardLayout;
