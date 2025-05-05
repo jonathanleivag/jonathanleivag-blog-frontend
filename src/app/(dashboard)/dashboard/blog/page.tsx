@@ -15,9 +15,11 @@ import {
 import {AnimatePresence, motion} from "framer-motion";
 import StatCard from "@/components/shared/card.component";
 
-type PostStatus = 'all' | 'published' | 'draft';
+// Primero modificamos el tipo PostStatus para incluir 'popular'
+type PostStatus = 'all' | 'published' | 'draft' | 'popular';
 type PostCategory = 'React' | 'TypeScript' | 'Next.js' | 'Testing' | 'CSS' | 'Estado' | 'API';
 
+// Primero modificamos la interfaz Post para incluir el campo isPopular
 interface Post {
   id: number;
   title: string;
@@ -25,6 +27,7 @@ interface Post {
   status: 'published' | 'draft';
   content: string;
   category: PostCategory;
+  isPopular?: boolean; // Agregamos esta nueva propiedad
 }
 
 const Blog: FC = () => {
@@ -40,6 +43,7 @@ const Blog: FC = () => {
     console.log("Crear nuevo blog");
   };
 
+  // Luego modificamos algunos posts de ejemplo para incluir posts populares
   const posts: Post[] = [
     {
       id: 1,
@@ -47,7 +51,8 @@ const Blog: FC = () => {
       date: "1 de Marzo, 2024",
       status: "published",
       content: "Una guía completa para comenzar con React",
-      category: "React"
+      category: "React",
+      isPopular: true // Marcamos este post como popular
     },
     {
       id: 2,
@@ -107,11 +112,18 @@ const Blog: FC = () => {
     }
   ];
 
+  // Modificamos la lógica de filtrado para incluir los posts populares
   const filteredPosts = posts.filter(post => {
-    const matchesFilter = activeFilter === 'all' || post.status === activeFilter;
+    const matchesFilter =
+      activeFilter === 'all' ||
+      (activeFilter === 'published' && post.status === 'published') ||
+      (activeFilter === 'draft' && post.status === 'draft') ||
+      (activeFilter === 'popular' && post.isPopular);
+
     const matchesSearch = searchQuery === '' ||
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchQuery.toLowerCase());
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.content.toLowerCase().includes(searchQuery.toLowerCase());
+
     return matchesFilter && matchesSearch;
   });
 
@@ -332,39 +344,51 @@ const Blog: FC = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 w-full">
+                {/* En el componente Blog, actualizamos la sección de filtros para incluir el nuevo botón */}
+                <div className="grid grid-cols-4 gap-2 w-full">
                   <button
-                      onClick={() => setActiveFilter('all')}
-                      className={`min-w-0 px-3 py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200
-                    flex items-center justify-center
-                    ${activeFilter === 'all'
-                          ? 'bg-primary-600 text-white shadow-sm'
-                          : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                    onClick={() => setActiveFilter('all')}
+                    className={`min-w-0 px-3 py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200
+                      flex items-center justify-center
+                      ${activeFilter === 'all'
+                        ? 'bg-primary-600 text-white shadow-sm'
+                        : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
                       }`}
                   >
                     <span className="truncate">Todos</span>
                   </button>
                   <button
-                      onClick={() => setActiveFilter('published')}
-                      className={`min-w-0 px-3 py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200
-                    flex items-center justify-center
-                    ${activeFilter === 'published'
-                          ? 'bg-primary-600 text-white shadow-sm'
-                          : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                    onClick={() => setActiveFilter('published')}
+                    className={`min-w-0 px-3 py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200
+                      flex items-center justify-center
+                      ${activeFilter === 'published'
+                        ? 'bg-primary-600 text-white shadow-sm'
+                        : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
                       }`}
                   >
                     <span className="truncate">Publicados</span>
                   </button>
                   <button
-                      onClick={() => setActiveFilter('draft')}
-                      className={`min-w-0 px-3 py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200
-                    flex items-center justify-center
-                    ${activeFilter === 'draft'
-                          ? 'bg-primary-600 text-white shadow-sm'
-                          : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                    onClick={() => setActiveFilter('draft')}
+                    className={`min-w-0 px-3 py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200
+                      flex items-center justify-center
+                      ${activeFilter === 'draft'
+                        ? 'bg-primary-600 text-white shadow-sm'
+                        : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
                       }`}
                   >
                     <span className="truncate">Borradores</span>
+                  </button>
+                  <button
+                    onClick={() => setActiveFilter('popular')}
+                    className={`min-w-0 px-3 py-2.5 rounded-lg font-medium text-xs sm:text-sm transition-all duration-200
+                      flex items-center justify-center
+                      ${activeFilter === 'popular'
+                        ? 'bg-primary-600 text-white shadow-sm'
+                        : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                      }`}
+                  >
+                    <span className="truncate">Destacados ⭐</span>
                   </button>
                 </div>
               </div>
@@ -388,10 +412,14 @@ const Blog: FC = () => {
                               <h3 className="text-base font-medium text-gray-900">
                                 {post.title}
                               </h3>
-                              <span
-                                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
-                            {post.category}
-                          </span>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+                                {post.category}
+                              </span>
+                              {post.isPopular && (
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-600">
+                                  Destacado ⭐
+                                </span>
+                              )}
                             </div>
                             <p className="text-sm text-gray-500">
                               {post.date}
