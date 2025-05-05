@@ -15,11 +15,9 @@ import {
 import {AnimatePresence, motion} from "framer-motion";
 import StatCard from "@/components/shared/card.component";
 
-// Primero modificamos el tipo PostStatus para incluir 'popular'
 type PostStatus = 'all' | 'published' | 'draft' | 'popular';
 type PostCategory = 'React' | 'TypeScript' | 'Next.js' | 'Testing' | 'CSS' | 'Estado' | 'API';
 
-// Primero modificamos la interfaz Post para incluir el campo isPopular
 interface Post {
   id: number;
   title: string;
@@ -43,7 +41,6 @@ const Blog: FC = () => {
     console.log("Crear nuevo blog");
   };
 
-  // Luego modificamos algunos posts de ejemplo para incluir posts populares
   const posts: Post[] = [
     {
       id: 1,
@@ -52,7 +49,7 @@ const Blog: FC = () => {
       status: "published",
       content: "Una guía completa para comenzar con React",
       category: "React",
-      isPopular: true // Marcamos este post como popular
+      isPopular: true
     },
     {
       id: 2,
@@ -112,7 +109,6 @@ const Blog: FC = () => {
     }
   ];
 
-  // Modificamos la lógica de filtrado para incluir los posts populares
   const filteredPosts = posts.filter(post => {
     const matchesFilter =
       activeFilter === 'all' ||
@@ -344,7 +340,6 @@ const Blog: FC = () => {
                   />
                 </div>
 
-                {/* En el componente Blog, actualizamos la sección de filtros para incluir el nuevo botón */}
                 <div className="grid grid-cols-4 gap-2 w-full">
                   <button
                     onClick={() => setActiveFilter('all')}
