@@ -277,3 +277,34 @@ export interface NavItem {
     href: string;
     icon: ReactNode;
 }
+
+
+export interface PaginationProps {
+    items: Pagination,
+    currentPage: number,
+    handlePageChange: (limit: number) => void,
+}
+
+export interface  LimitSelectorProps {
+    setShowLimitSelector: Dispatch<SetStateAction<boolean>>,
+    showLimitSelector: boolean
+    postsPerPage: number
+    handleLimitChange: (limit: number) => void
+}
+
+export interface TableBlogComponentProps {
+    blog: Blog
+}
+
+export type PostStatus = 'all' | 'published' | 'draft' | 'popular';
+
+export interface  ButtonFilter {
+    selection: PostStatus
+    title: string
+}
+
+export interface  ButtonFilterComponentProps {
+    item: ButtonFilter
+    activeFilter: PostStatus
+    setActiveFilter: Dispatch<SetStateAction<PostStatus>>
+}
