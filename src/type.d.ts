@@ -308,3 +308,8 @@ export interface  ButtonFilterComponentProps {
     activeFilter: PostStatus
     setActiveFilter: Dispatch<SetStateAction<PostStatus>>
 }
+
+export interface SearchBlogComponentProps {
+    searchQuery: string
+    setSearchQuery: Dispatch<SetStateAction<string>>
+}

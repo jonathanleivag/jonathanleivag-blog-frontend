@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {ButtonFilterComponentProps} from "@/type";
 
-const ButtonFilterComponent: FC<ButtonFilterComponentProps> = ({item, setActiveFilter, activeFilter}) => {
+const ButtonBlogFilterComponent: FC<ButtonFilterComponentProps> = ({item, setActiveFilter, activeFilter}) => {
     return  <button
         key={item.selection}
         onClick={() => setActiveFilter(item.selection)}
@@ -16,4 +16,4 @@ const ButtonFilterComponent: FC<ButtonFilterComponentProps> = ({item, setActiveF
     </button>
 }
 
-export default ButtonFilterComponent;
+export default ButtonBlogFilterComponent;

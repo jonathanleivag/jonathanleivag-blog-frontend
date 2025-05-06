@@ -1,16 +1,17 @@
 'use client'
 
 import {FC, useEffect, useState} from "react";
-import {MagnifyingGlassIcon, PlusIcon} from "@heroicons/react/24/outline";
+import {PlusIcon} from "@heroicons/react/24/outline";
 import {AnimatePresence} from "framer-motion";
 import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
 import {Blog as BlogType, ButtonFilter, Pagination, PostStatus} from "@/type";
 import {initialDataBlog} from "@/lib/redux/features/blog/blog.slice";
 import PaginationComponent from "@/components/dashboard/blogs/pagination.component";
 import LimitSelector from "@/components/dashboard/blogs/limit.component";
-import CardBlogComponent from "@/components/dashboard/blogs/card.component";
-import TableComponent from "@/components/dashboard/blogs/table.component";
-import ButtonFilterComponent from "@/components/dashboard/blogs/buttonFilter.component";
+import CardBlogComponent from "@/components/dashboard/blogs/cardBlog.component";
+import TableComponent from "@/components/dashboard/blogs/tableBlog.component";
+import ButtonBlogFilterComponent from "@/components/dashboard/blogs/buttonBlogFilter.component";
+import SearchBlogComponent from "@/components/dashboard/blogs/searchBlog.component";
 
 const Blog: FC = () => {
   const [activeFilter, setActiveFilter] = useState<PostStatus>('all');
@@ -128,23 +129,10 @@ const Blog: FC = () => {
               </button>
             </div>
             <div className="flex flex-col gap-4">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-400"/>
-                </div>
-                <input
-                  type="text"
-                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg
-                           focus:ring-2 focus:ring-primary-500 focus:border-transparent
-                           placeholder-gray-400 text-sm transition-colors"
-                  placeholder="Buscar publicaciones..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
+              <SearchBlogComponent searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
               <div className="grid grid-cols-4 gap-2 w-full">
                 {buttonFilter.map(item => (
-                   <ButtonFilterComponent key={item.selection} item={item} activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+                   <ButtonBlogFilterComponent key={item.selection} item={item} activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
                 ))}
               </div>
             </div>
