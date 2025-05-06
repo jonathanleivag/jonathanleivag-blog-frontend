@@ -2,33 +2,22 @@
 
 import {FC, useEffect, useState} from "react";
 import {
-  ChartBarIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  DocumentTextIcon,
+  EyeIcon,
   MagnifyingGlassIcon,
+  NewspaperIcon,
   PencilSquareIcon,
   PlusIcon
 } from "@heroicons/react/24/outline";
 import {AnimatePresence, motion} from "framer-motion";
 import StatCard from "@/components/shared/card.component";
 import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
-import {Blog as BlogType, Pagination} from "@/type";
+import {Blog as BlogType, Pagination, StatItem} from "@/type";
 import {initialDataBlog} from "@/lib/redux/features/blog/blog.slice";
 
 type PostStatus = 'all' | 'published' | 'draft' | 'popular';
-type PostCategory = 'React' | 'TypeScript' | 'Next.js' | 'Testing' | 'CSS' | 'Estado' | 'API';
-
-interface Post {
-  id: number;
-  title: string;
-  date: string;
-  status: 'published' | 'draft';
-  content: string;
-  category: PostCategory;
-  isPopular?: boolean;
-}
 
 const Blog: FC = () => {
   const [activeFilter, setActiveFilter] = useState<PostStatus>('all');
@@ -38,6 +27,7 @@ const Blog: FC = () => {
   const [postsPerPage, setPostsPerPage] = useState(5);
   const [showLimitSelector, setShowLimitSelector] = useState(false);
   const blogs = useAppSelector(state => state.blog.blogs)
+  const [stats, setStats] = useState<StatItem[]>([])
   const appDispatch = useAppDispatch()
 
   const limitOptions = [5, 10, 25, 50];
@@ -46,73 +36,39 @@ const Blog: FC = () => {
     console.log("Crear nuevo blog");
   };
 
-  const posts: Post[] = [
-    {
-      id: 1,
-      title: "Introducción a React",
-      date: "1 de Marzo, 2024",
-      status: "published",
-      content: "Una guía completa para comenzar con React",
-      category: "React",
-      isPopular: true
-    },
-    {
-      id: 2,
-      title: "TypeScript Básico",
-      date: "2 de Marzo, 2024",
-      status: "draft",
-      content: "Fundamentos de TypeScript para desarrolladores",
-      category: "TypeScript"
-    },
-    {
-      id: 3,
-      title: "Next.js y SSR",
-      date: "3 de Marzo, 2024",
-      status: "published",
-      content: "Renderizado del lado del servidor con Next.js",
-      category: "Next.js"
-    },
-    {
-      id: 4,
-      title: "TailwindCSS",
-      date: "4 de Marzo, 2024",
-      status: "published",
-      content: "Estilizado moderno con TailwindCSS",
-      category: "CSS"
-    },
-    {
-      id: 5,
-      title: "Redux Toolkit",
-      date: "5 de Marzo, 2024",
-      status: "draft",
-      content: "Gestión de estado con Redux Toolkit",
-      category: "Estado"
-    },
-    {
-      id: 6,
-      title: "GraphQL Basics",
-      date: "6 de Marzo, 2024",
-      status: "published",
-      content: "Introducción a GraphQL y sus ventajas",
-      category: "API"
-    },
-    {
-      id: 7,
-      title: "React Hooks",
-      date: "7 de Marzo, 2024",
-      status: "draft",
-      content: "Uso avanzado de React Hooks",
-      category: "React"
-    },
-    {
-      id: 8,
-      title: "Testing en React",
-      date: "8 de Marzo, 2024",
-      status: "published",
-      content: "Pruebas unitarias con Jest",
-      category: "Testing"
-    }
-  ];
+
+  useEffect(() => {
+    setStats([
+      {
+        title: 'Total Blogs',
+        value: blogs.totalPages,
+        icon: <NewspaperIcon className="w-full h-full" />,
+        bgColor: 'bg-primary-50',
+        textColor: 'text-primary-600',
+      },
+      {
+        title: 'Total Blogs por página',
+        value: blogs.docs.length,
+        icon: <NewspaperIcon className="w-full h-full" />,
+        bgColor: "bg-blue-50",
+        textColor: 'text-blue-600',
+      },
+      {
+        title: 'Vistas de Blogs por página',
+        value: blogs.docs.reduce((sum, blog) => sum + blog.views, 0),
+        icon: <EyeIcon className="w-full h-full" />,
+        bgColor: 'bg-accent-100',
+        textColor: 'text-accent-700',
+      },
+      {
+        title:"No publicado por pagina",
+        value:blogs.docs.filter(post => !post.published).length,
+        icon:  <PencilSquareIcon className="w-full h-full" />,
+        bgColor: "bg-yellow-50",
+        textColor: "text-yellow-600"
+      }
+    ])
+  }, [blogs]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -159,23 +115,8 @@ const Blog: FC = () => {
   }, [appDispatch, debouncedSearchQuery, currentPage, postsPerPage, activeFilter]);
 
 
-  const filteredPosts = posts.filter(post => {
-    const matchesFilter =
-      activeFilter === 'all' ||
-      (activeFilter === 'published' && post.status === 'published') ||
-      (activeFilter === 'draft' && post.status === 'draft') ||
-      (activeFilter === 'popular' && post.isPopular);
 
-    const matchesSearch = debouncedSearchQuery === '' ||
-      post.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
-      post.content.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
 
-    return matchesFilter && matchesSearch;
-  });
-
-  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -189,12 +130,12 @@ const Blog: FC = () => {
   };
 
   const Pagination = () => {
-    if (totalPages <= 1) return null;
+    if (blogs.totalPages <= 1) return null;
 
     const pageNumbers = [];
     const maxVisiblePages = 5;
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    const endPage = Math.min(blogs.totalPages, startPage + maxVisiblePages - 1);
 
     if (endPage - startPage + 1 < maxVisiblePages) {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
@@ -247,16 +188,16 @@ const Blog: FC = () => {
             </button>
           ))}
 
-          {endPage < totalPages && (
+          {endPage < blogs.totalPages && (
             <>
-              {endPage < totalPages - 1 && (
+              {endPage < blogs.totalPages - 1 && (
                 <span className="px-2 text-gray-500">...</span>
               )}
               <button
-                onClick={() => handlePageChange(totalPages)}
+                onClick={() => handlePageChange(blogs.totalPages)}
                 className="px-3 py-1 rounded-lg border bg-white hover:bg-gray-50 text-sm"
               >
-                {totalPages}
+                {blogs.totalPages}
               </button>
             </>
           )}
@@ -264,9 +205,9 @@ const Blog: FC = () => {
 
         <button
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
+          disabled={currentPage === blogs.totalPages}
           className={`p-2 rounded-lg border ${
-            currentPage === totalPages
+            currentPage === blogs.totalPages
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-white text-gray-600 hover:bg-gray-50'
           }`}
@@ -324,27 +265,16 @@ const Blog: FC = () => {
 
       <div className="px-4 -mt-6 sm:px-6 lg:px-8">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            title="Total Publicaciones"
-            value={blogs.totalDocs}
-            icon={<DocumentTextIcon className="w-full h-full"/>}
-            bgColor="bg-blue-50"
-            textColor="text-blue-600"
-          />
-          <StatCard
-            title="Publicados por página"
-            value={blogs.docs.filter(post => post.published).length}
-            icon={<ChartBarIcon className="w-full h-full"/>}
-            bgColor="bg-green-50"
-            textColor="text-green-600"
-          />
-          <StatCard
-            title="No publicado por pagina"
-            value={blogs.docs.filter(post => !post.published).length}
-            icon={<PencilSquareIcon className="w-full h-full"/>}
-            bgColor="bg-yellow-50"
-            textColor="text-yellow-600"
-          />
+          {stats.map(item => (
+              <StatCard
+                  key={item.title}
+                  title={item.title}
+                  value={item.value}
+                  icon={item.icon}
+                  bgColor={item.bgColor}
+                  textColor={item.textColor}
+              />
+          ))}
         </div>
       </div>
 
@@ -498,7 +428,7 @@ const Blog: FC = () => {
             <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
               <div className="flex items-center gap-4 text-sm text-gray-500">
                 <span>
-                  Mostrando {indexOfFirstPost + 1} - {Math.min(indexOfLastPost, filteredPosts.length)} de {filteredPosts.length}
+                  Mostrando {blogs.docs.length}  de {blogs.totalDocs}
                 </span>
                 <LimitSelector/>
               </div>
