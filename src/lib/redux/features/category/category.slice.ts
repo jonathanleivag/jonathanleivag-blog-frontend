@@ -23,7 +23,7 @@ const categorySlice = createSlice({
     name: 'category',
     initialState,
     reducers: {
-        initialDataCategory: (state, action: PayloadAction<Pagination<Category>>) => {
+        initialDataBlog: (state, action: PayloadAction<Pagination<Category>>) => {
             state.categories = action.payload;
         },
         addCategory: (state, action: PayloadAction<Category>) => {

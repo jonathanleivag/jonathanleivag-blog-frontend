@@ -163,24 +163,6 @@ export interface Category extends ErrorMessageComponentProps{
     blogs:       Blog[];
 }
 
-export interface Blog {
-    _id:         string;
-    title:       string;
-    content:     string;
-    description: string;
-    image:       string;
-    published:   boolean;
-    slug:        string;
-    tags:        string[];
-    views:       number;
-    readingTime: number;
-    popular:     boolean;
-    user:        User;
-    category:    string;
-    createdAt:   Date;
-    updatedAt:   Date;
-}
-
 export interface User {
     _id:       string;
     name:      string;
@@ -202,6 +184,10 @@ export interface CategoryState {
     categories: Pagination<Category>;
     selected: Category | null
     selectBlog: Blog[] | undefined
+}
+
+export interface BlogState {
+    blogs: Pagination<Blog>;
 }
 
 export interface  TableComponentProps {
@@ -256,7 +242,7 @@ export interface Blog {
     readingTime: number;
     popular:     boolean;
     user:        User;
-    category:    string;
+    category:    Category;
     createdAt:   Date;
     updatedAt:   Date;
 }
