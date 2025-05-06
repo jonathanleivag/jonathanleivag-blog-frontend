@@ -12,8 +12,9 @@ import {EyeIcon, FolderIcon, NewspaperIcon} from "@heroicons/react/24/outline";
 import TableComponent from "@/components/dashboard/categories/table.component";
 import SearchComponent from "@/components/dashboard/categories/search.component";
 import ModalBlog from "@/components/dashboard/categories/modalBlog.component";
-import PaginationComponent from "@/components/dashboard/blogs/pagination.component";
+import PaginationComponent from "@/components/shared/pagination.component";
 import SelectComponent from "@/components/dashboard/categories/select.component";
+import LoadingComponent from "@/components/shared/loading.component";
 
 
 const CategoryDashboardPage: FC = () => {
@@ -25,6 +26,7 @@ const CategoryDashboardPage: FC = () => {
     const [isActiveFilter, setIsActiveFilter] = useState<ActiveFilter>('all');
     const [limit, setLimit] = useState<number>(5);
     const [stats, setStats] = useState<StatItem[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const categories = useAppSelector(state => state.category.categories)
     const blogs = useAppSelector(state => state.category.selectBlog )
     const [showLimitSelector, setShowLimitSelector] = useState(false);
@@ -67,6 +69,7 @@ const CategoryDashboardPage: FC = () => {
     useEffect(() => {
         const dataFetch = async () => {
             try {
+                setIsLoading(true)
                 const query = new URLSearchParams();
                 if (isActiveFilter === "active") query.set('isActive','true')
                 if(isActiveFilter === 'inactive') query.set('isActive', 'false')
@@ -86,9 +89,11 @@ const CategoryDashboardPage: FC = () => {
                 })
                 const data: Pagination<Category> = await response.json()
                 appDispatch(initialDataCategory(data))
+                setIsLoading(false)
             } catch (error) {
                 if (error instanceof Error) {
                     console.error(error.message)
+                    setIsLoading(false)
                 }
             }
         }
@@ -146,7 +151,9 @@ const CategoryDashboardPage: FC = () => {
                   </div>
 
                   <div className="overflow-x-auto bg-white rounded-xl shadow-md">
-                   <TableComponent categories={categories.docs} handlerEdit={handlerEdit} setShowModalBlog={setShowModalBlog} />
+                      <LoadingComponent isLoading={isLoading}>
+                          <TableComponent categories={categories.docs} handlerEdit={handlerEdit} setShowModalBlog={setShowModalBlog}/>
+                      </LoadingComponent>
                   </div>
                   <PaginationComponent items={categories} currentPage={currentPage}  postsPerPage={limit} showLimitSelector={showLimitSelector} setShowLimitSelector={setShowLimitSelector}  setCurrentPage={setCurrentPage} setPostsPerPage={setLimit}  />
                 </div>

@@ -309,3 +309,7 @@ export interface SearchBlogComponentProps {
     searchQuery: string
     setSearchQuery: Dispatch<SetStateAction<string>>
 }
+
+export interface LoadingComponentProps extends ChildrenComponentProps {
+    isLoading: boolean
+}
