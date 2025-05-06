@@ -92,7 +92,6 @@ const Blog: FC = () => {
     void fetchData()
   }, [appDispatch, debouncedSearchQuery, currentPage, postsPerPage, activeFilter]);
 
-  // ... resto del código ...
 
   const handleCreateBlog = () => {
     console.log("Crear nuevo blog");
@@ -117,7 +116,7 @@ const Blog: FC = () => {
                          bg-primary-600 text-white font-medium text-sm
                          hover:bg-primary-700 transition-colors duration-200
                          focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-                         shadow-sm"
+                         shadow-sm cursor-pointer"
               >
                 <PlusIcon className="h-5 w-5"/>
                 <span>Crear Blog</span>

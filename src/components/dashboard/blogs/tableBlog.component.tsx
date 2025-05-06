@@ -47,7 +47,7 @@ const TableBlogComponent:FC<TableBlogComponentProps> = ({blog}) => {
                         }`}>
                           {blog.published ? 'Publicado' : 'Borrador'}
                         </span>
-                <button className="text-gray-400 hover:text-gray-500">
+                <button className="text-gray-400 hover:text-gray-500 cursor-pointer">
                     <PencilSquareIcon className="h-5 w-5"/>
                 </button>
             </div>
