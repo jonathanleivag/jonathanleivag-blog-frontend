@@ -206,8 +206,6 @@ export type ActiveFilter = 'all' | 'active' | 'inactive';
 export interface  SelectComponentProps{
     isActiveFilter: ActiveFilter
     setIsActiveFilter: Dispatch<SetStateAction<ActiveFilter>>
-    limit: string
-    setLimit: Dispatch<SetStateAction<string>>
 }
 
 export interface PaginateComponentProps {
@@ -280,17 +278,15 @@ export interface NavItem {
 
 
 export interface PaginationProps {
-    items: Pagination,
-    currentPage: number,
-    handlePageChange: (limit: number) => void,
-}
-
-export interface  LimitSelectorProps {
-    setShowLimitSelector: Dispatch<SetStateAction<boolean>>,
+    items: Pagination
+    setCurrentPage: Dispatch<SetStateAction<number>>
+    currentPage: number
+    setShowLimitSelector: Dispatch<SetStateAction<boolean>>
     showLimitSelector: boolean
     postsPerPage: number
-    handleLimitChange: (limit: number) => void
+    setPostsPerPage: Dispatch<SetStateAction<number>>
 }
+
 
 export interface TableBlogComponentProps {
     blog: Blog

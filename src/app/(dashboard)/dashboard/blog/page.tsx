@@ -7,7 +7,6 @@ import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
 import {Blog as BlogType, ButtonFilter, Pagination, PostStatus} from "@/type";
 import {initialDataBlog} from "@/lib/redux/features/blog/blog.slice";
 import PaginationComponent from "@/components/dashboard/blogs/pagination.component";
-import LimitSelector from "@/components/dashboard/blogs/limit.component";
 import CardBlogComponent from "@/components/dashboard/blogs/cardBlog.component";
 import TableComponent from "@/components/dashboard/blogs/tableBlog.component";
 import ButtonBlogFilterComponent from "@/components/dashboard/blogs/buttonBlogFilter.component";
@@ -88,17 +87,6 @@ const Blog: FC = () => {
   }, [appDispatch, debouncedSearchQuery, currentPage, postsPerPage, activeFilter]);
 
 
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  };
-
-  const handleLimitChange = (limit: number) => {
-    setPostsPerPage(limit);
-    setCurrentPage(1);
-    setShowLimitSelector(false);
-  };
-
   const handleCreateBlog = () => {
     console.log("Crear nuevo blog");
   };
@@ -150,15 +138,7 @@ const Blog: FC = () => {
                 </div>
               )}
             </div>
-            <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-              <div className="flex items-center gap-4 text-sm text-gray-500">
-                <span>
-                  Mostrando {blogs.docs.length}  de {blogs.totalDocs}
-                </span>
-                <LimitSelector setShowLimitSelector={setShowLimitSelector} handleLimitChange={handleLimitChange} showLimitSelector={showLimitSelector} postsPerPage={postsPerPage} />
-              </div>
-              <PaginationComponent handlePageChange={handlePageChange} currentPage={currentPage} items={blogs} />
-            </div>
+            <PaginationComponent setCurrentPage={setCurrentPage} currentPage={currentPage} items={blogs} setShowLimitSelector={setShowLimitSelector} showLimitSelector={showLimitSelector} postsPerPage={postsPerPage} setPostsPerPage={setPostsPerPage} />
           </div>
         </div>
       </section>

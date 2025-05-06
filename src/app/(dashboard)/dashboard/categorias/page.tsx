@@ -11,9 +11,9 @@ import {initialDataCategory, setSelected} from "@/lib/redux/features/category/ca
 import {EyeIcon, FolderIcon, NewspaperIcon} from "@heroicons/react/24/outline";
 import TableComponent from "@/components/dashboard/categories/table.component";
 import SearchComponent from "@/components/dashboard/categories/search.component";
-import SelectComponent from "@/components/dashboard/categories/select.component";
-import PaginateComponent from "@/components/dashboard/categories/paginate.component";
 import ModalBlog from "@/components/dashboard/categories/modalBlog.component";
+import PaginationComponent from "@/components/dashboard/blogs/pagination.component";
+import SelectComponent from "@/components/dashboard/categories/select.component";
 
 
 const CategoryDashboardPage: FC = () => {
@@ -23,10 +23,11 @@ const CategoryDashboardPage: FC = () => {
     const [inputValue, setInputValue] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [isActiveFilter, setIsActiveFilter] = useState<ActiveFilter>('all');
-    const [limit, setLimit] = useState<string>('5');
+    const [limit, setLimit] = useState<number>(5);
     const [stats, setStats] = useState<StatItem[]>([])
     const categories = useAppSelector(state => state.category.categories)
     const blogs = useAppSelector(state => state.category.selectBlog )
+    const [showLimitSelector, setShowLimitSelector] = useState(false);
     const appDispatch = useAppDispatch()
 
     useEffect(() => {
@@ -74,7 +75,7 @@ const CategoryDashboardPage: FC = () => {
                 else query.set('search', search)
 
                 query.set('page', currentPage.toString())
-                query.set('limit', limit);
+                query.set('limit', limit.toString());
 
 
                 const response = await fetch(`/api/category?${query.toString()}`, {
@@ -134,7 +135,7 @@ const CategoryDashboardPage: FC = () => {
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <div className="flex gap-4 w-full sm:w-auto">
                       <SearchComponent inputValue={inputValue} setInputValue={setInputValue} />
-                      <SelectComponent isActiveFilter={isActiveFilter} limit={limit} setIsActiveFilter={setIsActiveFilter} setLimit={setLimit} />
+                      <SelectComponent isActiveFilter={isActiveFilter} setIsActiveFilter={setIsActiveFilter} />
                     </div>
                     <button
                       onClick={() => setShowModal(true)}
@@ -146,8 +147,8 @@ const CategoryDashboardPage: FC = () => {
 
                   <div className="overflow-x-auto bg-white rounded-xl shadow-md">
                    <TableComponent categories={categories.docs} handlerEdit={handlerEdit} setShowModalBlog={setShowModalBlog} />
-                    <PaginateComponent categories={categories} setCurrentPage={setCurrentPage} currentPage={currentPage} />
                   </div>
+                  <PaginationComponent items={categories} currentPage={currentPage}  postsPerPage={limit} showLimitSelector={showLimitSelector} setShowLimitSelector={setShowLimitSelector}  setCurrentPage={setCurrentPage} setPostsPerPage={setLimit}  />
                 </div>
             </div>
         {showModal && (
