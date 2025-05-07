@@ -12,9 +12,9 @@ import TableComponent from "@/components/dashboard/blogs/tableBlog.component";
 import ButtonBlogFilterComponent from "@/components/dashboard/blogs/buttonBlogFilter.component";
 import SearchBlogComponent from "@/components/dashboard/blogs/searchBlog.component";
 import LoadingComponent from "@/components/shared/loading.component";
+import {useRouter} from "next/navigation";
 
 const Blog: FC = () => {
-  // ... otros estados ...
   const [isLoading, setIsLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<PostStatus>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -23,6 +23,7 @@ const Blog: FC = () => {
   const [postsPerPage, setPostsPerPage] = useState(5);
   const [showLimitSelector, setShowLimitSelector] = useState(false);
   const blogs = useAppSelector(state => state.blog.blogs)
+  const router = useRouter()
   const appDispatch = useAppDispatch()
 
   const buttonFilter: ButtonFilter[] = [
@@ -93,10 +94,6 @@ const Blog: FC = () => {
   }, [appDispatch, debouncedSearchQuery, currentPage, postsPerPage, activeFilter]);
 
 
-  const handleCreateBlog = () => {
-    console.log("Crear nuevo blog");
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div>
@@ -111,7 +108,7 @@ const Blog: FC = () => {
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
               <h2 className="text-lg font-medium text-gray-900 w-full sm:w-auto">Publicaciones Recientes</h2>
               <button
-                onClick={handleCreateBlog}
+                onClick={() => router.replace('/dashboard/blog/crear')}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
                          bg-primary-600 text-white font-medium text-sm
                          hover:bg-primary-700 transition-colors duration-200
