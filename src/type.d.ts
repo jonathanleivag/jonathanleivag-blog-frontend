@@ -337,3 +337,7 @@ export interface  UploadImageComponentProps {
     setFieldValue: (field: string, value: string, shouldValidate?: boolean) => Promise<void | FormikErrors<FormikValues>>
     values: FormikValues
 }
+
+export interface  ErrorBlogComponentProps {
+    error: string | string[]
+}
