@@ -14,6 +14,12 @@ export const getEnv = (key: ENV): string => {
        case "SAMESITE":
            if (!process.env.SAMESITE) throw new Error('SAMESITE not found')
            return process.env.SAMESITE
+       case "NEXT_PUBLIC_TINY_API_KEY":
+           if (!process.env.NEXT_PUBLIC_TINY_API_KEY) throw new Error('NEXT_PUBLIC_TINY_API_KEY not found')
+           return process.env.NEXT_PUBLIC_TINY_API_KEY
+       case "NEXT_PUBLIC_UPLOADPRESET":
+           if (!process.env.NEXT_PUBLIC_UPLOADPRESET) throw new Error('NEXT_PUBLIC_UPLOADPRESET not found')
+            return process.env.NEXT_PUBLIC_UPLOADPRESET
        default:
            return ''
    }

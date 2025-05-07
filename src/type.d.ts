@@ -1,5 +1,6 @@
 import {Dispatch, ReactNode, SetStateAction, SVGProps} from "react";
 import {SVGMotionProps} from "framer-motion";
+import {FormikErrors, FormikValues} from "formik";
 
 export type IconProps = SVGProps<SVGSVGElement>;
 
@@ -163,24 +164,6 @@ export interface Category extends ErrorMessageComponentProps{
     blogs:       Blog[];
 }
 
-export interface Blog {
-    _id:         string;
-    title:       string;
-    content:     string;
-    description: string;
-    image:       string;
-    published:   boolean;
-    slug:        string;
-    tags:        string[];
-    views:       number;
-    readingTime: number;
-    popular:     boolean;
-    user:        User;
-    category:    string;
-    createdAt:   Date;
-    updatedAt:   Date;
-}
-
 export interface User {
     _id:       string;
     name:      string;
@@ -204,6 +187,10 @@ export interface CategoryState {
     selectBlog: Blog[] | undefined
 }
 
+export interface BlogState {
+    blogs: Pagination<Blog>;
+}
+
 export interface  TableComponentProps {
     categories: Category[]
     handlerEdit: (category: Category) => void;
@@ -220,8 +207,6 @@ export type ActiveFilter = 'all' | 'active' | 'inactive';
 export interface  SelectComponentProps{
     isActiveFilter: ActiveFilter
     setIsActiveFilter: Dispatch<SetStateAction<ActiveFilter>>
-    limit: string
-    setLimit: Dispatch<SetStateAction<string>>
 }
 
 export interface PaginateComponentProps {
@@ -243,7 +228,7 @@ export interface Pagination<T> {
     nextPage:      null;
 }
 
-export interface Blog {
+export interface Blog extends  ErrorMessageComponentProps{
     _id:         string;
     title:       string;
     content:     string;
@@ -256,7 +241,7 @@ export interface Blog {
     readingTime: number;
     popular:     boolean;
     user:        User;
-    category:    string;
+    category:    Category;
     createdAt:   Date;
     updatedAt:   Date;
 }
@@ -290,4 +275,73 @@ export interface NavItem {
     name: string;
     href: string;
     icon: ReactNode;
+}
+
+
+export interface PaginationProps {
+    items: Pagination
+    setCurrentPage: Dispatch<SetStateAction<number>>
+    currentPage: number
+    setShowLimitSelector: Dispatch<SetStateAction<boolean>>
+    showLimitSelector: boolean
+    postsPerPage: number
+    setPostsPerPage: Dispatch<SetStateAction<number>>
+}
+
+
+export interface TableBlogComponentProps {
+    blog: Blog
+}
+
+export type PostStatus = 'all' | 'published' | 'draft' | 'popular';
+
+export interface  ButtonFilter {
+    selection: PostStatus
+    title: string
+}
+
+export interface  ButtonFilterComponentProps {
+    item: ButtonFilter
+    activeFilter: PostStatus
+    setActiveFilter: Dispatch<SetStateAction<PostStatus>>
+}
+
+export interface SearchBlogComponentProps {
+    searchQuery: string
+    setSearchQuery: Dispatch<SetStateAction<string>>
+}
+
+export interface LoadingComponentProps extends ChildrenComponentProps {
+    isLoading: boolean
+}
+
+export interface BlogFormValues {
+    title: string;
+    description: string;
+    content: string;
+    slug: string;
+    category: string;
+    image: string;
+    isPopular: boolean;
+    isPublished: boolean;
+    tags: string;
+    readingTime: number;
+}
+
+export interface EditorComponentProps {
+    values:  FormikValues
+    setFieldValue: (field: string, value: string, shouldValidate?: boolean) => Promise<void | FormikErrors<FormikValues>>
+}
+
+export interface  UploadImageComponentProps {
+    setFieldValue: (field: string, value: string, shouldValidate?: boolean) => Promise<void | FormikErrors<FormikValues>>
+    values: FormikValues
+}
+
+export interface  ErrorBlogComponentProps {
+    error: string | string[]
+}
+
+export interface  FormBlogComponentProps {
+    blog?: Blog
 }

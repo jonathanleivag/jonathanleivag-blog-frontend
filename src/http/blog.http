@@ -20,3 +20,7 @@ Authorization: Bearer {{token}}
   "category": "6812d7d65e43064b0c5cfb52"
 }
 
+###
+
+GET {{url}}/blog
+Content-Type: application/json

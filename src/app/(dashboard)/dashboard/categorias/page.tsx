@@ -3,7 +3,7 @@
 import {FC, useEffect, useState} from "react";
 import {motion} from "framer-motion";
 import {ActiveFilter, Category, Pagination, StatItem} from "@/type";
-import StatCard from "@/components/dashboard/categories/card.component";
+import StatCard from "@/components/shared/card.component";
 import ModalComponent from "@/components/shared/modal.component";
 import FormModalComponent from "@/components/dashboard/categories/formModal.component";
 import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
@@ -11,9 +11,10 @@ import {initialDataCategory, setSelected} from "@/lib/redux/features/category/ca
 import {EyeIcon, FolderIcon, NewspaperIcon} from "@heroicons/react/24/outline";
 import TableComponent from "@/components/dashboard/categories/table.component";
 import SearchComponent from "@/components/dashboard/categories/search.component";
-import SelectComponent from "@/components/dashboard/categories/select.component";
-import PaginateComponent from "@/components/dashboard/categories/paginate.component";
 import ModalBlog from "@/components/dashboard/categories/modalBlog.component";
+import PaginationComponent from "@/components/shared/pagination.component";
+import SelectComponent from "@/components/dashboard/categories/select.component";
+import LoadingComponent from "@/components/shared/loading.component";
 
 
 const CategoryDashboardPage: FC = () => {
@@ -23,10 +24,12 @@ const CategoryDashboardPage: FC = () => {
     const [inputValue, setInputValue] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [isActiveFilter, setIsActiveFilter] = useState<ActiveFilter>('all');
-    const [limit, setLimit] = useState<string>('5');
+    const [limit, setLimit] = useState<number>(5);
     const [stats, setStats] = useState<StatItem[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const categories = useAppSelector(state => state.category.categories)
     const blogs = useAppSelector(state => state.category.selectBlog )
+    const [showLimitSelector, setShowLimitSelector] = useState(false);
     const appDispatch = useAppDispatch()
 
     useEffect(() => {
@@ -66,6 +69,7 @@ const CategoryDashboardPage: FC = () => {
     useEffect(() => {
         const dataFetch = async () => {
             try {
+                setIsLoading(true)
                 const query = new URLSearchParams();
                 if (isActiveFilter === "active") query.set('isActive','true')
                 if(isActiveFilter === 'inactive') query.set('isActive', 'false')
@@ -74,7 +78,7 @@ const CategoryDashboardPage: FC = () => {
                 else query.set('search', search)
 
                 query.set('page', currentPage.toString())
-                query.set('limit', limit);
+                query.set('limit', limit.toString());
 
 
                 const response = await fetch(`/api/category?${query.toString()}`, {
@@ -85,9 +89,11 @@ const CategoryDashboardPage: FC = () => {
                 })
                 const data: Pagination<Category> = await response.json()
                 appDispatch(initialDataCategory(data))
+                setIsLoading(false)
             } catch (error) {
                 if (error instanceof Error) {
                     console.error(error.message)
+                    setIsLoading(false)
                 }
             }
         }
@@ -134,7 +140,7 @@ const CategoryDashboardPage: FC = () => {
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <div className="flex gap-4 w-full sm:w-auto">
                       <SearchComponent inputValue={inputValue} setInputValue={setInputValue} />
-                      <SelectComponent isActiveFilter={isActiveFilter} limit={limit} setIsActiveFilter={setIsActiveFilter} setLimit={setLimit} />
+                      <SelectComponent isActiveFilter={isActiveFilter} setIsActiveFilter={setIsActiveFilter} />
                     </div>
                     <button
                       onClick={() => setShowModal(true)}
@@ -145,9 +151,11 @@ const CategoryDashboardPage: FC = () => {
                   </div>
 
                   <div className="overflow-x-auto bg-white rounded-xl shadow-md">
-                   <TableComponent categories={categories.docs} handlerEdit={handlerEdit} setShowModalBlog={setShowModalBlog} />
-                    <PaginateComponent categories={categories} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+                      <LoadingComponent isLoading={isLoading}>
+                          <TableComponent categories={categories.docs} handlerEdit={handlerEdit} setShowModalBlog={setShowModalBlog}/>
+                      </LoadingComponent>
                   </div>
+                  <PaginationComponent items={categories} currentPage={currentPage}  postsPerPage={limit} showLimitSelector={showLimitSelector} setShowLimitSelector={setShowLimitSelector}  setCurrentPage={setCurrentPage} setPostsPerPage={setLimit}  />
                 </div>
             </div>
         {showModal && (

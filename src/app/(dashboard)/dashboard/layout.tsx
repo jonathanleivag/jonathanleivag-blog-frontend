@@ -1,5 +1,5 @@
 'use client'
-import {FC, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {ChildrenComponentProps, NavItem} from "@/type";
 import Link from "next/link";
 import {
@@ -39,6 +39,11 @@ const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
             icon: <UsersIcon className="w-6 h-6" />
         }
     ];
+
+    useEffect(() => {
+        document.body.style.backgroundColor = '#F6F9FA';
+        document.body.classList.remove('bg-gradient-to-br', 'from-gray-900', 'via-gray-800', 'to-gray-900');
+    }, []);
 
     const isActiveLink = (href: string): boolean => {
         if (href === '/dashboard') {
