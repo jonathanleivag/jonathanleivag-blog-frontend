@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {PencilSquareIcon} from "@heroicons/react/24/outline";
+import {EyeIcon, PencilSquareIcon} from "@heroicons/react/24/outline";
 import {motion} from "framer-motion";
 import {TableBlogComponentProps} from "@/type";
 import {useRouter} from "next/navigation";
@@ -50,7 +50,18 @@ const TableBlogComponent:FC<TableBlogComponentProps> = ({blog}) => {
                         }`}>
                           {blog.published ? 'Publicado' : 'Borrador'}
                         </span>
-                <button onClick={() => router.replace(`/dashboard/blog/editar/${blog.slug}`)} className="text-gray-400 hover:text-gray-500 cursor-pointer">
+                <button
+                    onClick={() => router.push(`/dashboard/blog/view/${blog.slug}`)}
+                    className="text-gray-400 hover:text-gray-500 cursor-pointer"
+                    title="Ver blog"
+                >
+                    <EyeIcon className="h-5 w-5"/>
+                </button>
+                <button
+                    onClick={() => router.replace(`/dashboard/blog/editar/${blog.slug}`)}
+                    className="text-gray-400 hover:text-gray-500 cursor-pointer"
+                    title="Editar blog"
+                >
                     <PencilSquareIcon className="h-5 w-5"/>
                 </button>
             </div>
