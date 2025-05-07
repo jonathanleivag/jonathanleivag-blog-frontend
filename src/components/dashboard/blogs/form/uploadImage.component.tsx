@@ -25,7 +25,9 @@ const UploadImageComponent:FC<UploadImageComponentProps> = ({ setFieldValue, val
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.error || 'Error al subir la imagen');
+                console.error(data.error || 'Error al subir la imagen');
+                toast.error(data.error || 'Error al subir la imagen');
+                return;
             }
 
             await setFieldValue("image", data.url);
