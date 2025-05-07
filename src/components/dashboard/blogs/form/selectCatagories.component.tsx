@@ -1,7 +1,7 @@
 import {FC, useEffect, useState} from "react";
 import {Field} from "formik";
 import {Category, Pagination} from "@/type";
-import {addCategorySelect} from "@/lib/redux/features/category/category.slice";
+import {addCategorySelect, initialDataCategory} from "@/lib/redux/features/category/category.slice";
 import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
 
 const SelectCategories: FC = () => {
@@ -12,12 +12,12 @@ const SelectCategories: FC = () => {
     const appDispatch = useAppDispatch();
 
     useEffect(() => {
-        const fetchCategories = async (page: number) => {
+        const fetchCategories = async () => {
             setIsLoading(true);
             try {
                 const query = new URLSearchParams();
                 query.set('isActive', 'true');
-                query.set('page', page.toString());
+                query.set('page', currentPage.toString());
                 query.set('limit', limit.toString());
 
                 const response = await fetch(`/api/category?${query.toString()}`, {
@@ -28,7 +28,11 @@ const SelectCategories: FC = () => {
                 });
 
                 const data: Pagination<Category> = await response.json();
-                appDispatch(addCategorySelect(data));
+                if (currentPage === 1 ) {
+                    appDispatch(initialDataCategory(data))
+                } else {
+                    appDispatch(addCategorySelect(data));
+                }
             } catch (error) {
                 if (error instanceof Error) {
                     console.error(error.message);
@@ -37,7 +41,7 @@ const SelectCategories: FC = () => {
                 setIsLoading(false);
             }
         };
-        void fetchCategories(currentPage);
+        void fetchCategories();
     }, [appDispatch, currentPage, limit]);
 
     const handleScroll = (e: React.UIEvent<HTMLSelectElement>) => {

@@ -1,9 +1,17 @@
 'use client'
 
 import {FC, useEffect, useState} from "react";
-import {useParams} from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import Image from "next/image";
-import {CalendarIcon, ClockIcon, TagIcon, UserIcon} from "@heroicons/react/24/outline";
+import {
+    CalendarIcon,
+    CheckCircleIcon,
+    ClockIcon,
+    DocumentIcon,
+    PencilSquareIcon,
+    TagIcon,
+    UserIcon
+} from "@heroicons/react/24/outline";
 import {Blog} from "@/type";
 import ErrorBlogComponent from "@/components/dashboard/blogs/view/errorBlog.component";
 import LoadingScreen from "@/components/dashboard/blogs/view/loadingBlog.component";
@@ -14,6 +22,7 @@ const SlugPage: FC = () => {
     const [data, setData] = useState<Blog>()
     const [error, setError] = useState<string | string[]>('')
     const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter()
 
 
     useEffect(() => {
@@ -55,21 +64,46 @@ const SlugPage: FC = () => {
                 <article className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
                     <div className="space-y-4 mb-8">
                         <div className="flex flex-wrap gap-2 text-sm text-gray-600">
-                    <span className="bg-primary-50 text-primary-600 px-3 py-1 rounded-full">
-                        {data.category.name}
-                    </span>
+                            <span className="bg-primary-50 text-primary-600 px-3 py-1 rounded-full">
+                                {data.category.name}
+                            </span>
+                            {data.published ? (
+                                <span className="bg-green-50 text-green-700 px-3 py-1 rounded-full flex items-center gap-1">
+                                    <CheckCircleIcon className="h-4 w-4"/>
+                                    <span>Publicado</span>
+                                </span>
+                            ) : (
+                                <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full flex items-center gap-1">
+                                    <DocumentIcon className="h-4 w-4"/>
+                                    <span>Borrador</span>
+                                </span>
+                            )}
+                            {data.popular && (
+                                <span className="bg-amber-50 text-amber-600 px-3 py-1 rounded-full flex items-center gap-1">
+                                    <span>Destacado</span>
+                                    <span className="text-amber-500">⭐</span>
+                                </span>
+                            )}
                             <span className="flex items-center gap-1">
-                        <CalendarIcon className="h-4 w-4"/>
+                                <CalendarIcon className="h-4 w-4"/>
                                 {new Date(data.createdAt).toLocaleDateString()}
-                    </span>
+                            </span>
                             <span className="flex items-center gap-1">
-                        <ClockIcon className="h-4 w-4"/>
+                                <ClockIcon className="h-4 w-4"/>
                                 {data.readingTime} min de lectura
-                    </span>
+                            </span>
                             <span className="flex items-center gap-1">
-                        <UserIcon className="h-4 w-4"/>
+                                <UserIcon className="h-4 w-4"/>
                                 {data.user.name}
-                    </span>
+                            </span>
+                            <button
+                                onClick={() => router.push(`/dashboard/blog/editar/${slug}`)}
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 cursor-pointer"
+                                title="Editar blog"
+                            >
+                                <PencilSquareIcon className="h-5 w-5" />
+                                <span>Editar</span>
+                            </button>
                         </div>
 
                         <h1 className="text-4xl font-bold text-gray-900">
