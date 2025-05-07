@@ -35,9 +35,15 @@ const blogSlice = createSlice({
             if (isLastPage && !hasSpace) {
                 state.blogs.totalPages += 1;
             }
+        },
+        updateBlog: (state, action: PayloadAction<Blog>) => {
+            const index = state.blogs.docs.findIndex(blog => blog._id === action.payload._id);
+            if (index !== -1) {
+                state.blogs.docs[index] = action.payload;
+            }
         }
     }
 });
 
-export const {initialDataBlog, addBlog} = blogSlice.actions;
+export const {initialDataBlog, addBlog, updateBlog} = blogSlice.actions;
 export default blogSlice.reducer;

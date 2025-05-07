@@ -341,3 +341,7 @@ export interface  UploadImageComponentProps {
 export interface  ErrorBlogComponentProps {
     error: string | string[]
 }
+
+export interface  FormBlogComponentProps {
+    blog?: Blog
+}

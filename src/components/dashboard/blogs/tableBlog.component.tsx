@@ -2,8 +2,11 @@ import {FC} from "react";
 import {PencilSquareIcon} from "@heroicons/react/24/outline";
 import {motion} from "framer-motion";
 import {TableBlogComponentProps} from "@/type";
+import {useRouter} from "next/navigation";
 
 const TableBlogComponent:FC<TableBlogComponentProps> = ({blog}) => {
+    const router = useRouter()
+
     return <motion.div
         initial={{opacity: 0, y: 20}}
         animate={{opacity: 1, y: 0}}
@@ -47,7 +50,7 @@ const TableBlogComponent:FC<TableBlogComponentProps> = ({blog}) => {
                         }`}>
                           {blog.published ? 'Publicado' : 'Borrador'}
                         </span>
-                <button className="text-gray-400 hover:text-gray-500 cursor-pointer">
+                <button onClick={() => router.replace(`/dashboard/blog/editar/${blog.slug}`)} className="text-gray-400 hover:text-gray-500 cursor-pointer">
                     <PencilSquareIcon className="h-5 w-5"/>
                 </button>
             </div>
