@@ -11,7 +11,7 @@ const CardBlogComponent:FC<BlogState> = ({blogs}) => {
         setStats([
             {
                 title: 'Total Blogs',
-                value: blogs.totalPages,
+                value: blogs.totalDocs,
                 icon: <NewspaperIcon className="w-full h-full" />,
                 bgColor: 'bg-primary-50',
                 textColor: 'text-primary-600',

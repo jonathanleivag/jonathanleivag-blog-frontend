@@ -1,7 +1,7 @@
 'use client'
 
-import {FC, useState} from "react";
-import {ErrorMessage, Field, Form, Formik, FormikHelpers} from "formik";
+import {ChangeEvent, FC, useState} from "react";
+import {ErrorMessage, Field, Form, Formik, FormikErrors, FormikHelpers, FormikValues} from "formik";
 import {validationSchemaFormBlog} from "@/validateSchema";
 import {Blog, BlogFormValues} from "@/type";
 import EditorComponent from "@/components/dashboard/blogs/form/editor.component";
@@ -28,6 +28,24 @@ const CreateBlogPage: FC = () => {
         tags: "",
         readingTime: 1
     };
+
+    const changeTitleSlug = async (e: ChangeEvent<HTMLInputElement>, setFieldValue:(field: string, value: string, shouldValidate?: boolean) => Promise<void | FormikErrors<FormikValues>>) => {
+        const value = e.target.value;
+        const slug = value
+            .toLowerCase()
+            .trim()
+            .replace(/[áéíóúüñ]/g, char => {
+                const chars: { [key: string]: string } = {
+                    'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ü': 'u', 'ñ': 'n'
+                };
+                return chars[char] || char;
+            })
+            .replace(/[^a-z0-9]+/g, '_')
+            .replace(/^-+|-+$/g, '');
+
+       await setFieldValue('title', value);
+       await setFieldValue('slug', slug);
+    }
 
     const handleSubmit = async (values: BlogFormValues, { setTouched, resetForm }: FormikHelpers<BlogFormValues>) => {
         if (!values.content) {
@@ -72,6 +90,9 @@ const CreateBlogPage: FC = () => {
     return (
         <div className="max-w-4xl mx-auto p-6">
             <h1 className="text-3xl font-bold mb-6">Crear Nueva Publicación</h1>
+            <div className="mb-4 text-sm text-gray-600">
+                Los campos marcados con <span className="text-red-500">*</span> son obligatorios
+            </div>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchemaFormBlog}
@@ -82,19 +103,20 @@ const CreateBlogPage: FC = () => {
                         <div className="space-y-4">
                             <div>
                                 <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Título
+                                    Título <span className="text-red-500">*</span>
                                 </label>
                                 <Field
                                     type="text"
                                     id="title"
                                     name="title"
+                                    onChange={(e:ChangeEvent<HTMLInputElement>) => changeTitleSlug(e, setFieldValue)}
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                 />
                                 <ErrorMessage name="title" component="div" className="text-red-500 text-sm mt-1"/>
                             </div>
                             <div>
                                 <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Descripción
+                                    Descripción <span className="text-red-500">*</span>
                                 </label>
                                 <Field
                                     as="textarea"
@@ -107,7 +129,7 @@ const CreateBlogPage: FC = () => {
                             </div>
                             <div>
                                 <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Contenido
+                                    Contenido <span className="text-red-500">*</span>
                                 </label>
                                 <EditorComponent values={values} setFieldValue={setFieldValue} />
                                 {touched.content && errors.content && (
@@ -116,19 +138,20 @@ const CreateBlogPage: FC = () => {
                             </div>
                             <div>
                                 <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Slug
+                                    Slug <span className="text-red-500">*</span>
                                 </label>
                                 <Field
                                     type="text"
                                     id="slug"
                                     name="slug"
+                                    disabled={true}
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                 />
                                 <ErrorMessage name="slug" component="div" className="text-red-500 text-sm mt-1"/>
                             </div>
                             <div>
                                 <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Categoría
+                                    Categoría <span className="text-red-500">*</span>
                                 </label>
                                 <SelectCategories />
                                 <ErrorMessage name="category" component="div" className="text-red-500 text-sm mt-1"/>
@@ -136,7 +159,7 @@ const CreateBlogPage: FC = () => {
                             <UploadImageComponent values={values} setFieldValue={setFieldValue} />
                             <div>
                                 <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Tags (separados por comas)
+                                    Tags (separados por comas) <span className="text-red-500">*</span>
                                 </label>
                                 <Field
                                     type="text"
@@ -148,7 +171,7 @@ const CreateBlogPage: FC = () => {
                             </div>
                             <div>
                                 <label htmlFor="readingTime" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Tiempo de lectura (minutos)
+                                    Tiempo de lectura (minutos) <span className="text-red-500">*</span>
                                 </label>
                                 <Field
                                     type="number"
@@ -190,7 +213,7 @@ const CreateBlogPage: FC = () => {
                                 disabled={isLoading}
                                 className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700
                                          transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed
-                                         flex items-center gap-2"
+                                         flex items-center gap-2 cursor-pointer"
                             >
                                 {isLoading ? (
                                     <>
