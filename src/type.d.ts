@@ -1,5 +1,6 @@
 import {Dispatch, ReactNode, SetStateAction, SVGProps} from "react";
 import {SVGMotionProps} from "framer-motion";
+import {FormikErrors, FormikValues} from "formik";
 
 export type IconProps = SVGProps<SVGSVGElement>;
 
@@ -312,4 +313,27 @@ export interface SearchBlogComponentProps {
 
 export interface LoadingComponentProps extends ChildrenComponentProps {
     isLoading: boolean
+}
+
+export interface BlogFormValues {
+    title: string;
+    description: string;
+    content: string;
+    slug: string;
+    category: string;
+    image: string;
+    isPopular: boolean;
+    isPublished: boolean;
+    tags: string;
+    readingTime: number;
+}
+
+export interface EditorComponentProps {
+    values:  FormikValues
+    setFieldValue: (field: string, value: string, shouldValidate?: boolean) => Promise<void | FormikErrors<FormikValues>>
+}
+
+export interface  UploadImageComponentProps {
+    setFieldValue: (field: string, value: string, shouldValidate?: boolean) => Promise<void | FormikErrors<FormikValues>>
+    values: FormikValues
 }

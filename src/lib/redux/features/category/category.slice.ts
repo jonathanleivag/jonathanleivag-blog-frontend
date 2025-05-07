@@ -26,6 +26,13 @@ const categorySlice = createSlice({
         initialDataCategory: (state, action: PayloadAction<Pagination<Category>>) => {
             state.categories = action.payload;
         },
+        addCategorySelect: (state, action: PayloadAction<Pagination<Category>>) => {
+            state.categories = {
+                ...action.payload,
+                docs: [...state.categories.docs, ...action.payload.docs]
+            };
+
+        },
         addCategory: (state, action: PayloadAction<Category>) => {
             const isLastPage = state.categories.page === state.categories.totalPages;
             const hasSpace = state.categories.docs.length < state.categories.limit;
@@ -53,5 +60,5 @@ const categorySlice = createSlice({
     },
 });
 
-export const { initialDataCategory, addCategory,setSelected ,updateCategory, selectBlog } = categorySlice.actions;
+export const { initialDataCategory, addCategory,setSelected ,updateCategory, selectBlog, addCategorySelect } = categorySlice.actions;
 export default categorySlice.reducer;
