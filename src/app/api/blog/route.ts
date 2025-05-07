@@ -4,12 +4,13 @@ import {NextRequest, NextResponse} from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
+    const token = req.cookies.get('token')?.value || '';
     const url = getEnv(ENV.BACKEND_URL)
       const response = await  fetch(`${url}/blog`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-            'Authorization': `${req.headers.get('Authorization') || ''}`
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(await req.json())
       })

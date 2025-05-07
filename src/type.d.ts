@@ -228,7 +228,7 @@ export interface Pagination<T> {
     nextPage:      null;
 }
 
-export interface Blog {
+export interface Blog extends  ErrorMessageComponentProps{
     _id:         string;
     title:       string;
     content:     string;
