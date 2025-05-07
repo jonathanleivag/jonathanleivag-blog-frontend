@@ -10,11 +10,13 @@ import SelectCategories from "@/components/dashboard/blogs/form/selectCatagories
 import {toast} from "react-hot-toast";
 import {useAppDispatch} from "@/lib/redux/hooks";
 import {addBlog} from "@/lib/redux/features/blog/blog.slice";
+import {useRouter} from "next/navigation";
 
 
 const CreateBlogPage: FC = () => {
     const appDispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter()
 
     const initialValues: BlogFormValues = {
         title: "",
@@ -77,6 +79,7 @@ const CreateBlogPage: FC = () => {
 
             appDispatch(addBlog(data));
             toast.success('Publicación creada exitosamente');
+            router.replace(`/dashboard/blog/view/${data.slug}`)
             resetForm();
         } catch (e) {
             if (e instanceof Error) {
