@@ -2,7 +2,7 @@ POST {{url}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "email@email.com",
+  "email": "email@email.cl",
   "password": "Jhnlisto19066."
 }
 

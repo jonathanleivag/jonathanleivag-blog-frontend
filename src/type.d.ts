@@ -191,6 +191,10 @@ export interface BlogState {
     blogs: Pagination<Blog>;
 }
 
+export interface UserState{
+    users: Pagination<User>
+}
+
 export interface  TableComponentProps {
     categories: Category[]
     handlerEdit: (category: Category) => void;
@@ -344,4 +348,23 @@ export interface  ErrorBlogComponentProps {
 
 export interface  FormBlogComponentProps {
     blog?: Blog
+}
+
+export type RolesValue = 'ADMIN' | 'USER' | 'ALL';
+
+export interface Roles {
+    name: string;
+    value: RolesValue;
+}
+
+
+export interface RoleUserComponentProps{
+    setSelectedRole: Dispatch<SetStateAction<RolesValue>>
+    selectedRole: RolesValue
+}
+
+
+export interface TableUserComponentProps {
+    isLoading: boolean
+    users: User[]
 }
