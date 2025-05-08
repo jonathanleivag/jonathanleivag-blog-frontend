@@ -52,46 +52,90 @@ const FormBlogComponent:FC<FormBlogComponentProps> = ({blog}) => {
             return;
         }
 
-        setIsLoading(true);
-        try {
-            const url =  blog === undefined ? '/api/blog' : `/api/blog/${blog._id}`
-            const method =  blog === undefined ? 'POST' : 'PATCH'
-            const response = await fetch(url, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({...values, tags: values.tags.split(','), popular: values.isPopular, published: values.isPublished})
-            });
+        // Mostrar diálogo de confirmación
+        toast((t) => (
+            <div className="flex flex-col gap-4 p-3">
+                <p className="text-sm font-medium text-gray-900">
+                    {blog === undefined
+                        ? '¿Estás seguro que deseas crear esta publicación?'
+                        : `¿Estás seguro que deseas actualizar "${blog.title}"?`}
+                </p>
+                <div className="text-xs text-gray-600">
+                    <p>• {values.isPublished ? 'Se publicará inmediatamente' : 'Se guardará como borrador'}</p>
+                    <p>• Categoría seleccionada</p>
+                    <p>• {values.tags.split(',').length} etiquetas</p>
+                </div>
+                <div className="flex justify-end gap-3">
+                    <button
+                        className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+                        onClick={() => toast.dismiss(t.id)}
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        className="px-3 py-1 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
+                        onClick={async () => {
+                            toast.dismiss(t.id);
+                            setIsLoading(true);
+                            try {
+                                const url = blog === undefined ? '/api/blog' : `/api/blog/${blog._id}`;
+                                const method = blog === undefined ? 'POST' : 'PATCH';
 
-            const data: Blog = await response.json();
+                                const response = await fetch(url, {
+                                    method,
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        ...values,
+                                        tags: values.tags.split(','),
+                                        popular: values.isPopular,
+                                        published: values.isPublished
+                                    })
+                                });
 
-            if (!response.ok) {
-                toast.error('Error en la petición');
-                return;
-            }
+                                const data: Blog = await response.json();
 
-            if (data.message !== undefined) {
-                toast.error(data.message);
-                return;
-            }
+                                if (!response.ok) {
+                                   toast.error('Error en la petición')
+                                }
 
-            if (blog === undefined) {
-                appDispatch(addBlog(data));
-                toast.success('Publicación creada exitosamente');
-            } else {
-                appDispatch(updateBlog(data));
-                toast.success(`Publicación ${blog.title} se ha actualizado con éxito`);
-            }
-            router.replace(`/dashboard/blog/view/${data.slug}`)
-            resetForm();
-        } catch (e) {
-            if (e instanceof Error) {
-                toast.error(e.message);
-            }
-        } finally {
-            setIsLoading(false);
-        }
+                                if (data.message !== undefined) {
+                                    toast.error(data.message)
+                                }
+
+                                if (blog === undefined) {
+                                    appDispatch(addBlog(data));
+                                    toast.success('Publicación creada exitosamente');
+                                } else {
+                                    appDispatch(updateBlog(data));
+                                    toast.success(`Publicación "${blog.title}" actualizada con éxito`);
+                                }
+
+                                router.replace(`/dashboard/blog/view/${data.slug}`);
+                                resetForm();
+                            } catch (e) {
+                                if (e instanceof Error) {
+                                    toast.error(e.message);
+                                }
+                            } finally {
+                                setIsLoading(false);
+                            }
+                        }}
+                    >
+                        {blog === undefined ? 'Crear' : 'Actualizar'}
+                    </button>
+                </div>
+            </div>
+        ), {
+            duration: 6000,
+            position: 'top-center',
+            style: {
+                maxWidth: '400px',
+                background: '#fff',
+                color: '#363636',
+            },
+        });
     };
 
     return (

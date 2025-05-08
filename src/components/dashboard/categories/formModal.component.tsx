@@ -18,47 +18,95 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
         isActive: 'true'
     }
 
+    const handleSubmit = (values: FormModalComponentInitialValue) => {
+        // Mostrar diálogo de confirmación
+        toast((t) => (
+            <div className="flex flex-col gap-4 p-3">
+                <p className="text-sm font-medium text-gray-900">
+                    {selected !== null
+                        ? `¿Estás seguro que deseas actualizar la categoría "${values.name}"?`
+                        : '¿Estás seguro que deseas crear esta categoría?'}
+                </p>
+                <div className="text-xs text-gray-600">
+                    <p>• Nombre: {values.name}</p>
+                    <p>• Estado: {values.isActive === 'true' ? 'Activa' : 'Deshabilitada'}</p>
+                    {values.description && (
+                        <p>• Descripción: {values.description.substring(0, 50)}
+                            {values.description.length > 50 ? '...' : ''}
+                        </p>
+                    )}
+                </div>
+                <div className="flex justify-end gap-3">
+                    <button
+                        className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+                        onClick={() => toast.dismiss(t.id)}
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        className="px-3 py-1 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
+                        onClick={async () => {
+                            toast.dismiss(t.id);
+                            try {
+                                values.isActive = values.isActive === 'true';
+                                const url = selected !== null ? `/api/category/${selected._id}`: '/api/category';
+                                const method = selected !== null ? 'PATCH': 'POST';
+
+                                const response = await fetch(url, {
+                                    method,
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(values)
+                                });
+
+                                const data: Category = await response.json();
+
+                                if (!response.ok) {
+                                    throw new Error('Error en la petición');
+                                }
+
+                                if (data.message !== undefined) {
+                                    throw new Error(data.message);
+                                }
+
+                                if (selected !== null) {
+                                    appDispatch(updateCategory(data));
+                                    toast.success(`Categoría "${values.name}" actualizada correctamente`);
+                                } else {
+                                    appDispatch(addCategory(data));
+                                    toast.success(`Categoría "${values.name}" creada correctamente`);
+                                }
+                                handleClose();
+                            } catch (e) {
+                                if (e instanceof Error) {
+                                    console.error(e.message);
+                                    setErrorMessage(e.message);
+                                    toast.error(e.message);
+                                }
+                            }
+                        }}
+                    >
+                        {selected !== null ? 'Confirmar Actualización' : 'Confirmar Creación'}
+                    </button>
+                </div>
+            </div>
+        ), {
+            duration: 6000,
+            position: 'top-center',
+            style: {
+                maxWidth: '400px',
+                background: '#fff',
+                color: '#363636',
+            },
+        });
+    };
+
     const formik = useFormik({
         initialValues,
         validationSchema: CategorySchemaRegister,
-        onSubmit: async (values: FormModalComponentInitialValue) => {
-            try {
-                values.isActive = values.isActive === 'true'
-                const url = selected !== null ? `/api/category/${selected._id}`: '/api/category'
-                const method = selected !== null ? 'PATCH': 'POST'
-
-                const response = await fetch(url, {
-                    method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(values)
-                })
-
-                const data: Category = await response.json()
-
-                if (data.message !== undefined) {
-                    setErrorMessage(data.message)
-                    return
-                }
-
-                if (selected !== null) {
-                    appDispatch(updateCategory(data))
-                } else {
-                    appDispatch(addCategory(data))
-                }
-                toast.success(selected !== null ? 'Categoría actualizada correctamente' : 'Categoría creada correctamente');
-                handleClose()
-            } catch (e) {
-                if (e instanceof Error) {
-                    console.error(e.message)
-                    const message = e.message;
-                    setErrorMessage(message);
-                    toast.error(message);
-                }
-            }
-        }
-    })
+        onSubmit: handleSubmit
+    });
 
     useEffect(() => {
         if (selected !== null) {
