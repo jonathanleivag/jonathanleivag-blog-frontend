@@ -219,7 +219,7 @@ export interface PaginateComponentProps {
     setCurrentPage: Dispatch<SetStateAction<number>>
 }
 
-export interface Pagination<T> {
+export interface Pagination<T> extends ErrorMessageComponentProps{
     docs:          T[];
     totalDocs:     number;
     limit:         number;

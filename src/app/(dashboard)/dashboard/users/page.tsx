@@ -8,6 +8,7 @@ import SearchUserComponent from "@/components/dashboard/user/searchUser.componen
 import RoleUserComponent from "@/components/dashboard/user/roleUser.component";
 import TableUserComponent from "@/components/dashboard/user/tableUser.component";
 import StatCard from "@/components/shared/card.component";
+import toast from "react-hot-toast";
 
 
 const Users: FC = () => {
@@ -44,21 +45,34 @@ const Users: FC = () => {
 
   useEffect(() => {
     const dataFetch = async () => {
-      setIsLoading(true)
-      const query = new URLSearchParams();
-      if (selectedRole === 'ALL') query.delete('role')
-      else query.set('role', selectedRole)
+     try {
+       setIsLoading(true)
+       const query = new URLSearchParams();
+       if (selectedRole === 'ALL') query.delete('role')
+       else query.set('role', selectedRole)
 
-      if (searchQuery) query.set('search', searchQuery)
+       if (searchQuery) query.set('search', searchQuery)
 
-      const response = await fetch(`/api/user?${query.toString()}`, {
-        headers:{
-          'Content-Type': 'application/json',
-        }
-      })
-      const data: Pagination<User> = await response.json()
-      appDispatch(initialDataUser(data))
-      setIsLoading(false)
+       const response = await fetch(`/api/user?${query.toString()}`, {
+         headers:{
+           'Content-Type': 'application/json',
+         }
+       })
+       const data: Pagination<User> = await response.json()
+
+       if (data.message === undefined) {
+         appDispatch(initialDataUser(data))
+       } else {
+         toast.error(data.message)
+       }
+
+       setIsLoading(false)
+     } catch (e) {
+       if (e instanceof Error) {
+         setIsLoading(false)
+         toast.error(e.message)
+       }
+     }
     }
     void dataFetch()
   }, [appDispatch, searchQuery, selectedRole]);
