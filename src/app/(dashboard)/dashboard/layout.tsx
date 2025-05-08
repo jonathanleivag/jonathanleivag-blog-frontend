@@ -9,12 +9,14 @@ import {
     NewspaperIcon,
     UsersIcon
 } from '@heroicons/react/24/outline';
-import {usePathname} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
+import toast from 'react-hot-toast';
 
 
 const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
     const pathname = usePathname();
+    const router = useRouter()
 
 
     const navigation: NavItem[] = [
@@ -52,7 +54,53 @@ const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
         return pathname.startsWith(href);
     };
 
-
+    const logout = async () => {
+        // Mostrar diálogo de confirmación personalizado
+        toast((t) => (
+            <div className="flex flex-col gap-4 p-3">
+                <p className="text-sm font-medium text-gray-900">
+                    ¿Estás seguro que deseas cerrar sesión?
+                </p>
+                <div className="flex justify-end gap-3">
+                    <button
+                        className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+                        onClick={() => toast.dismiss(t.id)}
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        className="px-3 py-1 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
+                        onClick={async () => {
+                            toast.dismiss(t.id);
+                            try {
+                                const response = await fetch('/api/user/logout', {
+                                    method: 'GET',
+                                });
+                                    await response.json();
+                                toast.success('Sesión cerrada exitosamente');
+                                router.replace('/login');
+                            } catch (e) {
+                                if (e instanceof Error) {
+                                    console.error(e.message);
+                                    toast.error('Error al cerrar sesión');
+                                }
+                            }
+                        }}
+                    >
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        ), {
+            duration: 6000,
+            position: 'top-center',
+            style: {
+                maxWidth: '320px',
+                background: '#fff',
+                color: '#363636',
+            },
+        });
+    };
     return (
             <div className="min-h-screen bg-gray-50">
                 {sidebarOpen && (
@@ -104,8 +152,7 @@ const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
                     </nav>
                     <div className="p-4 border-t border-primary-800">
                         <button
-                            onClick={() => {/* Aquí tu lógica de cierre de sesión */
-                            }}
+                            onClick={logout}
                             className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-primary-800 transition-colors text-gray-200"
                         >
                             <ArrowRightEndOnRectangleIcon className="w-6 h-6"/>
