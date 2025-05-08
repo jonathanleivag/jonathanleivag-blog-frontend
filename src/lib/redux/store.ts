@@ -2,6 +2,7 @@ import {configureStore} from '@reduxjs/toolkit'
 import newsReducer from './features/news/news.slice'
 import categoryReducer from './features/category/category.slice'
 import blogReducer from './features/blog/blog.slice'
+import userReducer from './features/user/user.slice'
 
 export const makeStore = () => {
     return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
             news: newsReducer,
             category: categoryReducer,
             blog: blogReducer,
+            user: userReducer,
         },
     })
 }
