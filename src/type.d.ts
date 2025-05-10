@@ -141,6 +141,7 @@ export interface StatItem {
     icon: ReactNode;
     bgColor: string;
     textColor: string;
+    trend? : string
 }
 
 export interface  FormModalComponentProps  {
@@ -185,6 +186,36 @@ export interface CategoryState {
     categories: Pagination<Category>;
     selected: Category | null
     selectBlog: Blog[] | undefined
+}
+
+export type Trend = '↑ aumento' | '↓ disminución' | '→ estable';
+
+
+export interface Tendencies {
+    trend: Trend;
+    percentage: number;
+    title: string
+}
+
+export interface Dashboard {
+    totalBlogs: number;
+    totalBlogsPublished: number;
+    totalBlogsDraft: number;
+    totalCategories: number;
+    totalCategoriesPublished: number;
+    totalCategoriesDraft: number;
+    totalUsers: number;
+    totalUserAdmin: number;
+    totalUserUser: number;
+    views: string;
+    averageReadings: number;
+    averageTime: number;
+    featuredBlog: number;
+    tendencies: Tendencies;
+}
+
+export interface DashboardState {
+   dashboard: Dashboard
 }
 
 export interface BlogState {
