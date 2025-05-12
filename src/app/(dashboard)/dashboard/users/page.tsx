@@ -9,7 +9,7 @@ import RoleUserComponent from "@/components/dashboard/user/roleUser.component";
 import TableUserComponent from "@/components/dashboard/user/tableUser.component";
 import StatCard from "@/components/shared/card.component";
 import toast from "react-hot-toast";
-import {format} from "date-fns";
+import LastUpdateComponent from "@/components/shared/lastUpdate.component";
 
 
 const Users: FC = () => {
@@ -80,19 +80,13 @@ const Users: FC = () => {
 
   return (
     <div className="p-6">
-        <div className="px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center my-5">
+        <LastUpdateComponent>
           <h1 className="text-2xl font-bold text-gray-900">
             Gestión de Usuarios
           </h1>
-          <div className="text-sm text-gray-500">
-            Última actualización: {format(new Date(), 'dd/MM/yyyy HH:mm')}
-          </div>
-        {/*<button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">*/}
-        {/*  Añadir Usuario*/}
-        {/*</button>*/}
-      </div>
+      </LastUpdateComponent>
 
-      <div className="mb-6 space-y-4">
+      <div className="my-10 space-y-4">
         <SearchUserComponent inputValue={inputValue} setInputValue={setInputValue} />
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center text-gray-700">

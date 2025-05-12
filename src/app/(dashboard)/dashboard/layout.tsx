@@ -117,7 +117,7 @@ const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
                 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
             `}>
                     <div className="p-6 flex justify-between items-center border-b border-primary-800">
-                        <h1 className="text-xl font-bold">Mi Blog</h1>
+                        <h1 className="text-xl font-bold">Panel Blog Jonathanleivag</h1>
                         <button
                             className="md:hidden text-gray-50 hover:text-gray-200 cursor-pointer"
                             onClick={() => setSidebarOpen(false)}
@@ -184,7 +184,7 @@ const DashboardLayout: FC<ChildrenComponentProps> = ({children}) => {
                                     />
                                 </svg>
                             </button>
-                            <span className="text-lg font-semibold">Mi Blog</span>
+                            <span className="text-lg font-semibold">Panel Blog Jonathanleivag</span>
                         </div>
                     </div>
                     <section className="w-full flex flex-row justify-center items-center">
