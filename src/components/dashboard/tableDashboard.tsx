@@ -22,7 +22,7 @@ const TableDashboardComponent:FC = () => {
         const dataFetch = async () => {
             try {
                 if(page === 1) setLoading(true);
-                else setLoadingMore(true); // activar loading del botón
+                else setLoadingMore(true);
 
                 const query = new URLSearchParams();
                 query.set('page', page.toString())
@@ -45,7 +45,7 @@ const TableDashboardComponent:FC = () => {
                     }
                 } else {
                     if(page === 1) setLoading(false)
-                    setLoadingMore(false) // desactivar loading en caso de error
+                    setLoadingMore(false)
                     toast.error(data.message)
                     console.error(data.message)
                 }
