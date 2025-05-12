@@ -8,9 +8,9 @@ import {addAuditLog, initialDataAuditLogs} from "@/lib/redux/features/dashboard/
 import LoadingComponent from "@/components/shared/loading.component";
 import {format} from "date-fns";
 import {FolderIcon, NewspaperIcon, UserGroupIcon, UserIcon} from "@heroicons/react/24/outline";
+import toast from "react-hot-toast";
 
 const TableDashboardComponent:FC = () => {
-    const [error, setError] = useState<string>('')
     const [page, setPage] = useState<number>(1)
     const [limit] = useState<number>(5)
     const [loading, setLoading] = useState<boolean>(true)
@@ -42,14 +42,14 @@ const TableDashboardComponent:FC = () => {
                     }
                 } else {
                     setLoading(false)
-                    setError(data.message)
+                    toast.error(data.message)
                     console.error(data.message)
                 }
             } catch (e) {
                 if (e instanceof Error) {
                     setLoading(false)
                     console.error(e.message)
-                    setError(e.message)
+                    toast.error(e.message)
                 }
             }
         }
