@@ -26,7 +26,8 @@ export interface  Author {
 }
 
 export interface BlogPost {
-    id: number;
+    id: string;
+    slug: string;
     title: string;
     excerpt: string;
     category: string;
@@ -426,3 +427,7 @@ export interface AuditLog {
 
 export type StatusType = 'Blog Publicado' | 'Usuario activo' | 'Categoría activa' | 'Blog en Borrador' |
     'Usuario no activo' | 'Categoría no activa' | 'Login';
+
+export interface ViewBlogComponentProps {
+    isLogin: boolean
+}

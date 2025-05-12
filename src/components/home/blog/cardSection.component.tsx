@@ -1,52 +1,12 @@
-import {FC} from "react";
+'use client'
+import {FC, useEffect} from "react";
 import {motion} from "framer-motion";
 import CardComponent from "@/components/home/blog/card.component";
-import {BlogPost} from "@/type";
-
-const dummyPosts: BlogPost[] = [
-    {
-        id: 1,
-        title: "La Evolución del Desarrollo Web Moderno",
-        excerpt: "Un análisis profundo de las últimas tendencias y tecnologías que están definiendo el futuro del desarrollo web...",
-        category: "Desarrollo Web",
-        readTime: "5 min lectura",
-        date: "2024-03-20",
-        author: {
-            name: "Ana García",
-            avatar: "/hero-image.webp"
-        },
-        image: "/hero-image.webp",
-        tags: ["Web", "Tendencias", "Desarrollo"]
-    },
-    {
-        id: 2,
-        title: "Mejores Prácticas en React 2024",
-        excerpt: "Descubre las técnicas más efectivas para desarrollar aplicaciones React modernas y escalables...",
-        category: "React",
-        readTime: "7 min lectura",
-        date: "2024-03-18",
-        author: {
-            name: "Carlos Ruiz",
-            avatar: "/hero-image.webp"
-        },
-        image: "/hero-image.webp",
-        tags: ["React", "JavaScript", "Frontend"]
-    },
-    {
-        id: 3,
-        title: "Optimización de Rendimiento Web",
-        excerpt: "Guía completa para mejorar el rendimiento de tus aplicaciones web utilizando las últimas técnicas...",
-        category: "Performance",
-        readTime: "6 min lectura",
-        date: "2024-03-15",
-        author: {
-            name: "Laura Martínez",
-            avatar: "/hero-image.webp"
-        },
-        image: "/hero-image.webp",
-        tags: ["Performance", "Web", "Optimización"]
-    }
-];
+import {Blog, Pagination} from "@/type";
+import toast from "react-hot-toast";
+import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
+import {initialDataBlog} from "@/lib/redux/features/blog/blog.slice";
+import {format} from "date-fns";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -59,15 +19,67 @@ const containerVariants = {
 };
 
 const CardSectionComponent:FC = () => {
+
+    const appDisptatch = useAppDispatch()
+    const blogs = useAppSelector(state => state.blog.blogs)
+
+    useEffect(() => {
+        const fetchData = async () =>  {
+            try {
+                const query = new URLSearchParams();
+                query.set('page', '1')
+                query.set('limit', '3')
+                query.set('published', 'true')
+                query.set('popular', 'true')
+                const response = await fetch(`/api/blog?${query.toString()}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+
+                const data: Pagination<Blog> = await response.json()
+                console.log({data})
+                if (data.message === undefined) {
+                    appDisptatch(initialDataBlog(data))
+                } else {
+                    console.error(data.message)
+                    toast.error(data.message)
+                }
+
+            }   catch (e) {
+                if (e instanceof Error) {
+                    toast.error(e.message)
+                }
+            }
+        }
+
+        void fetchData()
+    }, [appDisptatch]);
+
     return  <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.2 }}
-        className="md:w-full grid grid-cols-1 md:grid-cols-2 gap-6"
+        className="md:w-full grid grid-cols-1 md:grid-cols-2 gap-6 "
     >
-        {dummyPosts.map((post, index) => (
-            <CardComponent key={post.id} index={index}  post={post} />
+        {blogs.docs.map((post, index) => (
+            <CardComponent key={post._id} index={index}  post={{
+                id: post._id,
+                slug: post.slug,
+                title: post.title,
+                excerpt: post.description,
+                category: post.category.name,
+                readTime: post.readingTime.toString(),
+                date: format(post.createdAt, 'dd/MM/yyyy'),
+                author:{
+                    name: post.user.name,
+                    avatar: ''
+                },
+                image: post.image,
+                tags: post.tags
+            }} />
         ))}
     </motion.div>
 }
