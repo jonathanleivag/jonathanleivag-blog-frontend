@@ -216,6 +216,7 @@ export interface Dashboard {
 
 export interface DashboardState {
    dashboard: Dashboard
+    auditLog: Pagination<AuditLog>
 }
 
 export interface BlogState {
@@ -399,3 +400,29 @@ export interface TableUserComponentProps {
     isLoading: boolean
     users: User[]
 }
+
+
+export interface RecentActivityProps {
+    type: string;
+    title: string;
+    time: string;
+    status: StatusType;
+    icon: ReactNode;
+    bgColor: string
+}
+
+export interface AuditLog {
+    _id:         string;
+    action:      string;
+    userCreator: User;
+    user?: User;
+    category?:   Category;
+    entityType:  string;
+    createdAt:   Date;
+    updatedAt:   Date;
+    id:          string;
+    blog?:       Blog;
+}
+
+export type StatusType = 'Blog Publicado' | 'Usuario activo' | 'Categoría activa' | 'Blog en Borrador' |
+    'Usuario no activo' | 'Categoría no activa' | 'Login';

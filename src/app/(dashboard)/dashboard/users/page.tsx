@@ -9,6 +9,7 @@ import RoleUserComponent from "@/components/dashboard/user/roleUser.component";
 import TableUserComponent from "@/components/dashboard/user/tableUser.component";
 import StatCard from "@/components/shared/card.component";
 import toast from "react-hot-toast";
+import {format} from "date-fns";
 
 
 const Users: FC = () => {
@@ -79,10 +80,13 @@ const Users: FC = () => {
 
   return (
     <div className="p-6">
-      <div className="mb-6 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Gestión de Usuarios
-        </h1>
+        <div className="px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center my-5">
+          <h1 className="text-2xl font-bold text-gray-900">
+            Gestión de Usuarios
+          </h1>
+          <div className="text-sm text-gray-500">
+            Última actualización: {format(new Date(), 'dd/MM/yyyy HH:mm')}
+          </div>
         {/*<button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">*/}
         {/*  Añadir Usuario*/}
         {/*</button>*/}
