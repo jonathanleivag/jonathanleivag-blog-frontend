@@ -141,6 +141,7 @@ export interface StatItem {
     icon: ReactNode;
     bgColor: string;
     textColor: string;
+    trend? : string
 }
 
 export interface  FormModalComponentProps  {
@@ -185,6 +186,37 @@ export interface CategoryState {
     categories: Pagination<Category>;
     selected: Category | null
     selectBlog: Blog[] | undefined
+}
+
+export type Trend = '↑ aumento' | '↓ disminución' | '→ estable';
+
+
+export interface Tendencies {
+    trend: Trend;
+    percentage: number;
+    title: string
+}
+
+export interface Dashboard {
+    totalBlogs: number;
+    totalBlogsPublished: number;
+    totalBlogsDraft: number;
+    totalCategories: number;
+    totalCategoriesPublished: number;
+    totalCategoriesDraft: number;
+    totalUsers: number;
+    totalUserAdmin: number;
+    totalUserUser: number;
+    views: string;
+    averageReadings: number;
+    averageTime: number;
+    featuredBlog: number;
+    tendencies: Tendencies;
+}
+
+export interface DashboardState {
+   dashboard: Dashboard
+    auditLog: Pagination<AuditLog>
 }
 
 export interface BlogState {
@@ -368,3 +400,29 @@ export interface TableUserComponentProps {
     isLoading: boolean
     users: User[]
 }
+
+
+export interface RecentActivityProps {
+    type: string;
+    title: string;
+    time: string;
+    status: StatusType;
+    icon: ReactNode;
+    bgColor: string
+}
+
+export interface AuditLog {
+    _id:         string;
+    action:      string;
+    userCreator: User;
+    user?: User;
+    category?:   Category;
+    entityType:  string;
+    createdAt:   Date;
+    updatedAt:   Date;
+    id:          string;
+    blog?:       Blog;
+}
+
+export type StatusType = 'Blog Publicado' | 'Usuario activo' | 'Categoría activa' | 'Blog en Borrador' |
+    'Usuario no activo' | 'Categoría no activa' | 'Login';

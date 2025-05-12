@@ -13,6 +13,7 @@ import ButtonBlogFilterComponent from "@/components/dashboard/blogs/buttonBlogFi
 import SearchBlogComponent from "@/components/dashboard/blogs/searchBlog.component";
 import LoadingComponent from "@/components/shared/loading.component";
 import {useRouter} from "next/navigation";
+import {format} from "date-fns";
 
 const Blog: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -97,8 +98,11 @@ const Blog: FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div>
-        <div className="px-4 py-6 sm:px-6 lg:px-8">
+        <div className="px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center my-5">
           <h1 className="text-2xl font-semibold text-gray-900">Dashboard del Blog</h1>
+          <div className="text-sm text-gray-500">
+            Última actualización: {format(new Date(), 'dd/MM/yyyy HH:mm')}
+          </div>
         </div>
       </div>
       <CardBlogComponent blogs={blogs} />
