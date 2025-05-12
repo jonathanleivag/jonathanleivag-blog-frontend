@@ -14,13 +14,15 @@ const TableDashboardComponent:FC = () => {
     const [page, setPage] = useState<number>(1)
     const [limit] = useState<number>(5)
     const [loading, setLoading] = useState<boolean>(true)
+    const [loadingMore, setLoadingMore] = useState<boolean>(false) // nuevo estado para el botón
     const appDispatch = useAppDispatch()
     const auditLog = useAppSelector(state => state.dashboard.auditLog)
 
     useEffect(() => {
         const dataFetch = async () => {
             try {
-                setLoading(true);
+                if(page === 1) setLoading(true);
+                else setLoadingMore(true); // activar loading del botón
 
                 const query = new URLSearchParams();
                 query.set('page', page.toString())
@@ -35,19 +37,22 @@ const TableDashboardComponent:FC = () => {
 
                 if (data.message === undefined) {
                     setLoading(false)
+                    setLoadingMore(false) // desactivar loading del botón
                     if (page === 1) {
                         appDispatch(initialDataAuditLogs(data))
                     } else {
                         appDispatch(addAuditLog(data))
                     }
                 } else {
-                    setLoading(false)
+                    if(page === 1) setLoading(false)
+                    setLoadingMore(false) // desactivar loading en caso de error
                     toast.error(data.message)
                     console.error(data.message)
                 }
             } catch (e) {
                 if (e instanceof Error) {
-                    setLoading(false)
+                    if(page === 1) setLoading(false)
+                    setLoadingMore(false) // desactivar loading en caso de error
                     console.error(e.message)
                     toast.error(e.message)
                 }
@@ -126,9 +131,22 @@ const TableDashboardComponent:FC = () => {
                 <div className="flex justify-center mt-4">
                     <button
                         onClick={() => setPage(old => old+1)}
-                        className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer"
+                        disabled={loadingMore}
+                        className={`px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+                            loadingMore ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'
+                        }`}
                     >
-                        Ver más
+                        {loadingMore ? (
+                            <span className="flex items-center">
+                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Cargando...
+                            </span>
+                        ) : (
+                            'Ver más'
+                        )}
                     </button>
                 </div>
             )}
