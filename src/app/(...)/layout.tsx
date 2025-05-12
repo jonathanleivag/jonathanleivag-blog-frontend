@@ -6,7 +6,7 @@ import FooterComponent from "@/components/shared/footer.component";
 const LayoutHome:FC<ChildrenComponentProps> = ({children}) => {
     return <>
         <HeaderComponent/>
-        <main>{children}</main>
+        <main className='pt-16'>{children}</main>
         <FooterComponent />
     </>
 }

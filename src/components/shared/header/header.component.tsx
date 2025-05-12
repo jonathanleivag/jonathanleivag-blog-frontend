@@ -7,9 +7,11 @@ import {CldImage} from 'next-cloudinary';
 import NavbarComponent, {NavbarMobilComponent} from "@/components/shared/header/navbar.component";
 import SocialComponent from "@/components/shared/header/social.component";
 import MenuButtonComponent from "@/components/shared/header/menuButton.component";
+import useIsLoggedIn from "@/hooks/useIsLoggedIn";
 
 const HeaderComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const isLoggedIn = useIsLoggedIn();
 
     const headerVariants = {
         hidden: {y: -100},
@@ -24,7 +26,7 @@ const HeaderComponent = () => {
 
     return (
         <motion.header
-            className="bg-gradient-to-br from-gray-900  to-gray-800 text-gray-50 fixed w-full top-0 z-50"
+            className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-50 fixed w-full top-0 z-50 shadow-lg shadow-black/30"
             variants={headerVariants}
             initial="hidden"
             animate="visible"
@@ -33,45 +35,59 @@ const HeaderComponent = () => {
                 <div className="flex items-center justify-between h-16">
                     <motion.div
                         className="flex-shrink-0"
-                        whileHover={{scale: 1.1}}
-                        whileTap={{scale: 0.95}}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                     >
                         <Link
                             href="/public"
-                            className="text-2xl font-bold text-accent-400 hover:text-accent-300 transition-colors"
+                            className="text-2xl font-bold text-accent-400 hover:text-accent-300 transition-colors flex items-center gap-2"
                         >
                             <CldImage
                                 src="jonathanleivag/logo/ohbxjqje4kelihconfov"
                                 width="50"
                                 height="50"
                                 alt='Logo of the website jonathanleivag'
-                                crop={{
-                                    type: 'auto',
-                                    source: true
-                                }}
+                                crop={{ type: 'auto', source: true }}
                             />
+                            JonathanLeivaG
                         </Link>
                     </motion.div>
-                    <div className="hidden md:flex md:items-center md:space-x-8">
-                        <NavbarComponent/>
-                        <div className="h-6 w-px bg-gray-700"></div>
-                        <SocialComponent/>
+
+                    <div className="hidden md:flex md:items-center md:space-x-6">
+                        <NavbarComponent />
+                        <div className="h-6 w-px bg-gray-700" />
+                        <SocialComponent />
+                        {isLoggedIn && (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.5, duration: 0.4 }}
+                            >
+                                <Link
+                                    href="/dashboard"
+                                    className="px-5 py-2 rounded-xl bg-white/10 backdrop-blur-sm text-accent-300 font-semibold shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:bg-white/20 hover:text-white transition-all duration-300 border border-white/10"
+                                >
+                                    Panel
+                                </Link>
+                            </motion.div>
+                        )}
                     </div>
 
                     <motion.div
                         className="md:hidden"
-                        whileTap={{scale: 0.9}}
+                        whileTap={{ scale: 0.9 }}
                     >
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             className="p-2 rounded-md text-gray-100 hover:text-accent-400 focus:outline-none"
                             aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
                         >
-                            <MenuButtonComponent isMenuOpen={isMenuOpen}/>
+                            <MenuButtonComponent isMenuOpen={isMenuOpen} />
                         </button>
                     </motion.div>
                 </div>
-                <NavbarMobilComponent isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}/>
+
+                <NavbarMobilComponent isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             </div>
         </motion.header>
     );
