@@ -15,7 +15,7 @@ import ModalBlog from "@/components/dashboard/categories/modalBlog.component";
 import PaginationComponent from "@/components/shared/pagination.component";
 import SelectComponent from "@/components/dashboard/categories/select.component";
 import LoadingComponent from "@/components/shared/loading.component";
-import {format} from "date-fns";
+import LastUpdateComponent from "@/components/shared/lastUpdate.component";
 
 
 const CategoryDashboardPage: FC = () => {
@@ -125,15 +125,9 @@ const CategoryDashboardPage: FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
         >
-            <div className="px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center my-5">
-                <div>
-                    <h1 className="text-3xl font-bold text-gray-800">Dashboard de Categorías</h1>
-                    <p className="text-gray-500 mt-1">Resumen de estadísticas generales del sistema</p>
-                </div>
-                <div className="text-sm text-gray-500">
-                    Última actualización: {format(new Date(), 'dd/MM/yyyy HH:mm')}
-                </div>
-            </div>
+            <LastUpdateComponent>
+                <h1 className="text-3xl font-bold text-gray-800">Dashboard de Categorías</h1>
+            </LastUpdateComponent>
             <div className="max-w-7xl mx-auto">
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {stats.map((stat, index) => (
