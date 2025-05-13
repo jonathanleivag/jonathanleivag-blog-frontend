@@ -34,6 +34,7 @@ export async function GET(req: NextRequest) {
         const page = searchParams.get('page') ?? '1';
         const limit = searchParams.get('limit') ?? '5';
         const search = searchParams.get('search');
+        const category = searchParams.get('category');
 
         const url = getEnv(ENV.BACKEND_URL);
         const query = new URLSearchParams();
@@ -43,6 +44,7 @@ export async function GET(req: NextRequest) {
         if (published) query.set('published', published);
         if (popular) query.set('popular', popular);
         if (search) query.set('search', search);
+        if (category) query.set('category', category);
 
         const response = await fetch(`${url}/blog?${query.toString()}`, {
             method: 'GET',

@@ -54,6 +54,8 @@ const Blog: FC = () => {
         if (debouncedSearchTerm === '') query.delete('search')
         else query.set('search', debouncedSearchTerm)
 
+        if (selectedCategory !== null) query.set('category', selectedCategory)
+
         const response = await fetch(`/api/blog?${query.toString()}`, {
           method: 'GET',
           headers: {
@@ -76,7 +78,7 @@ const Blog: FC = () => {
       }
     }
     void fetchData()
-  }, [appDispatch, currentPage, postsPerPage, debouncedSearchTerm, router, searchParams]);
+  }, [appDispatch, currentPage, postsPerPage, debouncedSearchTerm, router, searchParams, selectedCategory]);
 
   useEffect(() => {
     const dataFetch = async () => {
