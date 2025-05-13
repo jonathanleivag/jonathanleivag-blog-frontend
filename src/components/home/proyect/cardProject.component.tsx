@@ -2,6 +2,7 @@ import {FC} from "react";
 import Image from "next/image";
 import {motion} from "framer-motion";
 import {CardProjectComponentProps} from "@/type";
+import Link from "next/link";
 
 const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -55,25 +56,48 @@ const CardProjectComponent:FC<CardProjectComponentProps> = ({ project}) => {
                 ))}
             </div>
 
-            <a
-                href={project.link}
-                className="inline-flex items-center text-primary-400 hover:text-primary-300 transition-colors"
-            >
-                Ver proyecto
-                <svg
-                    className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+            <div className="flex space-x-4">
+                <Link
+                    href={project.link}
+                    target={'_blank'}
+                    className="inline-flex items-center px-4 py-2 bg-primary-500/10 text-primary-400 rounded-lg hover:bg-primary-500/20 transition-all duration-300 text-sm font-medium"
                 >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                </svg>
-            </a>
+                    Ver código
+                    <svg
+                        className="w-4 h-4 ml-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                    </svg>
+                </Link>
+                <Link
+                    href={project.url}
+                    target={'_blank'}
+                    className="inline-flex items-center px-4 py-2 bg-primary-500/10 text-primary-400 rounded-lg hover:bg-primary-500/20 transition-all duration-300 text-sm font-medium"
+                >
+                    Ver Proyecto
+                    <svg
+                        className="w-4 h-4 ml-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                    </svg>
+                </Link>
+            </div>
         </div>
     </motion.div>
 }

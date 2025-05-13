@@ -4,6 +4,7 @@ import categoryReducer from './features/category/category.slice'
 import blogReducer from './features/blog/blog.slice'
 import userReducer from './features/user/user.slice'
 import dashboardReducer from './features/dashboard/dashboard.slice'
+import ProjectReducer from './features/project/project.slice'
 
 export const makeStore = () => {
     return configureStore({
@@ -12,7 +13,8 @@ export const makeStore = () => {
             category: categoryReducer,
             blog: blogReducer,
             user: userReducer,
-            dashboard: dashboardReducer
+            dashboard: dashboardReducer,
+            project: ProjectReducer,
         },
     })
 }

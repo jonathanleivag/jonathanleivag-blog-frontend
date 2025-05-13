@@ -1,0 +1,2 @@
+GET {{url}}/project
+Content-Type: application/json

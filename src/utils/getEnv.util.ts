@@ -20,6 +20,9 @@ export const getEnv = (key: ENV): string => {
        case "NEXT_PUBLIC_UPLOADPRESET":
            if (!process.env.NEXT_PUBLIC_UPLOADPRESET) throw new Error('NEXT_PUBLIC_UPLOADPRESET not found')
             return process.env.NEXT_PUBLIC_UPLOADPRESET
+       case "BACKEND_URL_WEB":
+           if (!process.env.BACKEND_URL_WEB) throw new Error('BACKEND_URL_WEB not found')
+           return process.env.BACKEND_URL_WEB
        default:
            return ''
    }
