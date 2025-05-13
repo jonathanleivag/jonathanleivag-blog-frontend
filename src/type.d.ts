@@ -218,6 +218,9 @@ export interface DashboardState {
 
 export interface BlogState {
     blogs: Pagination<Blog>;
+    page: number;
+    category: string | null
+    search: string
 }
 
 export interface UserState{
@@ -319,6 +322,7 @@ export interface PaginationProps {
     showLimitSelector: boolean
     postsPerPage: number
     setPostsPerPage: Dispatch<SetStateAction<number>>
+    selectLimi?: boolean
 }
 
 
@@ -428,4 +432,13 @@ export interface ViewBlogComponentProps {
     isLogin: boolean
     data: Blog | undefined
     setData: Dispatch<SetStateAction<Blog | undefined>>
+}
+
+export interface CardBlogPageComponentProps {
+    post: Blog
+}
+
+export interface CategoriesBlogComponentProps {
+    setSelectedCategory: Dispatch<SetStateAction<string | null>>
+    selectedCategory: string | null
 }
