@@ -1,111 +1,131 @@
 'use client';
-import {FC} from 'react';
+import {FC, useEffect, useState} from 'react';
 import Image from 'next/image';
 import {motion} from 'framer-motion';
-
-const projects = [
-  {
-    title: 'Portfolio Personal',
-    description: 'Sitio personal para mostrar habilidades, experiencia y proyectos destacados.',
-    technologies: ['Next.js', 'Tailwind CSS', 'TypeScript'],
-    repo: 'https://github.com/jonathanleivag/portfolio'
-  },
-  {
-    title: 'Blog de Tecnología',
-    description: 'Un blog moderno sobre desarrollo web, inteligencia artificial y herramientas de desarrollo.',
-    technologies: ['React', 'Framer Motion', 'Markdown'],
-    repo: 'https://github.com/jonathanleivag/tech-blog'
-  },
-  {
-    title: 'Dashboard E-commerce',
-    description: 'Panel administrativo para visualizar métricas de una tienda online.',
-    technologies: ['Node.js', 'Express', 'MongoDB'],
-    repo: 'https://github.com/jonathanleivag/ecommerce-dashboard'
-  }
-];
+import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
+import {ProjectWeb} from "@/type";
+import {initialDataProject} from "@/lib/redux/features/project/project.slice";
+import toast from "react-hot-toast";
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import {extractTechnologies} from "@/utils/getPropsProject";
+import LoadingComponent from "@/components/shared/loading.component";
 
 const Project: FC = () => {
-  return (
-    <div className="min-h-screen bg-gray-950 text-primary-50 px-4 py-12">
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
-        <motion.aside
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="lg:w-1/3 flex-shrink-0"
-        >
-          <div className="flex flex-col items-center">
-            <Image src="/hero-image.webp" alt="avatar" width={120} height={120} className="rounded-full border border-primary-700" />
-            <h2 className="text-xl font-bold mt-4 text-primary-100">Jonathan Leiva Gómez</h2>
-            <p className="text-gray-400 text-sm text-center mt-2 px-4">Desarrollador web con enfoque en frontend, diseño y tecnologías modernas.</p>
-            <div className="flex items-center gap-4 mt-4 text-sm text-primary-300">
-              <span>{projects.length} proyectos</span>
-              <span>⭐ 124 seguidores</span>
-            </div>
-            <div className="flex gap-3 mt-2">
-              <a href="#" className="text-accent-500 hover:text-accent-300 text-sm">GitHub</a>
-              <a href="#" className="text-accent-500 hover:text-accent-300 text-sm">LinkedIn</a>
-              <a href="#" className="text-accent-500 hover:text-accent-300 text-sm">Portafolio</a>
-            </div>
-          </div>
-        </motion.aside>
 
-        {/* Main proyectos */}
-        <main className="flex-1">
-          {/* encabezado eliminado */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="bg-gray-900 border border-gray-700 rounded-md p-6 mb-8"
-          >
-            <h2 className="text-xl font-bold text-primary-100 mb-3">README.md</h2>
-            <p className="text-gray-300 text-sm mb-2">
-              Hola 👋 Soy Jonathan Leiva Gómez, desarrollador web apasionado por construir interfaces atractivas,
-              accesibles y funcionales. Me especializo en tecnologías como React, Next.js y Tailwind CSS.
-            </p>
-            <p className="text-gray-400 text-sm">
-              Aquí encontrarás una selección de mis proyectos personales, pruebas de concepto y herramientas creadas con cariño para la comunidad.
-            </p>
-          </motion.div>
-          <div className="grid gap-6 md:grid-cols-2">
-            {projects.map((project) => (
+  const appDespatch = useAppDispatch()
+  const project = useAppSelector(state => state.project.project)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    const dateFetch = async () => {
+     try {
+       setIsLoading(true)
+       const response = await fetch('/api/project', {
+         method: 'GET',
+         headers: {
+           'Content-Type': 'application/json',
+         }
+       })
+
+       const data: ProjectWeb = await response.json()
+
+       if(data.error === null){
+         appDespatch(initialDataProject(data))
+       } else {
+         toast.error(data.error)
+       }
+       setIsLoading(false)
+     } catch (e) {
+       if (e instanceof Error) {
+         console.error(e.message)
+         toast.error(e.message)
+         setIsLoading(false)
+       }
+     }
+    }
+
+    void dateFetch()
+  }, []);
+
+  return (
+      <LoadingComponent isLoading={isLoading}>
+        <div className="min-h-screen bg-gray-950 text-primary-50 px-4 py-12">
+          <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
+            <motion.aside
+                initial={{opacity: 0, x: -30}}
+                whileInView={{opacity: 1, x: 0}}
+                transition={{duration: 0.6, ease: "easeOut"}}
+                viewport={{once: true}}
+                className="lg:w-1/3 flex-shrink-0"
+            >
+              <div className="flex flex-col items-center">
+                <Image src={project.data.info.avatar_url} alt="avatar" width={120} height={120}
+                       className="rounded-full border border-primary-700"/>
+                <h2 className="text-xl font-bold mt-4 text-primary-100">{project.data.info.name}</h2>
+                <p className="text-gray-400 text-sm text-center mt-2 px-4">{project.data.info.bio}</p>
+                <div className="flex items-center gap-4 mt-4 text-sm text-primary-300">
+                  <span>{project.data.info.public_repos} proyectos</span>
+                  <span>⭐ {project.data.info.followers} seguidores</span>
+                </div>
+                {/*TODO: redes sociales*/}
+                <div className="flex gap-3 mt-2">
+                  <a href="#" className="text-accent-500 hover:text-accent-300 text-sm">GitHub</a>
+                  <a href="#" className="text-accent-500 hover:text-accent-300 text-sm">LinkedIn</a>
+                  <a href="#" className="text-accent-500 hover:text-accent-300 text-sm">Portafolio</a>
+                </div>
+              </div>
+            </motion.aside>
+
+            <section className="flex-1">
               <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-                className="bg-gray-900 border border-gray-700 rounded-md p-5 hover:shadow-md transition relative"
+                  initial={{opacity: 0, y: 30}}
+                  whileInView={{opacity: 1, y: 0}}
+                  transition={{duration: 0.6, ease: "easeOut"}}
+                  viewport={{once: true}}
+                  className="bg-gray-900 border border-gray-700 rounded-md p-6 mb-8"
               >
-                <div className="absolute top-0 left-0 w-full h-1 bg-primary-700 rounded-t-md" />
-                <div>
-                  <h2 className="text-lg font-semibold text-primary-100 mb-1">{project.title}</h2>
-                  <p className="text-gray-400 text-sm mb-3">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {project.technologies.map((tech) => (
-                      <span key={tech} className="bg-gray-800 border border-gray-700 text-xs px-2 py-0.5 rounded">
+                <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                  {Array.isArray(project.data.readme) ? project.data.readme.join('\n') : project.data.readme}
+                </ReactMarkdown>
+              </motion.div>
+              <div className="grid gap-6 md:grid-cols-2">
+                {project.data.pinned.map((project) => (
+                    <motion.div
+                        key={project.name}
+                        initial={{opacity: 0, y: 20}}
+                        whileInView={{opacity: 1, y: 0}}
+                        viewport={{once: true}}
+                        transition={{duration: 0.4, ease: 'easeOut'}}
+                        className="bg-gray-900 border border-gray-700 rounded-md p-5 hover:shadow-md transition relative"
+                    >
+                      <div className="absolute top-0 left-0 w-full h-1 bg-primary-700 rounded-t-md"/>
+                      <div>
+                        <h2 className="text-lg font-semibold text-primary-100 mb-1">{project.name}</h2>
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {extractTechnologies(project.description).map((tech) => (
+                              <span key={tech}
+                                    className="bg-gray-800 border border-gray-700 text-xs px-2 py-0.5 rounded">
                         {tech}
                       </span>
-                    ))}
-                  </div>
-                  <a
-                    href={project.repo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-2 text-accent-500 hover:text-accent-300 text-sm"
-                  >
-                    Ver repositorio →
-                  </a>
-                </div>
-              </motion.div>
-            ))}
+                          ))}
+                        </div>
+                        <a
+                            href={project.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block mt-2 text-accent-500 hover:text-accent-300 text-sm"
+                        >
+                          Ver repositorio →
+                        </a>
+                      </div>
+                    </motion.div>
+                ))}
+              </div>
+            </section>
           </div>
-        </main>
-      </div>
-    </div>
+        </div>
+      </LoadingComponent>
   );
 };
 
