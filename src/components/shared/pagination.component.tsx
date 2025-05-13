@@ -2,7 +2,7 @@ import {ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon} from "@heroicons/rea
 import {FC} from "react";
 import {PaginationProps} from "@/type";
 
-const Pagination:FC<PaginationProps> = ({items, setCurrentPage, currentPage, setShowLimitSelector, postsPerPage, showLimitSelector, setPostsPerPage }) => {
+const Pagination:FC<PaginationProps> = ({items, setCurrentPage, currentPage, setShowLimitSelector, postsPerPage, showLimitSelector, setPostsPerPage, selectLimi= true }) => {
     const limitOptions = [5, 10, 25, 50];
     const pageNumbers = [];
     const maxVisiblePages = 5;
@@ -31,43 +31,49 @@ const Pagination:FC<PaginationProps> = ({items, setCurrentPage, currentPage, set
     return (
         <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-4 text-sm text-gray-500">
-                <span>
-                  Mostrando {items.docs.length}  de {items.totalDocs}
-                </span>
-                <div className="relative">
-                    <button
-                        onClick={() => setShowLimitSelector(!showLimitSelector)}
-                        className="flex items-center gap-2 px-3 py-2 text-sm border rounded-lg bg-white hover:bg-gray-50"
-                    >
-                        <span>{postsPerPage} por página</span>
-                        <ChevronDownIcon className="h-4 w-4"/>
-                    </button>
 
-                    {showLimitSelector && (
-                        <>
-                            <div
-                                className="fixed inset-0 z-10"
-                                onClick={() => setShowLimitSelector(false)}
-                            />
+                {selectLimi && (
+                    <>
+                        <span>
+                            Mostrando {items.docs.length}  de {items.totalDocs}
+                        </span>
+                        <div className="relative">
+                            <button
+                                onClick={() => setShowLimitSelector(!showLimitSelector)}
+                                className="flex items-center gap-2 px-3 py-2 text-sm border rounded-lg bg-white hover:bg-gray-50"
+                            >
+                                <span>{postsPerPage} por página</span>
+                                <ChevronDownIcon className="h-4 w-4"/>
+                            </button>
 
-                            <div className="absolute right-0 mt-1 w-36 max-w-[calc(100vw-2rem)] overflow-auto rounded-lg bg-white shadow-lg border z-20">
-                                <div className="py-1">
-                                    {limitOptions.map((limit) => (
-                                        <button
-                                            key={limit}
-                                            onClick={() => handleLimitChange(limit)}
-                                            className={`w-full px-4 py-2 text-sm text-left hover:bg-gray-50
+                            {showLimitSelector && (
+                                <>
+                                    <div
+                                        className="fixed inset-0 z-10"
+                                        onClick={() => setShowLimitSelector(false)}
+                                    />
+
+                                    <div className="absolute right-0 mt-1 w-36 max-w-[calc(100vw-2rem)] overflow-auto rounded-lg bg-white shadow-lg border z-20">
+                                        <div className="py-1">
+                                            {limitOptions.map((limit) => (
+                                                <button
+                                                    key={limit}
+                                                    onClick={() => handleLimitChange(limit)}
+                                                    className={`w-full px-4 py-2 text-sm text-left hover:bg-gray-50
                     ${postsPerPage === limit ? 'bg-gray-50 text-primary-600' : 'text-gray-700'}
                   `}
-                                        >
-                                            {limit} por página
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </>
-                    )}
-                </div>
+                                                >
+                                                    {limit} por página
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </>
+                )}
+
             </div>
             <div className="flex items-center justify-center space-x-2">
                 <button

@@ -15,6 +15,9 @@ const initialState: BlogState = {
         prevPage: null,
         nextPage: null
     },
+    page: 1,
+    category: null,
+    search: ''
 };
 
 const blogSlice = createSlice({
@@ -41,9 +44,18 @@ const blogSlice = createSlice({
             if (index !== -1) {
                 state.blogs.docs[index] = action.payload;
             }
+        },
+        changePage: (state, action: PayloadAction<number>) => {
+            state.page = action.payload;
+        },
+        changeCategory: (state, action: PayloadAction<string| null>) => {
+            state.category = action.payload;
+        },
+        changeSearch: (state, action: PayloadAction<string>) => {
+            state.search = action.payload;
         }
     }
 });
 
-export const {initialDataBlog, addBlog, updateBlog} = blogSlice.actions;
+export const {initialDataBlog, addBlog, updateBlog, changePage, changeCategory, changeSearch} = blogSlice.actions;
 export default blogSlice.reducer;
