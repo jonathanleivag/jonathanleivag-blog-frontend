@@ -15,10 +15,9 @@ import {
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
-const ViewBlogComponent:FC<ViewBlogComponentProps> = ({isLogin}) => {
+const ViewBlogComponent:FC<ViewBlogComponentProps> = ({isLogin, data, setData}) => {
     const params = useParams();
     const slug = params.slug as string;
-    const [data, setData] = useState<Blog>()
     const [error, setError] = useState<string | string[]>('')
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter()
@@ -51,7 +50,7 @@ const ViewBlogComponent:FC<ViewBlogComponentProps> = ({isLogin}) => {
         }
 
         void fetchData()
-    }, [slug]);
+    }, [setData, slug]);
 
     if (isLoading) return <LoadingScreen />
 
