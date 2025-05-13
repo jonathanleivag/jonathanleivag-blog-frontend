@@ -115,16 +115,7 @@ export interface Organization {
     profile_image_90: string;
 }
 
-export interface User {
-    name:             string;
-    username:         string;
-    twitter_username: null | string;
-    github_username:  null | string;
-    user_id:          number;
-    website_url:      null | string;
-    profile_image:    string;
-    profile_image_90: string;
-}
+
 
 export interface ChildrenComponentProps {
     children: ReactNode;
@@ -172,6 +163,11 @@ export interface User {
     email:     string;
     phone:     string;
     role:      string;
+    description: string;
+    location: string;
+    start: string;
+    webSite: string;
+    avatar: string;
     isActive:  boolean;
     deletedAt: null;
     createdAt: Date;
@@ -430,4 +426,6 @@ export type StatusType = 'Blog Publicado' | 'Usuario activo' | 'Categoría activ
 
 export interface ViewBlogComponentProps {
     isLogin: boolean
+    data: Blog | undefined
+    setData: Dispatch<SetStateAction<Blog | undefined>>
 }

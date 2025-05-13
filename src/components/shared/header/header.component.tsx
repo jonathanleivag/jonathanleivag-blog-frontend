@@ -39,7 +39,7 @@ const HeaderComponent = () => {
                         whileTap={{ scale: 0.95 }}
                     >
                         <Link
-                            href="/public"
+                            href="/"
                             className="text-2xl font-bold text-accent-400 hover:text-accent-300 transition-colors flex items-center gap-2"
                         >
                             <CldImage
