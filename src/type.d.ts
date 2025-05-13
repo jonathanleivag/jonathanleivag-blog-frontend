@@ -52,6 +52,7 @@ export  interface Project {
     technologies: string[];
     category: string;
     link: string;
+    url: string
 }
 
 export interface  CardProjectComponentProps {
@@ -441,4 +442,80 @@ export interface CardBlogPageComponentProps {
 export interface CategoriesBlogComponentProps {
     setSelectedCategory: Dispatch<SetStateAction<string | null>>
     selectedCategory: string | null
+}
+
+export interface ProjectState {
+    project: ProjectWeb
+}
+
+export interface ProjectWeb {
+    status:     number;
+    statusText: string;
+    error:      null;
+    data:       Data;
+}
+
+export interface Data {
+    pinned: Pinned[];
+    readme: string;
+    info:   Info;
+}
+
+export interface Info {
+    login:                     string;
+    id:                        number;
+    node_id:                   string;
+    avatar_url:                string;
+    gravatar_id:               string;
+    url:                       string;
+    html_url:                  string;
+    followers_url:             string;
+    following_url:             string;
+    gists_url:                 string;
+    starred_url:               string;
+    subscriptions_url:         string;
+    organizations_url:         string;
+    repos_url:                 string;
+    events_url:                string;
+    received_events_url:       string;
+    type:                      string;
+    user_view_type:            string;
+    site_admin:                boolean;
+    name:                      string;
+    company:                   string;
+    blog:                      string;
+    location:                  null;
+    email:                     null;
+    hireable:                  null;
+    bio:                       string;
+    twitter_username:          string;
+    notification_email:        null;
+    public_repos:              number;
+    public_gists:              number;
+    followers:                 number;
+    following:                 number;
+    created_at:                Date;
+    updated_at:                Date;
+    private_gists:             number;
+    total_private_repos:       number;
+    owned_private_repos:       number;
+    disk_usage:                number;
+    collaborators:             number;
+    two_factor_authentication: boolean;
+    plan:                      Plan;
+}
+
+export interface Plan {
+    name:          string;
+    space:         number;
+    collaborators: number;
+    private_repos: number;
+}
+
+export interface Pinned {
+    name:           string;
+    description:    string;
+    url:            string;
+    stargazerCount: number;
+    forkCount:      number;
 }

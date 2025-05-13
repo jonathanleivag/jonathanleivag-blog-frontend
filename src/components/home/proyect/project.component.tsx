@@ -1,41 +1,16 @@
 'use client'
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import {motion, useScroll, useTransform} from "framer-motion";
 import Image from "next/image";
 import TitleComponent from "@/components/home/proyect/title.component";
-import {Project} from "@/type";
+import {ProjectWeb} from "@/type";
 import CardProjectComponent from "@/components/home/proyect/cardProject.component";
+import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
+import {initialDataProject} from "@/lib/redux/features/project/project.slice";
+import toast from "react-hot-toast";
+import {extractImage, extractTechnologies, extractURL} from "@/utils/getPropsProject";
 
 
-const projects: Project[] = [
-    {
-        id: 1,
-        title: "Portfolio Digital",
-        description: "Diseño y desarrollo de un portfolio personal utilizando las últimas tecnologías web",
-        image: "/hero-image.webp",
-        technologies: ["React", "Next.js", "TailwindCSS"],
-        category: "Desarrollo Web",
-        link: "#"
-    },
-    {
-        id: 2,
-        title: "E-commerce Dashboard",
-        description: "Panel de administración para tienda online con análisis en tiempo real",
-        image: "/hero-image.webp",
-        technologies: ["TypeScript", "Node.js", "MongoDB"],
-        category: "Aplicación Web",
-        link: "#"
-    },
-    {
-        id: 3,
-        title: "App de Gestión",
-        description: "Sistema de gestión de recursos empresariales con interfaz moderna",
-        image: "/hero-image.webp",
-        technologies: ["React", "Redux", "Firebase"],
-        category: "Software Empresarial",
-        link: "#"
-    }
-];
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -48,6 +23,32 @@ const containerVariants = {
 
 
 const ProjectComponent: FC = () => {
+
+    const appDespatch = useAppDispatch()
+    const project = useAppSelector(state => state.project.project)
+
+    useEffect(() => {
+        const dateFetch = async () => {
+            const response = await fetch('/api/project', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+
+            const data: ProjectWeb = await response.json()
+
+            if(data.error === null){
+                appDespatch(initialDataProject(data))
+            } else {
+                toast.error(data.error)
+            }
+
+        }
+
+        void dateFetch()
+    }, []);
+
     return (
         <section className="py-20 relative overflow-hidden">
             <motion.div
@@ -75,8 +76,17 @@ const ProjectComponent: FC = () => {
                     viewport={{ once: false }}
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 my-16"
                 >
-                    {projects.map((project) => (
-                         <CardProjectComponent key={project.id} project={project} />
+                    {project.data.pinned.slice(0,3).map((project, index) => (
+                         <CardProjectComponent key={index} project={{
+                             id: project.forkCount,
+                             title: project.name,
+                             description: '',
+                             image: extractImage(project.description),
+                             technologies: extractTechnologies(project.description),
+                             category: extractTechnologies(project.description)[0],
+                             link: project.url,
+                             url:extractURL(project.description)
+                         }} />
                     ))}
                 </motion.div>
             </div>
