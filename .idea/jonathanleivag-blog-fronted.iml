@@ -8,5 +8,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="jonathanleivag-v2-backend" />
+    <orderEntry type="module" module-name="jonathanleivag-blog-backend" />
   </component>
 </module>
