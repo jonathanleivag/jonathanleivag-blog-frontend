@@ -10,7 +10,7 @@ import EditorComponent from "@/components/dashboard/blogs/form/editor.component"
 import SelectCategories from "@/components/dashboard/blogs/form/selectCatagories.component";
 import UploadImageComponent from "@/components/dashboard/blogs/form/uploadImage.component";
 
-const FormBlogComponent:FC<FormBlogComponentProps> = ({blog}) => {
+const FormBlogComponent: FC<FormBlogComponentProps> = ({blog}) => {
     const appDispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter()
@@ -28,7 +28,7 @@ const FormBlogComponent:FC<FormBlogComponentProps> = ({blog}) => {
         readingTime: blog?.readingTime || 1
     };
 
-    const changeTitleSlug = async (e: ChangeEvent<HTMLInputElement>, setFieldValue:(field: string, value: string, shouldValidate?: boolean) => Promise<void | FormikErrors<FormikValues>>) => {
+    const changeTitleSlug = async (e: ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: string, shouldValidate?: boolean) => Promise<void | FormikErrors<FormikValues>>) => {
         const value = e.target.value;
         const slug = value
             .toLowerCase()
@@ -46,13 +46,12 @@ const FormBlogComponent:FC<FormBlogComponentProps> = ({blog}) => {
         await setFieldValue('slug', slug);
     }
 
-    const handleSubmit = async (values: BlogFormValues, { setTouched, resetForm }: FormikHelpers<BlogFormValues>) => {
+    const handleSubmit = async (values: BlogFormValues, {setTouched, resetForm}: FormikHelpers<BlogFormValues>) => {
         if (!values.content) {
-            await setTouched({ content: true }, true);
+            await setTouched({content: true}, true);
             return;
         }
 
-        // Mostrar diálogo de confirmación
         toast((t) => (
             <div className="flex flex-col gap-4 p-3">
                 <p className="text-sm font-medium text-gray-900">
@@ -97,21 +96,22 @@ const FormBlogComponent:FC<FormBlogComponentProps> = ({blog}) => {
                                 const data: Blog = await response.json();
 
                                 if (!response.ok) {
-                                   toast.error('Error en la petición')
+                                    toast.error('Error en la petición')
                                 }
 
                                 if (data.message !== undefined) {
                                     toast.error(data.message)
+                                    return;
                                 }
 
                                 if (blog === undefined) {
                                     appDispatch(addBlog(data));
                                     toast.success('Publicación creada exitosamente');
+
                                 } else {
                                     appDispatch(updateBlog(data));
                                     toast.success(`Publicación "${blog.title}" actualizada con éxito`);
                                 }
-
                                 router.replace(`/dashboard/blog/view/${data.slug}`);
                                 resetForm();
                             } catch (e) {
@@ -160,7 +160,7 @@ const FormBlogComponent:FC<FormBlogComponentProps> = ({blog}) => {
                                     type="text"
                                     id="title"
                                     name="title"
-                                    onChange={(e:ChangeEvent<HTMLInputElement>) => changeTitleSlug(e, setFieldValue)}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => changeTitleSlug(e, setFieldValue)}
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                 />
                                 <ErrorMessage name="title" component="div" className="text-red-500 text-sm mt-1"/>
@@ -182,7 +182,7 @@ const FormBlogComponent:FC<FormBlogComponentProps> = ({blog}) => {
                                 <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
                                     Contenido <span className="text-red-500">*</span>
                                 </label>
-                                <EditorComponent values={values} setFieldValue={setFieldValue} />
+                                <EditorComponent values={values} setFieldValue={setFieldValue}/>
                                 {touched.content && errors.content && (
                                     <div className="text-red-500 text-sm mt-1">{errors.content}</div>
                                 )}
@@ -204,10 +204,10 @@ const FormBlogComponent:FC<FormBlogComponentProps> = ({blog}) => {
                                 <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
                                     Categoría <span className="text-red-500">*</span>
                                 </label>
-                                <SelectCategories />
+                                <SelectCategories/>
                                 <ErrorMessage name="category" component="div" className="text-red-500 text-sm mt-1"/>
                             </div>
-                            <UploadImageComponent values={values} setFieldValue={setFieldValue} />
+                            <UploadImageComponent values={values} setFieldValue={setFieldValue}/>
                             <div>
                                 <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
                                     Tags (separados por comas) <span className="text-red-500">*</span>
@@ -268,14 +268,17 @@ const FormBlogComponent:FC<FormBlogComponentProps> = ({blog}) => {
                             >
                                 {isLoading ? (
                                     <>
-                                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        <svg className="animate-spin h-5 w-5 text-white"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                    strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor"
+                                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
-                                        {blog!== undefined ? 'Editando...': 'Creando...'}
+                                        {blog !== undefined ? 'Editando...' : 'Creando...'}
                                     </>
                                 ) : (
-                                    blog!== undefined ? 'Editar Publicación' : 'Crear Publicación'
+                                    blog !== undefined ? 'Editar Publicación' : 'Crear Publicación'
                                 )}
                             </button>
                         </div>
