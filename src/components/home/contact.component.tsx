@@ -1,8 +1,29 @@
 "use client"
 import {FC} from "react";
 import {motion} from "framer-motion";
+import {useAppSelector} from "@/lib/redux/hooks";
+import IconComponent from "@/components/shared/icon.component";
+import Link from "next/link";
 
 const ContactComponent: FC = () => {
+
+  const socials = useAppSelector(state => state.social.socials)
+
+  const infoContact = [
+    {
+      icon: <IconComponent icon={'linkedin'} />,
+      title: "Linkedin",
+      content: "jonathanleivag",
+      link: socials.data.socials.find(social => social.icon === 'linkedin')?.url ?? ''
+    },
+    {
+      icon: <IconComponent icon={'instagram'} />,
+      title: "Escríbenos",
+      content: "@jonathanleivag",
+      link: socials.data.socials.find(social => social.icon === 'instagram')?.url ?? ''
+    }
+  ]
+
   return (
     <section className="min-h-screen relative overflow-hidden py-20">
       <motion.div
@@ -111,23 +132,7 @@ const ContactComponent: FC = () => {
             transition={{ duration: 1 }}
             className="space-y-6"
           >
-            {[
-              {
-                icon: "📞",
-                title: "Llámanos",
-                content: "+1234567890"
-              },
-              {
-                icon: "📧",
-                title: "Escríbenos",
-                content: "info@ejemplo.com"
-              },
-              {
-                icon: "📍",
-                title: "Visítanos",
-                content: "Ciudad, País"
-              }
-            ].map((item, index) => (
+            {infoContact.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -136,17 +141,25 @@ const ContactComponent: FC = () => {
                 transition={{ duration: 0.8, delay: index * 0.2 }}
                 className="flex items-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
               >
-                <div className="text-2xl bg-emerald-100 p-4 rounded-xl">
-                  {item.icon}
-                </div>
-                <div className="ml-6">
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {item.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {item.content}
-                  </p>
-                </div>
+                <Link
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center w-full cursor-pointer"
+                >
+                  <div className="text-2xl bg-emerald-100 p-4 rounded-xl">
+                    {item.icon}
+                  </div>
+                  <div className="ml-6">
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-600">
+                      {item.content}
+                    </p>
+                  </div>
+                </Link>
+
               </motion.div>
             ))}
           </motion.div>
