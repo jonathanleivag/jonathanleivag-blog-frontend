@@ -20,7 +20,7 @@ export interface CardNewsComponentProps {
     index: number;
 }
 
-export interface  Author {
+export interface Author {
     name: string;
     avatar: string;
 }
@@ -38,13 +38,13 @@ export interface BlogPost {
     tags: string[];
 }
 
-export interface  CardBlogComponentProps {
+export interface CardBlogComponentProps {
     post: BlogPost;
     index: number;
 }
 
 
-export  interface Project {
+export interface Project {
     id: number
     title: string;
     description: string;
@@ -55,11 +55,11 @@ export  interface Project {
     url: string
 }
 
-export interface  CardProjectComponentProps {
+export interface CardProjectComponentProps {
     project: Project;
 }
 
-export interface  CardNewsPageComponentProps {
+export interface CardNewsPageComponentProps {
     news: Gnews;
 }
 
@@ -69,53 +69,52 @@ export interface NewsState {
 
 
 export interface Gnews {
-    type_of:                  "article";
-    id:                       number;
-    title:                    string;
-    description:              string;
-    readable_publish_date:    string;
-    slug:                     string;
-    path:                     string;
-    url:                      string;
-    comments_count:           number;
-    public_reactions_count:   number;
-    collection_id:            null;
-    published_timestamp:      Date;
-    language:                 Language | null;
-    subforem_id:              null;
+    type_of: "article";
+    id: number;
+    title: string;
+    description: string;
+    readable_publish_date: string;
+    slug: string;
+    path: string;
+    url: string;
+    comments_count: number;
+    public_reactions_count: number;
+    collection_id: null;
+    published_timestamp: Date;
+    language: Language | null;
+    subforem_id: null;
     positive_reactions_count: number;
-    cover_image:              null | string;
-    social_image:             string;
-    canonical_url:            string;
-    created_at:               Date;
-    edited_at:                Date | null;
-    crossposted_at:           null;
-    published_at:             Date;
-    last_comment_at:          Date;
-    reading_time_minutes:     number;
-    tag_list:                 string[];
-    tags:                     string;
-    user:                     User;
-    organization?:            Organization;
-    flare_tag?:               FlareTag;
+    cover_image: null | string;
+    social_image: string;
+    canonical_url: string;
+    created_at: Date;
+    edited_at: Date | null;
+    crossposted_at: null;
+    published_at: Date;
+    last_comment_at: Date;
+    reading_time_minutes: number;
+    tag_list: string[];
+    tags: string;
+    user: User;
+    organization?: Organization;
+    flare_tag?: FlareTag;
 }
 
 export interface FlareTag {
-    name:           string;
-    bg_color_hex:   string;
+    name: string;
+    bg_color_hex: string;
     text_color_hex: string;
 }
 
 export type Language = "es" | "en";
 
 export interface Organization {
-    name:             string;
-    username:         string;
-    slug:             string;
-    profile_image:    string;
+    name: string;
+    username: string;
+    slug: string;
+    profile_image: string;
     profile_image_90: string;
 }
-
 
 
 export interface ChildrenComponentProps {
@@ -134,48 +133,48 @@ export interface StatItem {
     icon: ReactNode;
     bgColor: string;
     textColor: string;
-    trend? : string
+    trend?: string
 }
 
-export interface  FormModalComponentProps  {
-    setShowModal:  Dispatch<SetStateAction<boolean>>
+export interface FormModalComponentProps {
+    setShowModal: Dispatch<SetStateAction<boolean>>
 }
 
-export interface  FormModalComponentInitialValue  {
-    name:        string;
+export interface FormModalComponentInitialValue {
+    name: string;
     description: string;
-    isActive:    boolean | string;
+    isActive: boolean | string;
 }
 
-export interface Category extends ErrorMessageComponentProps{
-    _id:         string;
-    name:        string;
+export interface Category extends ErrorMessageComponentProps {
+    _id: string;
+    name: string;
     description: string;
-    isActive:    boolean;
-    deletedAt:   null;
-    createdAt:   Date;
-    updatedAt:   Date;
-    blogs:       Blog[];
+    isActive: boolean;
+    deletedAt: null;
+    createdAt: Date;
+    updatedAt: Date;
+    blogs: Blog[];
 }
 
 export interface User {
-    _id:       string;
-    name:      string;
-    email:     string;
-    phone:     string;
-    role:      string;
+    _id: string;
+    name: string;
+    email: string;
+    phone: string;
+    role: string;
     description: string;
     location: string;
     start: string;
     webSite: string;
     avatar: string;
-    isActive:  boolean;
+    isActive: boolean;
     deletedAt: null;
     createdAt: Date;
     updatedAt: Date;
 }
 
-export interface  ErrorMessageComponentProps {
+export interface ErrorMessageComponentProps {
     message?: string;
     status?: number;
 }
@@ -213,7 +212,7 @@ export interface Dashboard {
 }
 
 export interface DashboardState {
-   dashboard: Dashboard
+    dashboard: Dashboard
     auditLog: Pagination<AuditLog>
 }
 
@@ -224,24 +223,24 @@ export interface BlogState {
     search: string
 }
 
-export interface UserState{
+export interface UserState {
     users: Pagination<User>
 }
 
-export interface  TableComponentProps {
+export interface TableComponentProps {
     categories: Category[]
     handlerEdit: (category: Category) => void;
     setShowModalBlog: Dispatch<SetStateAction<boolean>>
 }
 
-export interface  SearchComponentProps {
+export interface SearchComponentProps {
     inputValue: string
     setInputValue: Dispatch<SetStateAction<string>>
 }
 
 export type ActiveFilter = 'all' | 'active' | 'inactive';
 
-export interface  SelectComponentProps{
+export interface SelectComponentProps {
     isActiveFilter: ActiveFilter
     setIsActiveFilter: Dispatch<SetStateAction<ActiveFilter>>
 }
@@ -252,58 +251,58 @@ export interface PaginateComponentProps {
     setCurrentPage: Dispatch<SetStateAction<number>>
 }
 
-export interface Pagination<T> extends ErrorMessageComponentProps{
-    docs:          T[];
-    totalDocs:     number;
-    limit:         number;
-    totalPages:    number;
-    page:          number;
+export interface Pagination<T> extends ErrorMessageComponentProps {
+    docs: T[];
+    totalDocs: number;
+    limit: number;
+    totalPages: number;
+    page: number;
     pagingCounter: number;
-    hasPrevPage:   boolean;
-    hasNextPage:   boolean;
-    prevPage:      null;
-    nextPage:      null;
+    hasPrevPage: boolean;
+    hasNextPage: boolean;
+    prevPage: null;
+    nextPage: null;
 }
 
-export interface Blog extends  ErrorMessageComponentProps{
-    _id:         string;
-    title:       string;
-    content:     string;
+export interface Blog extends ErrorMessageComponentProps {
+    _id: string;
+    title: string;
+    content: string;
     description: string;
-    image:       string;
-    published:   boolean;
-    slug:        string;
-    tags:        string[];
-    views:       number;
+    image: string;
+    published: boolean;
+    slug: string;
+    tags: string[];
+    views: number;
     readingTime: number;
-    popular:     boolean;
-    user:        User;
-    category:    Category;
-    createdAt:   Date;
-    updatedAt:   Date;
+    popular: boolean;
+    user: User;
+    category: Category;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface User {
-    _id:       string;
-    name:      string;
-    email:     string;
-    phone:     string;
-    role:      string;
-    isActive:  boolean;
+    _id: string;
+    name: string;
+    email: string;
+    phone: string;
+    role: string;
+    isActive: boolean;
     deletedAt: null;
     createdAt: Date;
     updatedAt: Date;
 }
 
 
-export interface  ModalBlogProps {
+export interface ModalBlogProps {
     blogs: Blog[]
     setShowModalBlog: Dispatch<SetStateAction<boolean>>
 }
 
-export interface  RevalidateResponse extends ErrorMessageComponentProps{
+export interface RevalidateResponse extends ErrorMessageComponentProps {
     token: string;
-     user: User;
+    user: User;
 }
 
 export type SAMESITE = boolean | 'lax' | 'strict' | 'none' | undefined;
@@ -333,12 +332,12 @@ export interface TableBlogComponentProps {
 
 export type PostStatus = 'all' | 'published' | 'draft' | 'popular';
 
-export interface  ButtonFilter {
+export interface ButtonFilter {
     selection: PostStatus
     title: string
 }
 
-export interface  ButtonFilterComponentProps {
+export interface ButtonFilterComponentProps {
     item: ButtonFilter
     activeFilter: PostStatus
     setActiveFilter: Dispatch<SetStateAction<PostStatus>>
@@ -367,20 +366,20 @@ export interface BlogFormValues {
 }
 
 export interface EditorComponentProps {
-    values:  FormikValues
+    values: FormikValues
     setFieldValue: (field: string, value: string, shouldValidate?: boolean) => Promise<void | FormikErrors<FormikValues>>
 }
 
-export interface  UploadImageComponentProps {
+export interface UploadImageComponentProps {
     setFieldValue: (field: string, value: string, shouldValidate?: boolean) => Promise<void | FormikErrors<FormikValues>>
     values: FormikValues
 }
 
-export interface  ErrorBlogComponentProps {
+export interface ErrorBlogComponentProps {
     error: string | string[]
 }
 
-export interface  FormBlogComponentProps {
+export interface FormBlogComponentProps {
     blog?: Blog
 }
 
@@ -392,7 +391,7 @@ export interface Roles {
 }
 
 
-export interface RoleUserComponentProps{
+export interface RoleUserComponentProps {
     setSelectedRole: Dispatch<SetStateAction<RolesValue>>
     selectedRole: RolesValue
 }
@@ -414,16 +413,16 @@ export interface RecentActivityProps {
 }
 
 export interface AuditLog {
-    _id:         string;
-    action:      string;
+    _id: string;
+    action: string;
     userCreator: User;
     user?: User;
-    category?:   Category;
-    entityType:  string;
-    createdAt:   Date;
-    updatedAt:   Date;
-    id:          string;
-    blog?:       Blog;
+    category?: Category;
+    entityType: string;
+    createdAt: Date;
+    updatedAt: Date;
+    id: string;
+    blog?: Blog;
 }
 
 export type StatusType = 'Blog Publicado' | 'Usuario activo' | 'Categoría activa' | 'Blog en Borrador' |
@@ -453,98 +452,104 @@ export interface SocialState {
 }
 
 export interface ProjectWeb {
-    status:     number;
+    status: number;
     statusText: string;
-    error:      null;
-    data:       Data;
+    error: null;
+    data: Data;
 }
 
 export interface Data {
     pinned: Pinned[];
     readme: string;
-    info:   Info;
+    info: Info;
 }
 
 export interface Info {
-    login:                     string;
-    id:                        number;
-    node_id:                   string;
-    avatar_url:                string;
-    gravatar_id:               string;
-    url:                       string;
-    html_url:                  string;
-    followers_url:             string;
-    following_url:             string;
-    gists_url:                 string;
-    starred_url:               string;
-    subscriptions_url:         string;
-    organizations_url:         string;
-    repos_url:                 string;
-    events_url:                string;
-    received_events_url:       string;
-    type:                      string;
-    user_view_type:            string;
-    site_admin:                boolean;
-    name:                      string;
-    company:                   string;
-    blog:                      string;
-    location:                  null;
-    email:                     null;
-    hireable:                  null;
-    bio:                       string;
-    twitter_username:          string;
-    notification_email:        null;
-    public_repos:              number;
-    public_gists:              number;
-    followers:                 number;
-    following:                 number;
-    created_at:                string;
-    updated_at:                string;
-    private_gists:             number;
-    total_private_repos:       number;
-    owned_private_repos:       number;
-    disk_usage:                number;
-    collaborators:             number;
+    login: string;
+    id: number;
+    node_id: string;
+    avatar_url: string;
+    gravatar_id: string;
+    url: string;
+    html_url: string;
+    followers_url: string;
+    following_url: string;
+    gists_url: string;
+    starred_url: string;
+    subscriptions_url: string;
+    organizations_url: string;
+    repos_url: string;
+    events_url: string;
+    received_events_url: string;
+    type: string;
+    user_view_type: string;
+    site_admin: boolean;
+    name: string;
+    company: string;
+    blog: string;
+    location: null;
+    email: null;
+    hireable: null;
+    bio: string;
+    twitter_username: string;
+    notification_email: null;
+    public_repos: number;
+    public_gists: number;
+    followers: number;
+    following: number;
+    created_at: string;
+    updated_at: string;
+    private_gists: number;
+    total_private_repos: number;
+    owned_private_repos: number;
+    disk_usage: number;
+    collaborators: number;
     two_factor_authentication: boolean;
-    plan:                      Plan;
+    plan: Plan;
 }
 
 export interface Plan {
-    name:          string;
-    space:         number;
+    name: string;
+    space: number;
     collaborators: number;
     private_repos: number;
 }
 
 export interface Pinned {
-    name:           string;
-    description:    string;
-    url:            string;
+    name: string;
+    description: string;
+    url: string;
     stargazerCount: number;
-    forkCount:      number;
+    forkCount: number;
 }
 
 
 export interface SocialData {
-    data:       DataSocial;
-    error:      null;
-    status:     number;
+    data: DataSocial;
+    error: null;
+    status: number;
     statusText: string;
 }
 
 export interface DataSocial {
-    _id:     string;
+    _id: string;
     socials: Social[];
 }
 
 export interface Social {
     name: string;
     icon: string;
-    url:  string;
+    url: string;
 }
 
 export type IconName = 'youtube' | 'linkedin' | 'github' | 'instagram' | 'x'
 
 export interface IconComponentProps {
     icon: IconName;
+}
+
+
+export interface HeroResponse {
+    blogs: number;
+    readers: number;
 }
