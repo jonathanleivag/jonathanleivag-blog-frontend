@@ -1,6 +1,6 @@
-import {Dispatch, ReactNode, SetStateAction, SVGProps} from "react";
-import {SVGMotionProps} from "framer-motion";
-import {FormikErrors, FormikValues} from "formik";
+import { Dispatch, ReactNode, SetStateAction, SVGProps } from 'react'
+import { SVGMotionProps } from 'framer-motion'
+import { FormikErrors, FormikValues } from 'formik'
 
 export type IconProps = SVGProps<SVGSVGElement>;
 
@@ -542,7 +542,7 @@ export interface Social {
     url: string;
 }
 
-export type IconName = 'youtube' | 'linkedin' | 'github' | 'instagram' | 'x'
+export type IconName = 'youtube' | 'linkedin' | 'github' | 'instagram' | 'x' | 'web'
 
 export interface IconComponentProps {
     icon: IconName;

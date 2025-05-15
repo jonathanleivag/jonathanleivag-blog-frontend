@@ -1,9 +1,9 @@
 'use client'
-import {FC} from "react";
-import Link from "next/link";
-import {useAppSelector} from "@/lib/redux/hooks";
-import IconComponent from "@/components/shared/icon.component";
-import {IconName} from "@/type";
+import { FC } from 'react'
+import Link from 'next/link'
+import { useAppSelector } from '@/lib/redux/hooks'
+import IconComponent from '@/components/shared/icon.component'
+import { IconName } from '@/type'
 
 const FooterComponent: FC = () => {
 
@@ -52,7 +52,7 @@ const FooterComponent: FC = () => {
               Síguenos
             </h3>
             <div className="flex space-x-4">
-              {socials.data.socials.filter(s => s.icon !== 'email').map(social => (
+              {socials.data.socials.filter(s => s.icon !== 'mail').filter(s=> s.icon !== 'blog').map(social => (
                   <Link key={social.icon} href={social.url}
                      className="text-gray-300 hover:text-accent-500 transition-colors"
                      target="_blank"
