@@ -10,12 +10,14 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import {extractTechnologies} from "@/utils/getPropsProject";
 import LoadingComponent from "@/components/shared/loading.component";
+import Link from "next/link";
 
 const Project: FC = () => {
 
   const appDespatch = useAppDispatch()
   const project = useAppSelector(state => state.project.project)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const socials = useAppSelector(state => state.social.socials)
 
   useEffect(() => {
     const dateFetch = async () => {
@@ -69,11 +71,12 @@ const Project: FC = () => {
                     <span>{project.data.info.public_repos} proyectos</span>
                     <span>⭐ {project.data.info.followers} seguidores</span>
                   </div>
-                  {/*TODO: redes sociales*/}
                   <div className="flex gap-3 mt-2">
-                    <a href="#" className="text-accent-500 hover:text-accent-300 text-sm">GitHub</a>
-                    <a href="#" className="text-accent-500 hover:text-accent-300 text-sm">LinkedIn</a>
-                    <a href="#" className="text-accent-500 hover:text-accent-300 text-sm">Portafolio</a>
+                    {socials.data.socials.filter(s => s.icon !== 'mail').map(social => (
+                      <Link key={social.name} href={social.url} target={'_blank'} className="text-accent-500 hover:text-accent-300 text-sm">{social.name}</Link>
+                    ))}
+                    {/*<a href="#" className="text-accent-500 hover:text-accent-300 text-sm">LinkedIn</a>*/}
+                    {/*<a href="#" className="text-accent-500 hover:text-accent-300 text-sm">Portafolio</a>*/}
                   </div>
                 </div>
               </motion.aside>

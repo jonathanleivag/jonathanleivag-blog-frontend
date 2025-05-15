@@ -4,6 +4,7 @@ import {motion} from "framer-motion";
 import {CalendarDaysIcon, TagIcon, XMarkIcon} from "@heroicons/react/24/outline";
 import {useAppDispatch} from "@/lib/redux/hooks";
 import {selectBlog} from "@/lib/redux/features/category/category.slice";
+import Link from "next/link";
 
 const ModalBlog: FC<ModalBlogProps> = ({blogs, setShowModalBlog}) => {
     const appDispatch = useAppDispatch()
@@ -97,11 +98,10 @@ const ModalBlog: FC<ModalBlogProps> = ({blogs, setShowModalBlog}) => {
                                     <span>{blog.tags?.length || 0} etiquetas</span>
                                 </div>
                             </div>
-                            {/*TODO: ver detalles Blog*/}
                             <div className="mt-4 flex gap-2">
-                                <button className="px-3 py-1 text-sm font-medium text-primary-600 hover:text-primary-800 transition-colors">
+                                <Link href={`/dashboard/blog/view/${blog.slug}`} className="px-3 py-1 text-sm font-medium text-primary-600 hover:text-primary-800 transition-colors">
                                     Ver detalles
-                                </button>
+                                </Link>
                             </div>
                         </motion.div>
                     ))}

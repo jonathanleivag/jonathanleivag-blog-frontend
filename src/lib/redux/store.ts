@@ -5,6 +5,7 @@ import blogReducer from './features/blog/blog.slice'
 import userReducer from './features/user/user.slice'
 import dashboardReducer from './features/dashboard/dashboard.slice'
 import ProjectReducer from './features/project/project.slice'
+import SocialReducer from './features/social/social.slice'
 
 export const makeStore = () => {
     return configureStore({
@@ -15,6 +16,7 @@ export const makeStore = () => {
             user: userReducer,
             dashboard: dashboardReducer,
             project: ProjectReducer,
+            social: SocialReducer,
         },
     })
 }

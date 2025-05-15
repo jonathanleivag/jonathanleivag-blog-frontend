@@ -1,17 +1,50 @@
 'use client';
 
 import Link from 'next/link';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {motion} from 'framer-motion';
 import {CldImage} from 'next-cloudinary';
 import NavbarComponent, {NavbarMobilComponent} from "@/components/shared/header/navbar.component";
 import SocialComponent from "@/components/shared/header/social.component";
 import MenuButtonComponent from "@/components/shared/header/menuButton.component";
 import useIsLoggedIn from "@/hooks/useIsLoggedIn";
+import toast from "react-hot-toast";
+import {SocialData} from "@/type";
+import {useAppDispatch} from "@/lib/redux/hooks";
+import {initialDataSocial} from "@/lib/redux/features/social/social.slice";
 
 const HeaderComponent = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const isLoggedIn = useIsLoggedIn();
+    const appDispatch = useAppDispatch()
+
+    useEffect(() => {
+        const dataFetch = async () => {
+            try {
+                const response = await fetch('/api/social', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+
+                const data: SocialData = await response.json()
+
+                if (data.error === null){
+                    appDispatch(initialDataSocial(data))
+                } else {
+                    toast.error(data.error)
+                }
+
+            } catch (e) {
+                if (e instanceof Error) {
+                    console.error(e.message)
+                    toast.error(e.message)
+                }
+            }
+        }
+        void dataFetch()
+    }, []);
 
     const headerVariants = {
         hidden: {y: -100},
