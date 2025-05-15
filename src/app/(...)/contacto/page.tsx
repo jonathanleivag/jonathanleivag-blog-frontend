@@ -1,9 +1,9 @@
 'use client';
 import {FC} from 'react';
-import ContactComponent from "@/components/home/contact.component";
+import ContactComponent from "@/components/shared/contact.component";
 
 const Contact: FC = () => {
-  return <ContactComponent />;
+    return <ContactComponent/>;
 };
 
 export default Contact;
