@@ -1,6 +1,6 @@
-import { Dispatch, ReactNode, SetStateAction, SVGProps } from 'react'
-import { SVGMotionProps } from 'framer-motion'
-import { FormikErrors, FormikValues } from 'formik'
+import {Dispatch, ReactNode, SetStateAction, SVGProps} from 'react'
+import {SVGMotionProps} from 'framer-motion'
+import {FormikErrors, FormikValues} from 'formik'
 
 export type IconProps = SVGProps<SVGSVGElement>;
 
@@ -552,4 +552,10 @@ export interface IconComponentProps {
 export interface HeroResponse {
     blogs: number;
     readers: number;
+}
+
+export interface InitialValuesContact {
+    name: string;
+    email: string;
+    content: string;
 }

@@ -6,7 +6,7 @@ export const SignupSchemaLogin = Yup.object().shape({
 });
 
 export const CategorySchemaRegister = Yup.object().shape({
-   name: Yup.string().required('Name is required').min(3, 'Name must be at least 3 characters'),
+    name: Yup.string().required('Name is required').min(3, 'Name must be at least 3 characters'),
     description: Yup.string().required('Description is required').min(3, 'Description must be at least 3 characters'),
 })
 
@@ -23,3 +23,9 @@ export const validationSchemaFormBlog = Yup.object({
         .required("El tiempo de lectura es obligatorio")
         .min(1, "El tiempo de lectura debe ser al menos 1 minuto")
 });
+
+export const validationSchemaContact = Yup.object({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    content: Yup.string().required('Content is required'),
+})
