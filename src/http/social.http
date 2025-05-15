@@ -1,0 +1,2 @@
+GET {{url}}/social
+Content-Type: application/json

@@ -448,6 +448,10 @@ export interface ProjectState {
     project: ProjectWeb
 }
 
+export interface SocialState {
+    socials: SocialData
+}
+
 export interface ProjectWeb {
     status:     number;
     statusText: string;
@@ -494,8 +498,8 @@ export interface Info {
     public_gists:              number;
     followers:                 number;
     following:                 number;
-    created_at:                Date;
-    updated_at:                Date;
+    created_at:                string;
+    updated_at:                string;
     private_gists:             number;
     total_private_repos:       number;
     owned_private_repos:       number;
@@ -518,4 +522,29 @@ export interface Pinned {
     url:            string;
     stargazerCount: number;
     forkCount:      number;
+}
+
+
+export interface SocialData {
+    data:       DataSocial;
+    error:      null;
+    status:     number;
+    statusText: string;
+}
+
+export interface DataSocial {
+    _id:     string;
+    socials: Social[];
+}
+
+export interface Social {
+    name: string;
+    icon: string;
+    url:  string;
+}
+
+export type IconName = 'youtube' | 'linkedin' | 'github' | 'instagram' | 'x'
+
+export interface IconComponentProps {
+    icon: IconName;
 }
