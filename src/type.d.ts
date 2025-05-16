@@ -431,7 +431,6 @@ export type StatusType = 'Blog Publicado' | 'Usuario activo' | 'Categoría activ
 export interface ViewBlogComponentProps {
     isLogin: boolean
     data: Blog | undefined
-    setData: Dispatch<SetStateAction<Blog | undefined>>
 }
 
 export interface CardBlogPageComponentProps {
@@ -558,4 +557,12 @@ export interface InitialValuesContact {
     name: string;
     email: string;
     content: string;
+}
+
+export interface getBlogSlugProps {
+    params: { slug: string }
+}
+
+export interface BlogViewPageComponentProps {
+    blog: Blog;
 }
