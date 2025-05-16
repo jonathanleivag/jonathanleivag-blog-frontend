@@ -4,7 +4,7 @@ import {ENV} from "@/enum";
 import {Blog} from "@/type";
 import {getBlogAll} from "@/lib/fetchData/blog";
 
-export const revalidate = 86400
+export const revalidate = 604800
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const data: Blog[] = await getBlogAll()
