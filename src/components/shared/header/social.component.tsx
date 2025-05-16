@@ -1,10 +1,10 @@
 'use client'
 
-import { FC } from 'react'
-import { motion } from 'framer-motion'
-import { useAppSelector } from '@/lib/redux/hooks'
+import {FC} from 'react'
+import {motion} from 'framer-motion'
+import {useAppSelector} from '@/lib/redux/hooks'
 import IconComponent from '@/components/shared/icon.component'
-import { IconName } from '@/type'
+import {IconName} from '@/type'
 
 const socialIconVariants = {
     hidden: {scale: 0},
@@ -29,7 +29,7 @@ const socialIconVariants = {
 export const SocialComponentMobil: FC = () => {
     const socials = useAppSelector(state => state.social.socials)
     return <div className="flex items-center space-x-4 px-3 py-2">
-        {socials.data.socials.filter(f => f.icon !== 'mail').filter(s=> s.icon !== 'blog').map((item, i) => (
+        {socials.data.socials.filter(f => f.icon !== 'mail').filter(s => s.icon !== 'blog').map((item, i) => (
             <motion.a
                 key={item.name}
                 href={item.url}
@@ -43,7 +43,7 @@ export const SocialComponentMobil: FC = () => {
                 whileHover="hover"
             >
                 <span className="sr-only">{item.name}</span>
-                <IconComponent icon={item.icon as IconName} />
+                <IconComponent icon={item.icon as IconName}/>
             </motion.a>
         ))}
     </div>
@@ -51,9 +51,8 @@ export const SocialComponentMobil: FC = () => {
 
 const SocialComponent: FC = () => {
     const socials = useAppSelector(state => state.social.socials)
-    console.log({socials: socials.data.socials.find(f => f.name === 'web')})
     return <div className="flex items-center space-x-4">
-        {socials.data.socials.filter(f => f.icon !== 'mail').filter(s=> s.icon !== 'blog').map((item, i) => (
+        {socials.data.socials.filter(f => f.icon !== 'mail').filter(s => s.icon !== 'blog').map((item, i) => (
             <motion.a
                 key={item.name}
                 href={item.url}
@@ -67,7 +66,7 @@ const SocialComponent: FC = () => {
                 whileHover="hover"
             >
                 <span className="sr-only">{item.name}</span>
-                <IconComponent icon={item.icon as IconName} />
+                <IconComponent icon={item.icon as IconName}/>
             </motion.a>
         ))}
     </div>

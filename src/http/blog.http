@@ -3,12 +3,12 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "title": "mi first blog en nestjs 7",
-  "content": "This is the content of my blog",
-  "description": "This is the description of my blog",
+  "title": "mi first fetchData en nestjs 7",
+  "content": "This is the content of my fetchData",
+  "description": "This is the description of my fetchData",
   "image": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fb0fli8nhqpaj98qv3xsl.png",
   "published": true,
-  "slug": "mi-first-blog-en-nestjs",
+  "slug": "mi-first-fetchData-en-nestjs",
   "tags": [
     "nestjs",
     "typescript",
@@ -24,3 +24,8 @@ Authorization: Bearer {{token}}
 
 GET {{url}}/blog
 Content-Type: application/json
+
+###
+GET {{url}}/blog/total
+Content-Type: application/json
+
