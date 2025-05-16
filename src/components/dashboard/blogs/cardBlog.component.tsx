@@ -1,10 +1,10 @@
 import {FC, useEffect, useState} from "react";
 import StatCard from "@/components/shared/card.component";
 import {EyeIcon, NewspaperIcon, PencilSquareIcon} from "@heroicons/react/24/outline";
-import {BlogState, StatItem} from "@/type";
+import {CardBlogPaginationComponentProps, StatItem} from "@/type";
 
 
-const CardBlogComponent:FC<BlogState> = ({blogs}) => {
+const CardBlogComponent: FC<CardBlogPaginationComponentProps> = ({blogs}) => {
     const [stats, setStats] = useState<StatItem[]>([])
 
     useEffect(() => {
@@ -12,28 +12,28 @@ const CardBlogComponent:FC<BlogState> = ({blogs}) => {
             {
                 title: 'Total Blogs',
                 value: blogs.totalDocs,
-                icon: <NewspaperIcon className="w-full h-full" />,
+                icon: <NewspaperIcon className="w-full h-full"/>,
                 bgColor: 'bg-primary-50',
                 textColor: 'text-primary-600',
             },
             {
                 title: 'Total Blogs por página',
                 value: blogs.docs.length,
-                icon: <NewspaperIcon className="w-full h-full" />,
+                icon: <NewspaperIcon className="w-full h-full"/>,
                 bgColor: "bg-blue-50",
                 textColor: 'text-blue-600',
             },
             {
                 title: 'Vistas de Blogs por página',
                 value: blogs.docs.reduce((sum, blog) => sum + blog.views, 0),
-                icon: <EyeIcon className="w-full h-full" />,
+                icon: <EyeIcon className="w-full h-full"/>,
                 bgColor: 'bg-accent-100',
                 textColor: 'text-accent-700',
             },
             {
-                title:"No publicado por pagina",
-                value:blogs.docs.filter(post => !post.published).length,
-                icon:  <PencilSquareIcon className="w-full h-full" />,
+                title: "No publicado por pagina",
+                value: blogs.docs.filter(post => !post.published).length,
+                icon: <PencilSquareIcon className="w-full h-full"/>,
                 bgColor: "bg-yellow-50",
                 textColor: "text-yellow-600"
             }

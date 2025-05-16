@@ -223,6 +223,10 @@ export interface BlogState {
     search: string
 }
 
+export interface CardBlogPaginationComponentProps {
+    blogs: Pagination<Blog>;
+}
+
 export interface UserState {
     users: Pagination<User>
 }
@@ -559,8 +563,10 @@ export interface InitialValuesContact {
     content: string;
 }
 
+export type Params = Promise<{ slug: string }>
+
 export interface getBlogSlugProps {
-    params: { slug: string }
+    params: Params
 }
 
 export interface BlogViewPageComponentProps {

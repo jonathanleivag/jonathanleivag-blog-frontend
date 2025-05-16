@@ -12,6 +12,7 @@ import CategoriesBlogComponent from "@/components/blog/categoriesBlog.component"
 import CardBlogComponent from "@/components/blog/card.component";
 import PaginationComponent from "@/components/shared/pagination.component";
 
+
 const BlogPageComponent: FC = () => {
     const appDispatch = useAppDispatch()
 

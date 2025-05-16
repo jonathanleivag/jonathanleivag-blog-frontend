@@ -1,5 +1,5 @@
 import BlogPageComponent from "@/components/page/blog/blogPage.component";
-import {FC} from "react";
+import {FC, Suspense} from "react";
 import {Metadata} from "next";
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 }
 
 const Blog: FC = () => {
-    return <BlogPageComponent/>
+    return <Suspense><BlogPageComponent/></Suspense>
 };
 
 export default Blog;
