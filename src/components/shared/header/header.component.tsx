@@ -30,7 +30,7 @@ const HeaderComponent = () => {
 
                 const data: SocialData = await response.json()
 
-                if (data.error === null){
+                if (data.error === null) {
                     appDispatch(initialDataSocial(data))
                 } else {
                     toast.error(data.error)
@@ -44,7 +44,7 @@ const HeaderComponent = () => {
             }
         }
         void dataFetch()
-    }, []);
+    }, [appDispatch]);
 
     const headerVariants = {
         hidden: {y: -100},
@@ -68,8 +68,8 @@ const HeaderComponent = () => {
                 <div className="flex items-center justify-between h-16">
                     <motion.div
                         className="flex-shrink-0"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{scale: 1.1}}
+                        whileTap={{scale: 0.95}}
                     >
                         <Link
                             href="/"
@@ -80,21 +80,21 @@ const HeaderComponent = () => {
                                 width="50"
                                 height="50"
                                 alt='Logo of the website jonathanleivag'
-                                crop={{ type: 'auto', source: true }}
+                                crop={{type: 'auto', source: true}}
                             />
                             JonathanLeivaG
                         </Link>
                     </motion.div>
 
                     <div className="hidden md:flex md:items-center md:space-x-6">
-                        <NavbarComponent />
-                        <div className="h-6 w-px bg-gray-700" />
-                        <SocialComponent />
+                        <NavbarComponent/>
+                        <div className="h-6 w-px bg-gray-700"/>
+                        <SocialComponent/>
                         {isLoggedIn && (
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.5, duration: 0.4 }}
+                                initial={{opacity: 0, scale: 0.95}}
+                                animate={{opacity: 1, scale: 1}}
+                                transition={{delay: 0.5, duration: 0.4}}
                             >
                                 <Link
                                     href="/dashboard"
@@ -108,19 +108,19 @@ const HeaderComponent = () => {
 
                     <motion.div
                         className="md:hidden"
-                        whileTap={{ scale: 0.9 }}
+                        whileTap={{scale: 0.9}}
                     >
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             className="p-2 rounded-md text-gray-100 hover:text-accent-400 focus:outline-none"
                             aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
                         >
-                            <MenuButtonComponent isMenuOpen={isMenuOpen} />
+                            <MenuButtonComponent isMenuOpen={isMenuOpen}/>
                         </button>
                     </motion.div>
                 </div>
 
-                <NavbarMobilComponent isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+                <NavbarMobilComponent isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}/>
             </div>
         </motion.header>
     );
