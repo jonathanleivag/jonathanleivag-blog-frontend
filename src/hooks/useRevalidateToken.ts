@@ -7,9 +7,11 @@ export const useRevalidateToken = () => {
     useEffect(() => {
         const revalidate = async () => {
             try {
-                const res = await fetch('/api/revalidate');
+                const res = await fetch('/api/revalidate', {
+                    method: 'GET'
+                });
                 const data = await res.json();
-
+                
                 if (!data.ok) {
                     router.push('/login');
                 }
