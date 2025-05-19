@@ -4,7 +4,7 @@ import {ENV} from "@/enum";
 
 export const getBlogBySlug = async (slug: string) => {
     try {
-        const response = await fetch(`${getEnv(ENV.NEXT_PUBLIC_SITE_URL)}/api/blog/view/${slug}`, {
+        const response = await fetch(`${getEnv(ENV.BACKEND_URL)}/blog/view/${slug}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export const getBlogBySlug = async (slug: string) => {
 
 export const getBlogAll = async () => {
     try {
-        const response = await fetch(`${getEnv(ENV.NEXT_PUBLIC_SITE_URL)}/api/blog/total`, {
+        const response = await fetch(`${getEnv(ENV.BACKEND_URL)}/blog/total/blog`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
