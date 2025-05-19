@@ -12,7 +12,7 @@ import {extractImage, extractTechnologies, extractURL} from "@/utils/getPropsPro
 
 
 const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: {opacity: 0},
     visible: {
         opacity: 1,
         transition: {
@@ -38,7 +38,7 @@ const ProjectComponent: FC = () => {
 
             const data: ProjectWeb = await response.json()
 
-            if(data.error === null){
+            if (data.error === null) {
                 appDespatch(initialDataProject(data))
             } else {
                 toast.error(data.error)
@@ -47,7 +47,7 @@ const ProjectComponent: FC = () => {
         }
 
         void dateFetch()
-    }, []);
+    }, [appDespatch]);
 
     return (
         <section className="py-20 relative overflow-hidden">
@@ -68,25 +68,25 @@ const ProjectComponent: FC = () => {
             </motion.div>
 
             <div className="container mx-auto px-4 relative z-10 my-10">
-                <TitleComponent />
+                <TitleComponent/>
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: false }}
+                    viewport={{once: false}}
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 my-16"
                 >
-                    {project.data.pinned.slice(0,3).map((project, index) => (
-                         <CardProjectComponent key={index} project={{
-                             id: project.forkCount,
-                             title: project.name,
-                             description: '',
-                             image: extractImage(project.description),
-                             technologies: extractTechnologies(project.description),
-                             category: extractTechnologies(project.description)[0],
-                             link: project.url,
-                             url:extractURL(project.description)
-                         }} />
+                    {project.data.pinned.slice(0, 3).map((project, index) => (
+                        <CardProjectComponent key={index} project={{
+                            id: project.forkCount,
+                            title: project.name,
+                            description: '',
+                            image: extractImage(project.description),
+                            technologies: extractTechnologies(project.description),
+                            category: extractTechnologies(project.description)[0],
+                            link: project.url,
+                            url: extractURL(project.description)
+                        }}/>
                     ))}
                 </motion.div>
             </div>
