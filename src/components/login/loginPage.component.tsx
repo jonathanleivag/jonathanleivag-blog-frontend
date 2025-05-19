@@ -32,11 +32,14 @@ const LoginPageComponent: FC = () => {
                 })
 
                 const data = await response.json();
-                if (data.message === undefined) {
+                if (data.token) {
+                    console.log('Login correcto:', data);
                     router.replace('/dashboard')
-                }
-                if (data.message) {
+                } else if (data.message) {
                     toast.error(data.message);
+                    console.warn('Error en login:', data.message);
+                } else {
+                    toast.error('Error desconocido al iniciar sesión');
                 }
             } catch (error) {
                 if (error instanceof Error) {
