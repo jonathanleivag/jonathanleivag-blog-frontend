@@ -14,6 +14,8 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import {useRevalidateToken} from "@/hooks/useRevalidateToken";
 import LoadingComponent from "@/components/shared/loading.component";
+import {getEnv} from "@/utils/getEnv.util";
+import {ENV} from "@/enum";
 
 const LayoutDashboardComponent: FC<ChildrenComponentProps> = ({children}) => {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
@@ -76,11 +78,12 @@ const LayoutDashboardComponent: FC<ChildrenComponentProps> = ({children}) => {
                         onClick={async () => {
                             toast.dismiss(t.id);
                             try {
-                                const response = await fetch('/api/user/logout', {
+                                const res = await fetch(`${getEnv(ENV.NEXT_PUBLIC_BACKEND_URL)}/auth/logout`, {
                                     method: 'GET',
-                                });
-                                await response.json();
-                                toast.success('Sesión cerrada exitosamente');
+                                    credentials: 'include'
+                                })
+                                const data = await res.json();
+                                toast.success(data.message);
                                 router.replace('/login');
                             } catch (e) {
                                 if (e instanceof Error) {

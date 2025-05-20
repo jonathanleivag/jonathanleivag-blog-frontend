@@ -1,5 +1,8 @@
 import {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
+import {getEnv} from "@/utils/getEnv.util";
+import {ENV} from "@/enum";
+import getTokenFromCookie from "@/utils/getTokenFromCookie";
 
 export const useRevalidateToken = () => {
     const router = useRouter();
@@ -8,10 +11,21 @@ export const useRevalidateToken = () => {
     useEffect(() => {
         const revalidate = async () => {
             try {
-                const res = await fetch('/api/revalidate');
-                const data = await res.json();
+                const token = getTokenFromCookie();
+                const response = await fetch(`${getEnv(ENV.NEXT_PUBLIC_BACKEND_URL)}/auth/revalidate`, {
+                    method: 'GET',
+                    headers: {Authorization: `Bearer ${token}`},
+                    credentials: 'include'
+                });
 
-                if (!data.ok) {
+                const data = await response.json();
+
+                if (!data.token) {
+                    const res = await fetch(`${getEnv(ENV.NEXT_PUBLIC_BACKEND_URL)}/auth/logout`, {
+                        method: 'GET',
+                        credentials: 'include'
+                    })
+                    await res.json();
                     router.replace('/login');
                 } else {
                     setIsValidated(true);
