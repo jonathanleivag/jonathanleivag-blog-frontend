@@ -1,38 +1,31 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
 
 export const useRevalidateToken = () => {
     const router = useRouter();
+    const [isValidated, setIsValidated] = useState(false);
 
     useEffect(() => {
         const revalidate = async () => {
             try {
-                const res = await fetch('/api/revalidate', {
-                    method: 'GET',
-                });
-                console.log({res})
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
+                const res = await fetch('/api/revalidate');
+                const data = await res.json();
 
-                const contentType = res.headers.get('content-type');
-
-                if (contentType?.includes('application/json')) {
-                    const data = await res.json();
-
-                    if (!data.ok) {
-                        router.push('/login');
-                    }
+                if (!data.ok) {
+                    router.replace('/login');
                 } else {
-                    // No hay JSON, asumir token inválido o error inesperado
-                    router.push('/login');
+                    setIsValidated(true);
                 }
             } catch (error) {
-                console.error('Error al revalidar token:', error);
-                router.push('/login');
+                if (error instanceof Error) {
+                    console.error(error.message)
+                }
+                router.replace('/login');
             }
         };
 
         void revalidate();
     }, [router]);
+
+    return [isValidated]
 };
