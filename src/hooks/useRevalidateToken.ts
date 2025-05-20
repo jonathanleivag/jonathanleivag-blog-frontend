@@ -1,38 +1,45 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
+import {getEnv} from "@/utils/getEnv.util";
+import {ENV} from "@/enum";
+import getTokenFromCookie from "@/utils/getTokenFromCookie";
 
 export const useRevalidateToken = () => {
     const router = useRouter();
+    const [isValidated, setIsValidated] = useState(false);
 
     useEffect(() => {
         const revalidate = async () => {
             try {
-                const res = await fetch('/api/revalidate', {
+                const token = getTokenFromCookie();
+                const response = await fetch(`${getEnv(ENV.NEXT_PUBLIC_BACKEND_URL)}/auth/revalidate`, {
                     method: 'GET',
+                    headers: {Authorization: `Bearer ${token}`},
+                    credentials: 'include'
                 });
-                console.log({res})
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
 
-                const contentType = res.headers.get('content-type');
+                const data = await response.json();
 
-                if (contentType?.includes('application/json')) {
-                    const data = await res.json();
-
-                    if (!data.ok) {
-                        router.push('/login');
-                    }
+                if (!data.token) {
+                    const res = await fetch(`${getEnv(ENV.NEXT_PUBLIC_BACKEND_URL)}/auth/logout`, {
+                        method: 'GET',
+                        credentials: 'include'
+                    })
+                    await res.json();
+                    router.replace('/login');
                 } else {
-                    // No hay JSON, asumir token inválido o error inesperado
-                    router.push('/login');
+                    setIsValidated(true);
                 }
             } catch (error) {
-                console.error('Error al revalidar token:', error);
-                router.push('/login');
+                if (error instanceof Error) {
+                    console.error(error.message)
+                }
+                router.replace('/login');
             }
         };
 
         void revalidate();
     }, [router]);
+
+    return [isValidated]
 };
