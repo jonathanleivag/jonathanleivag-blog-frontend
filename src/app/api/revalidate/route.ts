@@ -8,12 +8,14 @@ export async function GET(req: NextRequest) {
     try {
         const response = await fetch(`${getEnv(ENV.BACKEND_URL)}/auth/revalidate`, {
             headers: {Authorization: `Bearer ${token}`},
+            credentials: 'include'
         });
 
         const data = await response.json();
 
         if (data.token) {
-            NextResponse.json({ok: true}, {status: 200}).cookies.set({
+            const res = NextResponse.json({ok: true}, {status: 200});
+            res.cookies.set({
                 name: 'token',
                 value: data.token,
                 path: '/',
@@ -22,18 +24,20 @@ export async function GET(req: NextRequest) {
                 secure: true,
                 sameSite: 'strict'
             });
-            return
+            return res;
         } else {
-            NextResponse.json({ok: false}, {status: 200}).cookies.set({
+            const res = NextResponse.json({ok: false}, {status: 200});
+            res.cookies.set({
                 name: 'token',
                 value: '',
                 path: '/',
                 maxAge: 0
             });
+            return res;
         }
 
     } catch (error) {
-        console.error(error)
+        console.error(error);
         return NextResponse.json({ok: false}, {status: 500});
     }
 }
