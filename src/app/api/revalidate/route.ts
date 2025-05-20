@@ -12,25 +12,13 @@ export async function GET(req: NextRequest) {
         });
 
         const data = await response.json();
-
         if (data.token) {
-            const res = NextResponse.json({ok: true}, {status: 200});
-            res.cookies.set({
-                name: 'token',
-                value: data.token,
-                path: '/',
-                maxAge: 60 * 60 * 24 * 30,
-                httpOnly: true,
-                secure: true,
-                sameSite: 'strict'
-            });
-            return res;
+            return NextResponse.json({ok: true}, {status: 200});
         } else {
             const res = NextResponse.json({ok: false}, {status: 200});
             res.cookies.set({
                 name: 'token',
                 value: '',
-                path: '/',
                 maxAge: 0
             });
             return res;

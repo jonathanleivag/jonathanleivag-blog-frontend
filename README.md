@@ -44,6 +44,7 @@ El proyecto requiere las siguientes variables de entorno:
 | BACKEND_URL                       | URL del backend para conexiones internas        |
 | BACKEND_URL_WEB                   | URL del backend para conexiones web             |
 | NEXT_PUBLIC_BACKEND_URL           | URL pública del backend                         |
+| DOMAIN_COOKIE                     | Ej: jonathanleivag                              |
 | NODE_ENV                          | Entorno de ejecución (production o development) |
 | SAMESITE                          | Política SameSite para cookies (lax o strict)   |
 | NEXT_PUBLIC_TINY_API_KEY          | Clave API para TinyMCE                          |
