@@ -66,13 +66,13 @@ const FormBlogComponent: FC<FormBlogComponentProps> = ({blog}) => {
                 </div>
                 <div className="flex justify-end gap-3">
                     <button
-                        className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+                        className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors cursor-pointer"
                         onClick={() => toast.dismiss(t.id)}
                     >
                         Cancelar
                     </button>
                     <button
-                        className="px-3 py-1 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
+                        className="px-3 py-1 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors cursor-pointer"
                         onClick={async () => {
                             toast.dismiss(t.id);
                             setIsLoading(true);
