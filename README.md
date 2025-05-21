@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blog de Jonathan Leiva - Frontend
 
-## Getting Started
+## Descripción
 
-First, run the development server:
+Este es el frontend para el Blog de Jonathan Leiva, desarrollado con Next.js 15, React 19 y TypeScript. El proyecto
+utiliza varias tecnologías modernas para ofrecer una experiencia de usuario fluida y una interfaz atractiva.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Requisitos previos
+
+- Node.js (versión recomendada: 20.x o superior)
+- npm (incluido con Node.js)
+- Una cuenta en Cloudinary para la gestión de imágenes
+
+## Instalación
+
+1. Clona este repositorio:
+
+```shell script
+git clone https://github.com/tu-usuario/jonathanleivag-blog-fronted.git
+   cd jonathanleivag-blog-fronted
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instala las dependencias:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell script
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Crea un archivo `.env.local` basado en `.env.example`:
 
-## Learn More
+```shell script
+cp .env.example .env.local
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Configura las variables de entorno en el archivo `.env.local` con tus credenciales.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Variables de entorno
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+El proyecto requiere las siguientes variables de entorno:
 
-## Deploy on Vercel
+| Variable                          | Descripción                                     |
+|-----------------------------------|-------------------------------------------------|
+| NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME | Nombre de la nube de Cloudinary                 |
+| BACKEND_URL                       | URL del backend para conexiones internas        |
+| BACKEND_URL_WEB                   | URL del backend para conexiones web             |
+| NEXT_PUBLIC_BACKEND_URL           | URL pública del backend                         |
+| DOMAIN_COOKIE                     | Ej: jonathanleivag                              |
+| NODE_ENV                          | Entorno de ejecución (production o development) |
+| SAMESITE                          | Política SameSite para cookies (lax o strict)   |
+| NEXT_PUBLIC_TINY_API_KEY          | Clave API para TinyMCE                          |
+| NEXT_PUBLIC_UPLOADPRESET          | Preset de carga para Cloudinary                 |
+| NEXT_PUBLIC_SITE_URL              | URL pública del sitio                           |
+| CLOUDINARY_CLOUD_NAME             | Nombre de la nube de Cloudinary                 |
+| CLOUDINARY_API_KEY                | Clave API de Cloudinary                         |
+| CLOUDINARY_API_SECRET             | Secreto API de Cloudinary                       |
+| FORLDER                           | Carpeta para almacenar archivos en Cloudinary   |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Scripts disponibles
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev`: Inicia el servidor de desarrollo con Turbopack
+- `npm run build`: Compila el proyecto para producción
+- `npm run start`: Inicia el servidor en modo producción
+- `npm run lint`: Ejecuta el linter para verificar errores de código
+
+## Tecnologías principales
+
+- **Next.js 15**: Framework React con renderizado del lado del servidor
+- **React 19**: Biblioteca para construir interfaces de usuario
+- **TypeScript**: Superset tipado de JavaScript
+- **Redux Toolkit**: Gestión de estado
+- **Tailwind CSS**: Framework CSS utilitario
+- **Cloudinary**: Servicio de gestión de imágenes
+- **TinyMCE**: Editor de texto enriquecido
+- **Formik + Yup**: Gestión y validación de formularios
+
+## Características
+
+- Interfaz de usuario moderna con animaciones usando Framer Motion
+- Gestión de estado global con Redux
+- Editor de markdown para creación de contenido
+- Carga y gestión de imágenes con Cloudinary
+- Diseño responsive y optimizado
+
+## Licencia
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+## Contacto
+
+Jonathan Leiva - [github.com/jonathanleivag](https://github.com/jonathanleivag)
+[@jonathanleivag](https://www.instagram.com/jonathanleivag/)

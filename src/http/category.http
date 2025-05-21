@@ -1,0 +1,2 @@
+GET {{url}}/category
+Content-Type: application/json

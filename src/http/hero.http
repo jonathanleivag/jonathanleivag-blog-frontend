@@ -1,0 +1,2 @@
+GET {{url}}/hero
+Content-Type: application/json
