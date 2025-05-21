@@ -7,12 +7,12 @@ import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
 import {addCategory, setSelected, updateCategory} from "@/lib/redux/features/category/category.slice";
 import {toast} from "react-hot-toast";
 
-const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
+const FormModalComponent: FC<FormModalComponentProps> = ({setShowModal}) => {
     const appDispatch = useAppDispatch()
     const selected = useAppSelector(state => state.category.selected)
     const [errorMessage, setErrorMessage] = useState('');
 
-    const initialValues: FormModalComponentInitialValue  = {
+    const initialValues: FormModalComponentInitialValue = {
         name: '',
         description: '',
         isActive: 'true'
@@ -38,19 +38,19 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
                 </div>
                 <div className="flex justify-end gap-3">
                     <button
-                        className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+                        className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors cursor-pointer"
                         onClick={() => toast.dismiss(t.id)}
                     >
                         Cancelar
                     </button>
                     <button
-                        className="px-3 py-1 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
+                        className="px-3 py-1 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors cursor-pointer"
                         onClick={async () => {
                             toast.dismiss(t.id);
                             try {
                                 values.isActive = values.isActive === 'true';
-                                const url = selected !== null ? `/api/category/${selected._id}`: '/api/category';
-                                const method = selected !== null ? 'PATCH': 'POST';
+                                const url = selected !== null ? `/api/category/${selected._id}` : '/api/category';
+                                const method = selected !== null ? 'PATCH' : 'POST';
 
                                 const response = await fetch(url, {
                                     method,
@@ -128,20 +128,20 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
                 <div className="p-6 space-y-6">
                     <div className="flex justify-between items-center pb-3 border-b border-gray-200">
                         <h3 className="text-xl font-semibold text-gray-800">
-                            {selected !== null ? 'Editar Categoría': 'Crear Nueva Categoría'}
+                            {selected !== null ? 'Editar Categoría' : 'Crear Nueva Categoría'}
                         </h3>
                         <button
                             onClick={handleClose}
                             className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
                         >
-                            <XMarkIcon className="h-6 w-6" />
+                            <XMarkIcon className="h-6 w-6"/>
                         </button>
                     </div>
 
                     {errorMessage && (
-                      <div className="text-red-600 text-sm font-medium">
-                        {errorMessage}
-                      </div>
+                        <div className="text-red-600 text-sm font-medium">
+                            {errorMessage}
+                        </div>
                     )}
 
                     <form className="space-y-6" onSubmit={formik.handleSubmit}>
@@ -228,7 +228,7 @@ const FormModalComponent: FC<FormModalComponentProps> = ({ setShowModal }) => {
                                 text-white hover:bg-primary-700 font-medium
                                 transition-all duration-200 flex items-center gap-2 cursor-pointer"
                             >
-                                {selected !== null ? 'Editar Categoría': 'Crear Categoría'}
+                                {selected !== null ? 'Editar Categoría' : 'Crear Categoría'}
                             </button>
                         </div>
                     </form>
