@@ -11,8 +11,8 @@ import {
     TagIcon,
     UserIcon
 } from "@heroicons/react/24/outline";
-import Image from "next/image";
 import Link from "next/link";
+import {motion} from "framer-motion";
 
 const ViewBlogComponent: FC<ViewBlogComponentProps> = ({isLogin, data}) => {
     const params = useParams();
@@ -90,12 +90,11 @@ const ViewBlogComponent: FC<ViewBlogComponentProps> = ({isLogin, data}) => {
                     </div>
 
                     <div className="relative w-full h-[400px] mb-8 rounded-xl overflow-hidden">
-                        <Image
+                        <motion.img
                             src={data.image}
-                            alt="Título del Blog"
-                            fill
+                            alt={data.title}
                             className="object-cover"
-                            priority
+                            layoutId={data.slug}
                         />
                     </div>
 

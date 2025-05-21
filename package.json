@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack --port 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -12,6 +12,7 @@
     "@heroicons/react": "2.2.0",
     "@reduxjs/toolkit": "2.7.0",
     "@tinymce/tinymce-react": "6.1.0",
+    "@vercel/speed-insights": "^1.2.0",
     "cloudinary": "2.6.1",
     "date-fns": "4.1.0",
     "formik": "2.4.6",

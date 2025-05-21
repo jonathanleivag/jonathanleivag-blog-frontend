@@ -1,5 +1,4 @@
 import {FC} from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {motion} from "framer-motion";
 import {CardBlogComponentProps} from "@/type";
@@ -20,29 +19,31 @@ const cardVariants = {
     }
 };
 
-const CardComponent:FC<CardBlogComponentProps> = ({index, post}) => {
+const CardComponent: FC<CardBlogComponentProps> = ({index, post}) => {
     return (
-            <motion.article
-                key={index}
-                variants={cardVariants}
-                className={`relative overflow-hidden ${
-                    index === 0 ? 'md:col-span-2' : ''
-                }`}
-            >
-        <Link href={`/blog/view/${post.slug}`} className="block">
+        <motion.article
+            key={index}
+            variants={cardVariants}
+            className={`relative overflow-hidden ${
+                index === 0 ? 'md:col-span-2' : ''
+            }`}
+        >
+            <Link href={`/blog/view/${post.slug}`} className="block">
                 <div className="group">
                     <div className="relative h-64 overflow-hidden rounded-xl">
-                        <Image
+                        <motion.img
                             src={post.image}
                             alt={post.title}
-                            fill
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            layoutId={post.slug}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent opacity-60 group-hover:opacity-70 transition-opacity duration-300" />
+                        <div
+                            className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent opacity-60 group-hover:opacity-70 transition-opacity duration-300"/>
 
                         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                            <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold bg-primary-500 rounded-full">
+                            <span
+                                className="inline-block px-3 py-1 mb-4 text-xs font-semibold bg-primary-500 rounded-full">
                                 {post.category}
                             </span>
 
@@ -52,7 +53,7 @@ const CardComponent:FC<CardBlogComponentProps> = ({index, post}) => {
 
                             <div className="flex items-center space-x-4">
                                 <div className="text-sm flex flex-col">
-                                    <span className="block font-medium inline-flex items-center gap-1">
+                                    <span className="font-medium inline-flex items-center gap-1">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="h-4 w-4"
@@ -108,7 +109,7 @@ const CardComponent:FC<CardBlogComponentProps> = ({index, post}) => {
                     </div>
                 </div>
             </Link>
-            </motion.article>
+        </motion.article>
     );
 }
 
