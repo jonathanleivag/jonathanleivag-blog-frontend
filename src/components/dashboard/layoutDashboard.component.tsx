@@ -68,13 +68,13 @@ const LayoutDashboardComponent: FC<ChildrenComponentProps> = ({children}) => {
                 </p>
                 <div className="flex justify-end gap-3">
                     <button
-                        className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+                        className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors cursor-pointer"
                         onClick={() => toast.dismiss(t.id)}
                     >
                         Cancelar
                     </button>
                     <button
-                        className="px-3 py-1 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
+                        className="px-3 py-1 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors cursor-pointer"
                         onClick={async () => {
                             toast.dismiss(t.id);
                             try {
@@ -161,7 +161,7 @@ const LayoutDashboardComponent: FC<ChildrenComponentProps> = ({children}) => {
                     <div className="p-4 border-t border-primary-800">
                         <button
                             onClick={logout}
-                            className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-primary-800 transition-colors text-gray-200"
+                            className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-primary-800 transition-colors text-gray-200 cursor-pointer"
                         >
                             <ArrowRightEndOnRectangleIcon className="w-6 h-6"/>
                             <span>Cerrar Sesión</span>
