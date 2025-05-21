@@ -3,16 +3,33 @@ import Image from "next/image";
 import Link from "next/link"; // Importamos Link
 import {motion} from "framer-motion";
 import {CardBlogPageComponentProps} from "@/type";
+import {useRouter} from "next/navigation";
 
-const CardBlogComponent:FC<CardBlogPageComponentProps> = ({post}) => {
+const CardBlogComponent: FC<CardBlogPageComponentProps> = ({post}) => {
+    const href = `/blog/view/${post.slug}`
+    const router = useRouter()
+
+    const handleClick = (e: React.MouseEvent) => {
+        e.preventDefault()
+
+        if (!document.startViewTransition) {
+            router.push(href)
+            return
+        }
+
+        document.startViewTransition(() => {
+            router.push(href)
+        })
+    }
+
     return (
-        <Link href={`/blog/view/${post.slug}`} className="block">
+        <Link href={href} onClick={handleClick} className="block">
             <motion.article
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                whileHover={{ scale: 1.02 }}
+                initial={{opacity: 0, y: 20}}
+                whileInView={{opacity: 1, y: 0}}
+                viewport={{once: true}}
+                transition={{duration: 0.5, ease: "easeOut"}}
+                whileHover={{scale: 1.02}}
                 className="bg-gray-900 border border-gray-700 rounded-xl overflow-hidden shadow hover:shadow-lg transition-all duration-300"
             >
                 <Image
@@ -21,15 +38,18 @@ const CardBlogComponent:FC<CardBlogPageComponentProps> = ({post}) => {
                     width={600}
                     height={300}
                     className="w-full h-48 object-cover"
+                    style={{viewTransitionName: 'foto'}}
                 />
                 <div className="p-6 flex flex-col justify-between h-full">
                     <div>
                         <div className="flex gap-2 mb-4">
-                          <span className="inline-block bg-primary-700 text-white text-xs px-2 py-1 rounded-full uppercase tracking-widest">
+                          <span
+                              className="inline-block bg-primary-700 text-white text-xs px-2 py-1 rounded-full uppercase tracking-widest">
                             {post.category.name}
                           </span>
                             {post.popular && (
-                                <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded-full uppercase tracking-widest">
+                                <span
+                                    className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded-full uppercase tracking-widest">
                                   Popular
                                 </span>
                             )}
