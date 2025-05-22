@@ -221,6 +221,7 @@ export interface BlogState {
     page: number;
     category: string | null
     search: string
+    totalBlog: Pagination<Blog>;
 }
 
 export interface CardBlogPaginationComponentProps {
