@@ -1,6 +1,6 @@
+'use client'
 import {FC} from "react";
 import Image from "next/image";
-import Link from "next/link"; // Importamos Link
 import {motion} from "framer-motion";
 import {CardBlogPageComponentProps} from "@/type";
 import {useRouter} from "next/navigation";
@@ -9,21 +9,19 @@ const CardBlogComponent: FC<CardBlogPageComponentProps> = ({post}) => {
     const href = `/blog/view/${post.slug}`
     const router = useRouter()
 
-    const handleClick = (e: React.MouseEvent) => {
-        e.preventDefault()
-
-        if (!document.startViewTransition) {
-            router.push(href)
-            return
+    const handleClick = () => {
+        if (document.startViewTransition) {
+            document.startViewTransition(() => {
+                router.push(href);
+            });
+        } else {
+            router.push(href);
         }
-
-        document.startViewTransition(() => {
-            router.push(href)
-        })
     }
 
+
     return (
-        <Link href={href} onClick={handleClick} className="block">
+        <button onClick={handleClick} className="block cursor-pointer">
             <motion.article
                 initial={{opacity: 0, y: 20}}
                 whileInView={{opacity: 1, y: 0}}
@@ -59,7 +57,7 @@ const CardBlogComponent: FC<CardBlogPageComponentProps> = ({post}) => {
                     </div>
                 </div>
             </motion.article>
-        </Link>
+        </button>
     );
 }
 
