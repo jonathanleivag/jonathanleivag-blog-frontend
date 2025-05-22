@@ -71,7 +71,7 @@ const ProjectPageComponent: FC = () => {
                                 <span>⭐ {project.data.info.followers} seguidores</span>
                             </div>
                             <div className="flex gap-3 mt-2">
-                                {socials.data.socials.filter(s => s.icon !== 'mail').map(social => (
+                                {socials.data.socials.filter(s => s.icon !== 'mail').filter(s => s.icon !== 'blog').map(social => (
                                     <Link key={social.name} href={social.url} target={'_blank'}
                                           className="text-accent-500 hover:text-accent-300 text-sm">{social.name}</Link>
                                 ))}
