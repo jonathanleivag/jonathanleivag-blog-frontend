@@ -3,25 +3,13 @@ import {FC} from "react";
 import Image from "next/image";
 import {motion} from "framer-motion";
 import {CardBlogPageComponentProps} from "@/type";
-import {useRouter} from "next/navigation";
+import Link from "next/link";
 
 const CardBlogComponent: FC<CardBlogPageComponentProps> = ({post}) => {
     const href = `/blog/view/${post.slug}`
-    const router = useRouter()
-
-    const handleClick = () => {
-        if (document.startViewTransition) {
-            document.startViewTransition(() => {
-                router.push(href);
-            });
-        } else {
-            router.push(href);
-        }
-    }
-
 
     return (
-        <button onClick={handleClick} className="block cursor-pointer">
+        <Link href={href} className="block">
             <motion.article
                 initial={{opacity: 0, y: 20}}
                 whileInView={{opacity: 1, y: 0}}
@@ -36,7 +24,6 @@ const CardBlogComponent: FC<CardBlogPageComponentProps> = ({post}) => {
                     width={600}
                     height={300}
                     className="w-full h-48 object-cover"
-                    style={{viewTransitionName: 'foto'}}
                 />
                 <div className="p-6 flex flex-col justify-between h-full">
                     <div>
@@ -57,7 +44,7 @@ const CardBlogComponent: FC<CardBlogPageComponentProps> = ({post}) => {
                     </div>
                 </div>
             </motion.article>
-        </button>
+        </Link>
     );
 }
 
