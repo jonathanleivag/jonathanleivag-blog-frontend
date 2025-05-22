@@ -15,6 +15,18 @@ const initialState: BlogState = {
         prevPage: null,
         nextPage: null
     },
+    totalBlog: {
+        docs: [],
+        totalDocs: 0,
+        limit: 10,
+        totalPages: 0,
+        page: 1,
+        pagingCounter: 1,
+        hasPrevPage: false,
+        hasNextPage: false,
+        prevPage: null,
+        nextPage: null
+    },
     page: 1,
     category: null,
     search: ''
@@ -26,6 +38,9 @@ const blogSlice = createSlice({
     reducers: {
         initialDataBlog: (state, action: PayloadAction<Pagination<Blog>>) => {
             state.blogs = action.payload;
+        },
+        initialDataTotalBlog: (state, action: PayloadAction<Pagination<Blog>>) => {
+            state.totalBlog = action.payload;
         },
         addBlog: (state, action: PayloadAction<Blog>) => {
             const isLastPage = state.blogs.page === state.blogs.totalPages;
@@ -48,7 +63,7 @@ const blogSlice = createSlice({
         changePage: (state, action: PayloadAction<number>) => {
             state.page = action.payload;
         },
-        changeCategory: (state, action: PayloadAction<string| null>) => {
+        changeCategory: (state, action: PayloadAction<string | null>) => {
             state.category = action.payload;
         },
         changeSearch: (state, action: PayloadAction<string>) => {
@@ -57,5 +72,13 @@ const blogSlice = createSlice({
     }
 });
 
-export const {initialDataBlog, addBlog, updateBlog, changePage, changeCategory, changeSearch} = blogSlice.actions;
+export const {
+    initialDataBlog,
+    addBlog,
+    updateBlog,
+    changePage,
+    changeCategory,
+    changeSearch,
+    initialDataTotalBlog
+} = blogSlice.actions;
 export default blogSlice.reducer;

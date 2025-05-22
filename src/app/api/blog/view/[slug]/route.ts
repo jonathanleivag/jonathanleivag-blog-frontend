@@ -26,6 +26,10 @@ export async function PATCH(req: NextRequest, {params}: { params: Promise<{ slug
     try {
         const slug = (await params).slug;
         const url = getEnv(ENV.BACKEND_URL)
+        const token = req.cookies.get('token')?.value || '';
+        
+        if (token !== '') return NextResponse.json({}, {status: 200});
+
         const response = await fetch(`${url}/blog/view/${slug}`, {
             method: 'PATCH',
             headers: {
