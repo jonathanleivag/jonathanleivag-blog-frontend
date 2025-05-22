@@ -45,18 +45,28 @@ const LayoutDashboardComponent: FC<ChildrenComponentProps> = ({children}) => {
             name: "Usuarios",
             href: "/dashboard/users",
             icon: <UsersIcon className="w-6 h-6"/>
+        },
+        {
+            name: "Web",
+            href: "/",
+            icon: <NewspaperIcon className="w-6 h-6"/>
         }
     ];
 
     useEffect(() => {
         document.body.style.backgroundColor = '#F6F9FA';
         document.body.classList.remove('bg-gradient-to-br', 'from-gray-900', 'via-gray-800', 'to-gray-900');
+        return () => {
+            document.body.style.backgroundColor = '';
+            document.body.classList.add('bg-gradient-to-br', 'from-gray-900', 'via-gray-800', 'to-gray-900');
+        }
     }, []);
 
     const isActiveLink = (href: string): boolean => {
-        if (href === '/dashboard') {
+        if (href === '/dashboard' || href === '/') {
             return pathname === href;
         }
+
         return pathname.startsWith(href);
     };
 
@@ -161,7 +171,7 @@ const LayoutDashboardComponent: FC<ChildrenComponentProps> = ({children}) => {
                     <div className="p-4 border-t border-primary-800">
                         <button
                             onClick={logout}
-                            className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-primary-800 transition-colors text-gray-200"
+                            className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-primary-800 transition-colors text-gray-200 cursor-pointer"
                         >
                             <ArrowRightEndOnRectangleIcon className="w-6 h-6"/>
                             <span>Cerrar Sesión</span>

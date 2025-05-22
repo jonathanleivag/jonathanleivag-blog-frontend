@@ -3,7 +3,7 @@
 import {FC, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/lib/redux/hooks";
 import {useRouter, useSearchParams} from "next/navigation";
-import {changeCategory, changePage, changeSearch, initialDataBlog} from "@/lib/redux/features/blog/blog.slice";
+import {changeCategory, changePage, changeSearch, initialDataTotalBlog} from "@/lib/redux/features/blog/blog.slice";
 import {Blog as BlogInterface, Category, Pagination} from "@/type";
 import toast from "react-hot-toast";
 import {initialDataCategory} from "@/lib/redux/features/category/category.slice";
@@ -16,7 +16,7 @@ import PaginationComponent from "@/components/shared/pagination.component";
 const BlogPageComponent: FC = () => {
     const appDispatch = useAppDispatch()
 
-    const blogs = useAppSelector(state => state.blog.blogs)
+    const blogs = useAppSelector(state => state.blog.totalBlog)
     const page = useAppSelector(state => state.blog.page)
     const category = useAppSelector(state => state.blog.category)
     const search = useAppSelector(state => state.blog.search)
@@ -69,7 +69,7 @@ const BlogPageComponent: FC = () => {
                 if (data.message !== undefined) {
                     toast.error(data.message)
                 } else {
-                    appDispatch(initialDataBlog(data))
+                    appDispatch(initialDataTotalBlog(data))
                 }
             } catch (e) {
                 if (e instanceof Error) {
