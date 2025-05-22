@@ -33,7 +33,8 @@ const ViewBlogComponent: FC<ViewBlogComponentProps> = ({isLogin, data}) => {
                 <article className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
                     <div className="space-y-4 mb-8">
                         <div className="flex flex-wrap gap-2 text-sm text-gray-600">
-                            <span className="bg-primary-50 text-primary-600 px-3 py-1 rounded-full">
+                            <span
+                                className="bg-primary-50 text-primary-600 px-3 py-1 rounded-full flex flex-row justify-center items-center">
                                 {data.category.name}
                             </span>
                             {data.published ? (
