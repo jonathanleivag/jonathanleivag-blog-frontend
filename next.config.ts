@@ -10,10 +10,7 @@ const nextConfig: NextConfig = {
                 pathname: '/**'
             },
         ],
-    },
-    experimental: {
-        viewTransition: true,
-    },
+    }
 };
 
 export default nextConfig;
