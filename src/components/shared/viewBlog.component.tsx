@@ -96,7 +96,7 @@ const ViewBlogComponent: FC<ViewBlogComponentProps> = ({isLogin, data}) => {
                             fill
                             className="object-cover"
                             priority
-                            style={{viewTransitionName: 'foto'}}
+                            style={{viewTransitionName: `blog-${data.slug}`}}
                         />
                     </div>
 

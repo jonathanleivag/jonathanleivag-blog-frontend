@@ -36,7 +36,7 @@ const CardBlogComponent: FC<CardBlogPageComponentProps> = ({post}) => {
                     width={600}
                     height={300}
                     className="w-full h-48 object-cover"
-                    style={{viewTransitionName: 'foto'}}
+                    style={{viewTransitionName: `blog-${post.slug}`}}
                 />
                 <div className="p-6 flex flex-col justify-between h-full">
                     <div>
